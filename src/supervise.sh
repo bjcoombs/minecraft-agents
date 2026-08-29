@@ -1,5 +1,6 @@
 #!/bin/zsh
 cd "$(dirname "$0")"
+export OLLAMA_KEEP_ALIVE=30m
 BOTS=(Claude Woodcutter Builder Miner Forager Fighter)
 mkdir -p pids
 while true; do

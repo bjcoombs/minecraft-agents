@@ -331,7 +331,7 @@ Reply ONLY with JSON: {"say":"<your catchphrase>"}`
       res = await fetch(LLM_URL, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
         body: JSON.stringify({ model: LLM_MODEL, prompt, stream: false, format: 'json',
-          keep_alive: '30m', options: { num_predict: 60, temperature: 1.0 } })
+          keep_alive: '30m', options: { num_predict: 60, temperature: 1.0, num_ctx: 4096 } })
       })
     } finally { clearTimeout(t) }
     const data = await res.json()
@@ -589,7 +589,7 @@ Reply ONLY with JSON: {"say":"<your shout>"}`
       res = await fetch(LLM_URL, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
         body: JSON.stringify({ model: LLM_MODEL, prompt, stream: false, format: 'json',
-          keep_alive: '30m', options: { num_predict: 40, temperature: 1.1 } })
+          keep_alive: '30m', options: { num_predict: 40, temperature: 1.1, num_ctx: 4096 } })
       })
     } finally { clearTimeout(t) }
     const out = JSON.parse((await res.json()).response)
@@ -1419,7 +1419,7 @@ Reply with ONLY the markdown for the page, no preamble.`
             signal: ac2.signal,
             body: JSON.stringify({ model: DREAM_MODEL, prompt, stream: false,
               keep_alive: '30m', think: false,
-              options: { num_predict: 500, temperature: 0.6 } })
+              options: { num_predict: 500, temperature: 0.6, num_ctx: 8192 } })
           })
         } finally { clearTimeout(t2) }
         const data = await res.json()
@@ -2532,7 +2532,7 @@ JSON:`
         body: JSON.stringify({
           model: LLM_MODEL, prompt, stream: false, format: 'json',
           keep_alive: '30m',
-          options: { num_predict: 90, temperature: 0.8 }
+          options: { num_predict: 90, temperature: 0.8, num_ctx: 8192 }
         })
       })
     } finally { clearTimeout(timer) }
