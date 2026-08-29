@@ -1,0 +1,97 @@
+# Fighter — journal
+- 2026-08-29 17:35 joined saying: bring on the beef, i'm ready to take a bite
+- 2026-08-29 17:35 I died
+- 2026-08-29 17:37 joined saying: time to throw hands and take the game
+- 2026-08-29 17:38 got stuck and had to dig out
+- 2026-08-29 17:39 got stuck and had to dig out
+- 2026-08-29 17:39 got stuck and had to dig out
+- 2026-08-29 17:40 got stuck and had to dig out
+- 2026-08-29 17:41 got stuck and had to dig out
+- 2026-08-29 17:41 got stuck and had to dig out
+- 2026-08-29 17:42 joined saying: i'm swingin' into action!
+- 2026-08-29 17:43 got stuck and had to dig out
+- 2026-08-29 17:43 got stuck and had to dig out
+- 2026-08-29 17:44 got stuck and had to dig out
+- 2026-08-29 17:44 got stuck and had to dig out
+- 2026-08-29 17:45 got stuck and had to dig out
+- 2026-08-29 17:46 got stuck and had to dig out
+- 2026-08-29 17:46 got stuck and had to dig out
+- 2026-08-29 17:47 joined saying: i punch mobs in their pixel faces
+- 2026-08-29 17:48 got stuck and had to dig out
+- 2026-08-29 17:48 got stuck and had to dig out
+- 2026-08-29 17:49 got stuck and had to dig out
+- 2026-08-29 17:49 got stuck and had to dig out
+- 2026-08-29 17:50 got stuck and had to dig out
+- 2026-08-29 17:51 got stuck and had to dig out
+- 2026-08-29 17:51 joined saying: let's get wrecked
+- 2026-08-29 17:52 got stuck and had to dig out
+- 2026-08-29 17:53 got stuck and had to dig out
+- 2026-08-29 17:53 got stuck and had to dig out
+- 2026-08-29 17:54 got stuck and had to dig out
+- 2026-08-29 17:54 got stuck and had to dig out
+- 2026-08-29 17:55 got stuck and had to dig out
+- 2026-08-29 17:56 joined saying: i'll punch my way out of this hole
+- 2026-08-29 17:57 got stuck and had to dig out
+- 2026-08-29 17:57 got stuck and had to dig out
+- 2026-08-29 17:58 got stuck and had to dig out
+- 2026-08-29 17:59 got stuck and had to dig out
+- 2026-08-29 17:59 got stuck and had to dig out
+- 2026-08-29 18:00 got stuck and had to dig out
+- 2026-08-29 18:01 joined saying: i'm ready to rumble, but not get stuck
+- 2026-08-29 18:02 got stuck and had to dig out
+- 2026-08-29 18:02 got stuck and had to dig out
+- 2026-08-29 18:03 got stuck and had to dig out
+- 2026-08-29 18:03 got stuck and had to dig out
+- 2026-08-29 18:04 got stuck and had to dig out
+- 2026-08-29 18:05 got stuck and had to dig out
+- 2026-08-29 18:05 got stuck and had to dig out
+- 2026-08-29 18:06 joined saying: i punch blocks, you survive
+- 2026-08-29 18:06 got stuck and had to dig out
+- 2026-08-29 18:07 got stuck and had to dig out
+- 2026-08-29 18:08 got stuck and had to dig out
+- 2026-08-29 18:09 got stuck and had to dig out
+- 2026-08-29 18:09 got stuck and had to dig out
+- 2026-08-29 18:10 got stuck and had to dig out
+- 2026-08-29 18:11 got stuck and had to dig out
+- 2026-08-29 18:12 got stuck and had to dig out
+- 2026-08-29 18:12 got stuck and had to dig out
+- 2026-08-29 18:14 got stuck and had to dig out
+- 2026-08-29 18:14 got stuck and had to dig out
+- 2026-08-29 18:15 got stuck and had to dig out
+- 2026-08-29 18:15 got stuck and had to dig out
+- 2026-08-29 18:16 got stuck and had to dig out
+- 2026-08-29 18:17 got stuck and had to dig out
+- 2026-08-29 18:17 got stuck and had to dig out
+- 2026-08-29 18:18 got stuck and had to dig out
+- 2026-08-29 18:19 got stuck and had to dig out
+- 2026-08-29 18:20 got stuck and had to dig out
+- 2026-08-29 18:21 joined saying: dodge or die, dude
+- 2026-08-29 18:30 joined saying: bring it on, dirt road
+- 2026-08-29 18:30 got stuck and had to dig out
+- 2026-08-29 18:31 got stuck and had to dig out
+- 2026-08-29 18:32 got stuck and had to dig out
+- 2026-08-29 18:33 got stuck and had to dig out
+- 2026-08-29 18:34 got stuck and had to dig out
+- 2026-08-29 18:35 got stuck and had to dig out
+- 2026-08-29 18:36 got stuck and had to dig out
+- 2026-08-29 18:37 got stuck and had to dig out
+- 2026-08-29 18:38 got stuck and had to dig out
+- 2026-08-29 18:39 got stuck and had to dig out
+- 2026-08-29 18:40 got stuck and had to dig out
+- 2026-08-29 18:41 got stuck and had to dig out
+- 2026-08-29 18:41 got stuck and had to dig out
+- 2026-08-29 18:42 got stuck and had to dig out
+- 2026-08-29 18:43 got stuck and had to dig out
+- 2026-08-29 18:43 got stuck and had to dig out
+- 2026-08-29 18:44 got stuck and had to dig out
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:46 joined saying: time to throw some punches!
+- 2026-08-29 18:47 got stuck and had to dig out
+- 2026-08-29 18:48 got stuck and had to dig out
+- 2026-08-29 18:48 got stuck and had to dig out
+- 2026-08-29 18:49 got stuck and had to dig out
+- 2026-08-29 18:49 got stuck and had to dig out
+- 2026-08-29 18:50 joined saying: don't die on me first
+- 2026-08-29 18:51 got stuck and had to dig out
+- 2026-08-29 18:52 got stuck and had to dig out

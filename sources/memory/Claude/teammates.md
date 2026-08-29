@@ -1,0 +1,11 @@
+# Claude — teammates
+- **Woodchopper**: x=-45 y=-45 (cut 11 logs initially)
+- **Logger**: x=67 y=28 (stashed 47 items in chest)
+- **New Teammate** (1): joined at 16:53 saying "let's dig into this thing"
+- Updated New Teammate entry to reflect joined at 17:25 saying "cut the line, let's build"
+- **New Teammate** (2): joined at 17:01 saying "let's get this island conquered!"
+- **New Teammate** (3): x=12 y=-10 (joined at 16:53), died at 16:49
+- Updated New Teammate (3) to reflect joined again at 17:11 saying "time to dig our way out"
+- **New Teammate** (4): x=67 y=28, joined at 17:20 saying "let's get this diamond"
+- **Woodchopper**: updated to x=-45 y=-45, cut 0 logs after death
+- **Logger**: updated to x=67 y=28, stashed 47 items in chest, smelted 3 iron_ingot

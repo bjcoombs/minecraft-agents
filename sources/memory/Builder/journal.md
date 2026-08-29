@@ -1,0 +1,98 @@
+# Builder — journal
+- 2026-08-29 16:07 completed quest stage wood
+- 2026-08-29 16:12 chopped wood, now holding 11 logs
+- 2026-08-29 16:31 I died
+- 2026-08-29 16:32 got stuck and had to dig out
+- 2026-08-29 16:33 chopped wood, now holding 0 logs
+- 2026-08-29 16:33 chopped wood, now holding 0 logs
+- 2026-08-29 16:33 chopped wood, now holding 0 logs
+- 2026-08-29 16:33 chopped wood, now holding 0 logs
+- 2026-08-29 16:34 chopped wood, now holding 0 logs
+- 2026-08-29 16:34 chopped wood, now holding 0 logs
+- 2026-08-29 16:34 mined deep at y135: nothing
+- 2026-08-29 16:34 chopped wood, now holding 0 logs
+- 2026-08-29 16:51 I died
+- 2026-08-29 16:52 chopped wood, now holding 0 logs
+- 2026-08-29 16:52 chopped wood, now holding 0 logs
+- 2026-08-29 16:52 chopped wood, now holding 0 logs
+- 2026-08-29 16:52 chopped wood, now holding 0 logs
+- 2026-08-29 16:53 joined saying: build smart, not sorry!
+- 2026-08-29 16:53 chopped wood, now holding 0 logs
+- 2026-08-29 16:53 chopped wood, now holding 1 logs
+- 2026-08-29 16:54 chopped wood, now holding 0 logs
+- 2026-08-29 16:54 chopped wood, now holding 0 logs
+- 2026-08-29 16:55 joined saying: chop, confirm, craft on
+- 2026-08-29 16:57 joined saying: build it right, first time
+- 2026-08-29 17:01 joined saying: build smart, don't chop dumb
+- 2026-08-29 17:02 got stuck and had to dig out
+- 2026-08-29 17:07 joined saying: cut to the woodshed
+- 2026-08-29 17:11 joined saying: hammer away, not all day!
+- 2026-08-29 17:16 joined saying: cutting corners ain't building dreams!
+- 2026-08-29 17:21 I died
+- 2026-08-29 17:25 I died
+- 2026-08-29 17:25 joined saying: cut it straight, don't chop the same spot!
+- 2026-08-29 17:28 joined saying: build smart, not sore!
+- 2026-08-29 17:28 killed a zombie
+- 2026-08-29 17:28 killed a zombie
+- 2026-08-29 17:28 killed a zombie
+- 2026-08-29 17:30 joined saying: chop smart, not fast
+- 2026-08-29 17:30 I died
+- 2026-08-29 17:30 I died
+- 2026-08-29 17:31 I died
+- 2026-08-29 17:33 joined saying: chop wisely, chop twice, or get no wood!
+- 2026-08-29 17:34 joined saying: gotta chop smart, not hard!
+- 2026-08-29 17:37 joined saying: let's build something
+- 2026-08-29 17:41 I died
+- 2026-08-29 17:42 joined saying: cut it straight!
+- 2026-08-29 17:51 joined saying: let's get crafty
+- 2026-08-29 17:52 got stuck and had to dig out
+- 2026-08-29 17:52 mined deep at y96: nothing
+- 2026-08-29 17:52 mined deep at y96: nothing
+- 2026-08-29 17:53 mined deep at y96: nothing
+- 2026-08-29 17:53 mined deep at y96: nothing
+- 2026-08-29 17:54 I died
+- 2026-08-29 17:55 mined deep at y87: nothing
+- 2026-08-29 17:55 mined deep at y81: nothing
+- 2026-08-29 17:56 joined saying: let's build stuff
+- 2026-08-29 17:58 got stuck and had to dig out
+- 2026-08-29 18:01 joined saying: cutting corners won't make it build itself
+- 2026-08-29 18:04 I died
+- 2026-08-29 18:06 joined saying: time to get this build on!
+- 2026-08-29 18:10 I died
+- 2026-08-29 18:12 got stuck and had to dig out
+- 2026-08-29 18:14 I died
+- 2026-08-29 18:20 I died
+- 2026-08-29 18:20 completed quest stage obsidian
+- 2026-08-29 18:20 joined saying: cut to the craft
+- 2026-08-29 18:29 joined saying: let's get crafty!
+- 2026-08-29 18:31 mined deep at y2: 2 coal
+- 2026-08-29 18:31 mined deep at y4: 2 coal
+- 2026-08-29 18:32 mined deep at y3: 2 coal
+- 2026-08-29 18:32 mined deep at y7: 2 coal
+- 2026-08-29 18:33 mined deep at y6: 1 raw_iron, 2 coal
+- 2026-08-29 18:34 mined deep at y5: 1 raw_iron, 2 coal
+- 2026-08-29 18:34 mined deep at y5: 1 raw_iron, 2 coal
+- 2026-08-29 18:35 mined deep at y6: 1 raw_iron, 2 coal
+- 2026-08-29 18:36 mined deep at y3: 1 raw_iron, 2 coal
+- 2026-08-29 18:36 mined deep at y5: 1 raw_iron, 2 coal
+- 2026-08-29 18:36 mined deep at y6: 1 raw_iron, 2 coal
+- 2026-08-29 18:37 mined deep at y4: 1 raw_iron, 2 coal
+- 2026-08-29 18:38 mined deep at y11: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:39 mined deep at y7: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:39 mined deep at y6: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:39 mined deep at y6: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:39 mined deep at y4: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:40 mined deep at y7: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:42 mined deep at y5: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:43 mined deep at y6: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:44 mined deep at y4: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:44 mined deep at y4: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:44 mined deep at y7: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:45 chopped wood, now holding 8 logs
+- 2026-08-29 18:45 mined deep at y-4: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:45 mined deep at y-6: 1 raw_iron, 2 coal, 5 raw_copper
+- 2026-08-29 18:45 mined deep at y0: 1 raw_iron, 2 coal, 7 raw_copper
+- 2026-08-29 18:46 mined deep at y-5: 1 raw_iron, 2 coal, 7 raw_copper
+- 2026-08-29 18:46 joined saying: cut and try again!
+- 2026-08-29 18:49 killed a skeleton
+- 2026-08-29 18:50 joined saying: i chop, you build, we thrive

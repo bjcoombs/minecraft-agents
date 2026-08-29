@@ -1,0 +1,146 @@
+# Woodcutter — journal
+- 2026-08-29 16:10 chopped wood, now holding 30 logs
+- 2026-08-29 16:18 mined deep at y13: 2 coal, 24 raw_copper
+- 2026-08-29 16:19 mined deep at y14: 2 coal, 24 raw_copper
+- 2026-08-29 16:19 mined deep at y15: 2 coal, 30 raw_copper
+- 2026-08-29 16:19 chopped wood, now holding 1 logs
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:20 chopped wood, now holding 0 logs
+- 2026-08-29 16:20 chopped wood, now holding 0 logs
+- 2026-08-29 16:22 chopped wood, now holding 0 logs
+- 2026-08-29 16:22 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:24 chopped wood, now holding 0 logs
+- 2026-08-29 16:24 chopped wood, now holding 0 logs
+- 2026-08-29 16:25 mined deep at y2: 2 coal, 30 raw_copper
+- 2026-08-29 16:25 mined deep at y2: 2 coal, 30 raw_copper
+- 2026-08-29 16:25 mined deep at y-3: 2 coal, 30 raw_copper
+- 2026-08-29 16:25 mined deep at y-3: 2 coal, 30 raw_copper
+- 2026-08-29 16:26 mined deep at y-6: 2 coal, 30 raw_copper
+- 2026-08-29 16:26 mined deep at y-5: 2 coal, 30 raw_copper
+- 2026-08-29 16:27 mined deep at y-6: 2 coal, 30 raw_copper
+- 2026-08-29 16:27 mined deep at y-8: 2 coal, 30 raw_copper
+- 2026-08-29 16:28 mined deep at y-8: 2 coal, 30 raw_copper
+- 2026-08-29 16:28 mined deep at y-5: 2 coal, 30 raw_copper
+- 2026-08-29 16:28 mined deep at y-11: 2 coal, 30 raw_copper
+- 2026-08-29 16:28 mined deep at y-12: 2 coal, 30 raw_copper
+- 2026-08-29 16:29 mined deep at y-12: 2 coal, 30 raw_copper
+- 2026-08-29 16:30 mined deep at y-26: 2 coal, 30 raw_copper
+- 2026-08-29 16:30 mined deep at y-28: 2 coal, 30 raw_copper
+- 2026-08-29 16:30 mined deep at y-32: 2 coal, 30 raw_copper
+- 2026-08-29 16:30 mined deep at y-31: 2 coal, 30 raw_copper
+- 2026-08-29 16:31 mined deep at y-39: 2 coal, 30 raw_copper
+- 2026-08-29 16:31 mined deep at y-39: 2 coal, 30 raw_copper
+- 2026-08-29 16:32 mined deep at y-48: 2 coal, 30 raw_copper
+- 2026-08-29 16:32 mined deep at y-40: 2 coal, 30 raw_copper
+- 2026-08-29 16:32 mined deep at y-48: 2 coal, 30 raw_copper
+- 2026-08-29 16:32 mined deep at y-47: 2 coal, 30 raw_copper
+- 2026-08-29 16:32 completed quest stage diamond
+- 2026-08-29 16:33 mined deep at y-53: 2 coal, 30 raw_copper
+- 2026-08-29 16:33 mined deep at y-53: 2 coal, 30 raw_copper
+- 2026-08-29 16:33 mined deep at y-52: 2 coal, 30 raw_copper
+- 2026-08-29 16:33 mined deep at y-53: 2 coal, 30 raw_copper
+- 2026-08-29 16:33 mined deep at y-55: 2 coal, 30 raw_copper
+- 2026-08-29 16:34 mined deep at y-53: 2 coal, 30 raw_copper
+- 2026-08-29 16:34 mined deep at y-51: 2 coal, 30 raw_copper
+- 2026-08-29 16:41 crafted a diamond pickaxe
+- 2026-08-29 16:42 smelted 4 copper_ingot
+- 2026-08-29 16:51 I died
+- 2026-08-29 16:53 joined saying: chop chop, find food
+- 2026-08-29 16:53 chopped wood, now holding 0 logs
+- 2026-08-29 16:53 chopped wood, now holding 0 logs
+- 2026-08-29 16:53 chopped wood, now holding 0 logs
+- 2026-08-29 16:54 chopped wood, now holding 0 logs
+- 2026-08-29 16:54 chopped wood, now holding 0 logs
+- 2026-08-29 16:54 chopped wood, now holding 0 logs
+- 2026-08-29 16:54 joined saying: cutting corners is my game
+- 2026-08-29 16:55 chopped wood, now holding 0 logs
+- 2026-08-29 16:55 chopped wood, now holding 0 logs
+- 2026-08-29 16:55 chopped wood, now holding 0 logs
+- 2026-08-29 16:55 chopped wood, now holding 0 logs
+- 2026-08-29 16:56 joined saying: time to get wood, folks!
+- 2026-08-29 16:59 chopped wood, now holding 10 logs
+- 2026-08-29 17:01 joined saying: gotta chop, gotta drop, let's get stocked!
+- 2026-08-29 17:02 I died
+- 2026-08-29 17:06 joined saying: chop it, collect it, live
+- 2026-08-29 17:11 joined saying: logs before lore, mate!
+- 2026-08-29 17:16 joined saying: gotta chop, gotta flow
+- 2026-08-29 17:21 joined saying: gotta chop, gotta grow
+- 2026-08-29 17:22 I died
+- 2026-08-29 17:25 joined saying: gotta chop some wood, folks!
+- 2026-08-29 17:28 joined saying: time to log it!
+- 2026-08-29 17:29 joined saying: choppin' all day, gotta have some pay!
+- 2026-08-29 17:31 got stuck and had to dig out
+- 2026-08-29 17:33 joined saying: time to get logged in!
+- 2026-08-29 17:34 joined saying: chop chop, we're on a roll!
+- 2026-08-29 17:36 killed a drowned
+- 2026-08-29 17:37 joined saying: time to get logged in!
+- 2026-08-29 17:42 joined saying: chop chop, let's get it going
+- 2026-08-29 17:47 joined saying: chop now, worries later
+- 2026-08-29 17:51 I died
+- 2026-08-29 17:51 joined saying: gotta chop, gotta flow!
+- 2026-08-29 17:51 I died
+- 2026-08-29 17:52 I died
+- 2026-08-29 17:52 killed a skeleton
+- 2026-08-29 17:52 I died
+- 2026-08-29 17:53 mined deep at y106: 2 coal
+- 2026-08-29 17:53 I died
+- 2026-08-29 17:53 mined deep at y120: 2 coal
+- 2026-08-29 17:55 mined deep at y42: 2 raw_iron, 2 coal
+- 2026-08-29 17:55 mined deep at y35: 2 raw_iron, 2 coal
+- 2026-08-29 17:56 joined saying: chop chop, get the loot!
+- 2026-08-29 18:00 got stuck and had to dig out
+- 2026-08-29 18:00 got stuck and had to dig out
+- 2026-08-29 18:01 joined saying: lets get this tree party started
+- 2026-08-29 18:02 got stuck and had to dig out
+- 2026-08-29 18:02 got stuck and had to dig out
+- 2026-08-29 18:03 got stuck and had to dig out
+- 2026-08-29 18:04 got stuck and had to dig out
+- 2026-08-29 18:05 got stuck and had to dig out
+- 2026-08-29 18:05 joined saying: timber away now
+- 2026-08-29 18:11 got stuck and had to dig out
+- 2026-08-29 18:12 I died
+- 2026-08-29 18:12 got stuck and had to dig out
+- 2026-08-29 18:18 got stuck and had to dig out
+- 2026-08-29 18:20 joined saying: chop chop, never stop!
+- 2026-08-29 18:29 joined saying: gotta chop, gotta go!
+- 2026-08-29 18:31 mined deep at y5: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:32 mined deep at y7: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:33 mined deep at y5: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:33 mined deep at y3: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:33 mined deep at y6: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:33 mined deep at y8: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:34 mined deep at y5: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:35 mined deep at y8: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:36 mined deep at y7: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:36 mined deep at y9: 2 raw_iron, 2 coal, 4 raw_copper
+- 2026-08-29 18:39 mined deep at y11: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:41 mined deep at y8: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:41 mined deep at y8: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:42 mined deep at y4: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:42 mined deep at y6: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:42 mined deep at y6: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:43 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:43 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:43 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:44 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:44 got stuck and had to dig out
+- 2026-08-29 18:44 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:44 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:44 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:44 got stuck and had to dig out
+- 2026-08-29 18:44 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:45 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:45 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:45 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:45 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:45 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:46 mined deep at y3: 2 raw_iron, 4 coal, 4 raw_copper
+- 2026-08-29 18:46 joined saying: cutting it fine, one log at a time!
+- 2026-08-29 18:50 joined saying: gotta chop, gotta move!

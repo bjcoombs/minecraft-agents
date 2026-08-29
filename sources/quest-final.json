@@ -1,0 +1,20 @@
+{
+  "done": [
+    "wood",
+    "tools",
+    "stone",
+    "iron",
+    "ironGear",
+    "diamond",
+    "obsidian"
+  ],
+  "log": [
+    "16:07 team completed wood (8 oak_log)",
+    "16:10 team completed tools (1 wooden_pickaxe)",
+    "16:10 team completed stone (33 cobblestone)",
+    "16:19 team completed iron (8 raw_iron)",
+    "16:23 team completed ironGear (1 iron_pickaxe)",
+    "16:32 team completed diamond (3 diamond)",
+    "18:20 team completed obsidian (17 obsidian)"
+  ]
+}

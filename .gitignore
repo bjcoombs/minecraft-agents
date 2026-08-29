@@ -1,0 +1,9 @@
+# large binaries and world data - keep the repo about the learnings
+*.jar
+world/
+world-old-*/
+*.mca
+node_modules/
+pids/
+*.out
+console

@@ -1,0 +1,141 @@
+# Forager — journal
+- 2026-08-29 16:09 I died
+- 2026-08-29 16:09 chopped wood, now holding 9 logs
+- 2026-08-29 16:10 completed quest stage tools
+- 2026-08-29 16:10 chopped wood, now holding 7 logs
+- 2026-08-29 16:19 mined deep at y12: 4 raw_iron, 3 coal
+- 2026-08-29 16:19 chopped wood, now holding 1 logs
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:20 chopped wood, now holding 0 logs
+- 2026-08-29 16:20 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 completed quest stage ironGear
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 chopped wood, now holding 0 logs
+- 2026-08-29 16:24 chopped wood, now holding 0 logs
+- 2026-08-29 16:24 chopped wood, now holding 0 logs
+- 2026-08-29 16:24 chopped wood, now holding 0 logs
+- 2026-08-29 16:24 chopped wood, now holding 0 logs
+- 2026-08-29 16:25 chopped wood, now holding 0 logs
+- 2026-08-29 16:25 chopped wood, now holding 0 logs
+- 2026-08-29 16:25 chopped wood, now holding 0 logs
+- 2026-08-29 16:25 chopped wood, now holding 0 logs
+- 2026-08-29 16:25 chopped wood, now holding 0 logs
+- 2026-08-29 16:25 chopped wood, now holding 0 logs
+- 2026-08-29 16:26 chopped wood, now holding 0 logs
+- 2026-08-29 16:26 chopped wood, now holding 0 logs
+- 2026-08-29 16:26 chopped wood, now holding 0 logs
+- 2026-08-29 16:26 chopped wood, now holding 0 logs
+- 2026-08-29 16:26 chopped wood, now holding 0 logs
+- 2026-08-29 16:27 chopped wood, now holding 0 logs
+- 2026-08-29 16:27 chopped wood, now holding 0 logs
+- 2026-08-29 16:27 chopped wood, now holding 0 logs
+- 2026-08-29 16:27 chopped wood, now holding 0 logs
+- 2026-08-29 16:27 chopped wood, now holding 0 logs
+- 2026-08-29 16:27 chopped wood, now holding 0 logs
+- 2026-08-29 16:28 chopped wood, now holding 0 logs
+- 2026-08-29 16:28 chopped wood, now holding 0 logs
+- 2026-08-29 16:28 chopped wood, now holding 0 logs
+- 2026-08-29 16:28 chopped wood, now holding 0 logs
+- 2026-08-29 16:28 chopped wood, now holding 0 logs
+- 2026-08-29 16:29 chopped wood, now holding 0 logs
+- 2026-08-29 16:29 chopped wood, now holding 0 logs
+- 2026-08-29 16:30 mined deep at y9: 4 raw_iron, 3 coal
+- 2026-08-29 16:30 mined deep at y4: 4 raw_iron, 3 coal
+- 2026-08-29 16:31 mined deep at y-1: 4 raw_iron, 3 coal
+- 2026-08-29 16:31 mined deep at y-3: 4 raw_iron, 3 coal
+- 2026-08-29 16:32 mined deep at y-6: 4 raw_iron, 3 coal
+- 2026-08-29 16:32 mined deep at y-5: 4 raw_iron, 3 coal
+- 2026-08-29 16:33 mined deep at y-10: 4 raw_iron, 3 coal, 1 raw_gold
+- 2026-08-29 16:33 mined deep at y-11: 4 raw_iron, 3 coal, 1 raw_gold
+- 2026-08-29 16:34 mined deep at y-12: 4 raw_iron, 3 coal, 1 raw_gold
+- 2026-08-29 16:44 crafted a diamond pickaxe
+- 2026-08-29 16:44 smelted 4 iron_ingot
+- 2026-08-29 16:52 got stuck and had to dig out
+- 2026-08-29 16:53 joined saying: watch my back, team
+- 2026-08-29 16:53 I died
+- 2026-08-29 16:55 joined saying: gotta spot the spookers before they spot us
+- 2026-08-29 16:55 chopped wood, now holding 0 logs
+- 2026-08-29 16:55 chopped wood, now holding 0 logs
+- 2026-08-29 16:56 chopped wood, now holding 0 logs
+- 2026-08-29 16:56 chopped wood, now holding 0 logs
+- 2026-08-29 16:56 chopped wood, now holding 0 logs
+- 2026-08-29 16:57 joined saying: watch my back, i've got eyes on the map
+- 2026-08-29 16:58 chopped wood, now holding 6 logs
+- 2026-08-29 16:58 farmed: harvested 0, planted 1
+- 2026-08-29 17:00 joined saying: let the wood chips fly
+- 2026-08-29 17:06 joined saying: scouting ahead, finding the way home
+- 2026-08-29 17:08 I died
+- 2026-08-29 17:10 got stuck and had to dig out
+- 2026-08-29 17:10 I died
+- 2026-08-29 17:11 joined saying: exploring blindly, finding wisely
+- 2026-08-29 17:16 joined saying: lets find some resources
+- 2026-08-29 17:25 joined saying: time to poke some holes in this biome!
+- 2026-08-29 17:28 joined saying: watch my back, i've got your flint
+- 2026-08-29 17:28 I died
+- 2026-08-29 17:29 I died
+- 2026-08-29 17:30 joined saying: cutting corners since birth
+- 2026-08-29 17:31 I died
+- 2026-08-29 17:34 joined saying: gettin' eyes on the land, one block at a time!
+- 2026-08-29 17:35 joined saying: watch my step, i've got eyes on the map
+- 2026-08-29 17:37 joined saying: watch your back, world's a harsh place
+- 2026-08-29 17:49 I died
+- 2026-08-29 17:51 joined saying: time to chop, not just flop!
+- 2026-08-29 17:52 I died
+- 2026-08-29 17:53 mined deep at y99: 1 coal
+- 2026-08-29 17:54 mined deep at y96: 2 coal
+- 2026-08-29 17:54 mined deep at y96: 2 coal
+- 2026-08-29 17:54 mined deep at y87: 2 coal
+- 2026-08-29 17:54 mined deep at y84: 2 coal
+- 2026-08-29 17:55 mined deep at y75: 4 coal
+- 2026-08-29 17:55 mined deep at y68: 7 coal
+- 2026-08-29 17:56 joined saying: let's see what the map has in store, eh?
+- 2026-08-29 17:58 I died
+- 2026-08-29 18:01 joined saying: chop wisely, don't go crazy!
+- 2026-08-29 18:03 got stuck and had to dig out
+- 2026-08-29 18:04 got stuck and had to dig out
+- 2026-08-29 18:07 killed a zombie
+- 2026-08-29 18:09 I died
+- 2026-08-29 18:09 killed a zombie
+- 2026-08-29 18:09 killed a zombie
+- 2026-08-29 18:12 I died
+- 2026-08-29 18:15 got stuck and had to dig out
+- 2026-08-29 18:17 got stuck and had to dig out
+- 2026-08-29 18:18 got stuck and had to dig out
+- 2026-08-29 18:20 got stuck and had to dig out
+- 2026-08-29 18:21 joined saying: let's dig, guys!
+- 2026-08-29 18:30 joined saying: watch my wood pile grow
+- 2026-08-29 18:32 mined deep at y4: 8 coal, 9 lapis_lazuli
+- 2026-08-29 18:32 mined deep at y6: 8 coal, 9 lapis_lazuli
+- 2026-08-29 18:32 mined deep at y4: 8 coal, 9 lapis_lazuli
+- 2026-08-29 18:33 mined deep at y4: 8 coal, 9 lapis_lazuli
+- 2026-08-29 18:33 mined deep at y4: 8 coal, 9 lapis_lazuli
+- 2026-08-29 18:33 mined deep at y4: 8 coal, 9 lapis_lazuli
+- 2026-08-29 18:33 got stuck and had to dig out
+- 2026-08-29 18:34 got stuck and had to dig out
+- 2026-08-29 18:34 got stuck and had to dig out
+- 2026-08-29 18:34 mined deep at y4: 8 coal, 9 lapis_lazuli
+- 2026-08-29 18:35 got stuck and had to dig out
+- 2026-08-29 18:36 got stuck and had to dig out
+- 2026-08-29 18:36 got stuck and had to dig out
+- 2026-08-29 18:37 got stuck and had to dig out
+- 2026-08-29 18:38 got stuck and had to dig out
+- 2026-08-29 18:38 got stuck and had to dig out
+- 2026-08-29 18:39 got stuck and had to dig out
+- 2026-08-29 18:39 got stuck and had to dig out
+- 2026-08-29 18:40 got stuck and had to dig out
+- 2026-08-29 18:41 got stuck and had to dig out
+- 2026-08-29 18:42 got stuck and had to dig out
+- 2026-08-29 18:42 got stuck and had to dig out
+- 2026-08-29 18:43 got stuck and had to dig out
+- 2026-08-29 18:43 got stuck and had to dig out
+- 2026-08-29 18:44 got stuck and had to dig out
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:46 joined saying: gotta chop, gotta scout, gotta live!
+- 2026-08-29 18:50 joined saying: cut the wood not yourself
+- 2026-08-29 18:51 killed a skeleton

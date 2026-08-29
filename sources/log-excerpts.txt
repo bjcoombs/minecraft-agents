@@ -1,0 +1,400 @@
+[19:21:11] {Forager} CATCHPHRASE "let's dig, guys!"
+[19:21:11] {Fighter} CATCHPHRASE "dodge or die, dude"
+[19:21:27] {Fighter} COMBAT "back off you undead piece!" (attacked vs zombie)
+[19:21:40] {Claude} MINEDEEP result: 3 raw_iron, 7 coal
+[19:21:42] {Miner} MINEDEEP result: 5 coal
+[19:29:58] {Claude} CATCHPHRASE "let's make this chunk legendary!"
+[19:29:58] {Woodcutter} CATCHPHRASE "gotta chop, gotta go!"
+[19:29:59] {Builder} CATCHPHRASE "let's get crafty!"
+[19:30:05] {Forager} CATCHPHRASE "watch my wood pile grow"
+[19:30:05] {Miner} CATCHPHRASE "dig deep, riches sleep!"
+[19:30:11] {Fighter} CATCHPHRASE "bring it on, dirt road"
+[19:30:17] {Miner} DREAM compiling 60 journal lines
+[19:30:21] {Forager} DREAM compiling 60 journal lines
+[19:30:25] {Fighter} DREAM compiling 60 journal lines
+[19:30:25] {Claude} DREAM compiling 60 journal lines
+[19:30:29] {Woodcutter} DREAM compiling 60 journal lines
+[19:30:33] {Builder} DREAM compiling 60 journal lines
+[19:30:46] {Claude} DEADLOCK cleared after 46s (busy=true locked=false)
+[19:30:50] {Woodcutter} DEADLOCK cleared after 46s (busy=true locked=false)
+[19:30:52] {Fighter} UNSTUCK triggered
+[19:30:52] {Fighter} UNSTUCK dropped an unreachable goal
+[19:30:52] {Miner} DREAM updated world (1025 chars)
+[19:30:52] {Miner} DEADLOCK cleared after 45s (busy=true locked=false)
+[19:30:54] {Builder} DEADLOCK cleared after 46s (busy=true locked=false)
+[19:31:01] {Forager} DEADLOCK cleared after 45s (busy=true locked=false)
+[19:31:02] {Forager} DREAM updated world (380 chars)
+[19:31:08] {Fighter} DEADLOCK cleared after 48s (busy=true locked=false)
+[19:31:11] {Fighter} DREAM world: This operation was aborted
+[19:31:11] {Claude} DREAM world: This operation was aborted
+[19:31:14] {Woodcutter} DREAM world: This operation was aborted
+[19:31:18] {Builder} DREAM world: This operation was aborted
+[19:31:37] {Miner} DREAM teammates: This operation was aborted
+[19:31:49] {Forager} DREAM teammates: This operation was aborted
+[19:31:49] {Fighter} UNSTUCK triggered
+[19:31:49] {Fighter} UNSTUCK dropped an unreachable goal
+[19:31:50] {Builder} MINEDEEP result: 2 coal
+[19:31:52] {Claude} DEADLOCK cleared after 49s (busy=true locked=false)
+[19:31:53] {Miner} DEADLOCK cleared after 50s (busy=true locked=false)
+[19:31:54] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:31:54] {Claude} MINEDEEP result: 3 raw_iron, 7 coal
+[19:31:57] {Fighter} DREAM teammates: This operation was aborted
+[19:31:57] {Builder} MINEDEEP result: 2 coal
+[19:31:57] {Claude} DREAM teammates: This operation was aborted
+[19:32:00] {Woodcutter} DREAM teammates: This operation was aborted
+[19:32:03] {Forager} MINEDEEP result: 8 coal, 9 lapis_lazuli
+[19:32:03] {Builder} DREAM teammates: This operation was aborted
+[19:32:05] {Claude} MINEDEEP result: 3 raw_iron, 7 coal
+[19:32:13] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:32:17] {Miner} UNSTUCK triggered
+[19:32:19] {Forager} MINEDEEP result: 8 coal, 9 lapis_lazuli
+[19:32:19] {Miner} DREAM updated tasks (766 chars)
+[19:32:20] {Miner} UNSTUCK dropped an unreachable goal
+[19:32:21] {Woodcutter} EAT FAILED bread, food still 15
+[19:32:30] {Fighter} UNSTUCK triggered
+[19:32:30] {Fighter} UNSTUCK dropped an unreachable goal
+[19:32:31] {Forager} DREAM updated tasks (854 chars)
+[19:32:39] {Builder} MINEDEEP result: 2 coal
+[19:32:39] {Fighter} DREAM updated tasks (398 chars)
+[19:32:43] {Claude} DREAM tasks: This operation was aborted
+[19:32:45] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:32:46] {Woodcutter} DREAM tasks: This operation was aborted
+[19:32:46] {Builder} MINEDEEP result: 2 coal
+[19:32:49] {Builder} DREAM tasks: This operation was aborted
+[19:32:52] {Miner} DEADLOCK cleared after 49s (busy=true locked=false)
+[19:32:53] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:32:54] {Forager} MINEDEEP result: 8 coal, 9 lapis_lazuli
+[19:32:58] {Miner} UNSTUCK triggered
+[19:32:59] {Miner} UNSTUCK dropped an unreachable goal
+[19:33:05] {Miner} DREAM lessons: This operation was aborted
+[19:33:05] {Miner} DREAM done
+[19:33:06] {Forager} MINEDEEP result: 8 coal, 9 lapis_lazuli
+[19:33:06] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:33:11] {Fighter} UNSTUCK triggered
+[19:33:12] {Fighter} UNSTUCK dropped an unreachable goal
+[19:33:16] {Forager} DREAM lessons: This operation was aborted
+[19:33:16] {Forager} DREAM done
+[19:33:16] {Woodcutter} EAT FAILED bread, food still 14
+[19:33:17] {Forager} MINEDEEP result: 8 coal, 9 lapis_lazuli
+[19:33:24] {Fighter} DREAM lessons: This operation was aborted
+[19:33:24] {Fighter} DREAM done
+[19:33:24] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:33:28] {Claude} DREAM lessons: This operation was aborted
+[19:33:28] {Claude} DREAM done
+[19:33:29] {Forager} MINEDEEP result: 8 coal, 9 lapis_lazuli
+[19:33:30] {Forager} UNSTUCK triggered
+[19:33:31] {Woodcutter} DREAM lessons: This operation was aborted
+[19:33:31] {Woodcutter} DREAM done
+[19:33:31] {Forager} UNSTUCK dropped an unreachable goal
+[19:33:31] {Woodcutter} EAT FAILED cooked_beef, food still 13
+[19:33:34] {Builder} DREAM lessons: This operation was aborted
+[19:33:34] {Builder} DREAM done
+[19:33:38] {Fighter} COMBAT "help" (attacked vs zombie)
+[19:33:39] {Miner} UNSTUCK triggered
+[19:33:41] {Miner} UNSTUCK dropped an unreachable goal
+[19:33:41] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:33:51] {Fighter} COMBAT "zombie gettin me back!" (attacked vs zombie)
+[19:33:52] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:33:57] {Woodcutter} EAT FAILED bread, food still 13
+[19:33:57] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:34:06] {Forager} UNSTUCK triggered
+[19:34:07] {Forager} UNSTUCK dropped an unreachable goal
+[19:34:07] {Miner} DEADLOCK cleared after 49s (busy=true locked=false)
+[19:34:10] {Woodcutter} EAT FAILED bread, food still 12
+[19:34:15] {Fighter} UNSTUCK triggered
+[19:34:15] {Fighter} UNSTUCK dropped an unreachable goal
+[19:34:16] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:34:20] {Miner} UNSTUCK triggered
+[19:34:21] {Miner} UNSTUCK dropped an unreachable goal
+[19:34:22] {Miner} MINEDEEP result: 5 coal
+[19:34:22] {Miner} MINEDEEP result: 5 coal
+[19:34:30] {Claude} DEADLOCK cleared after 45s (busy=true locked=false)
+[19:34:34] {Fighter} COMBAT "get out of my way" (attacked vs zombie)
+[19:34:35] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:34:41] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:34:45] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:34:46] {Fighter} COMBAT "incoming!" (attacked vs zombie)
+[19:34:48] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:34:53] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:34:54] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:34:56] {Forager} UNSTUCK triggered
+[19:34:56] {Forager} MINEDEEP result: 8 coal, 9 lapis_lazuli
+[19:34:56] {Forager} UNSTUCK dropped an unreachable goal
+[19:34:57] {Miner} MINEDEEP result: 5 coal
+[19:35:01] {Woodcutter} EAT FAILED bread, food still 10
+[19:35:03] {Miner} UNSTUCK triggered
+[19:35:03] {Miner} UNSTUCK dropped an unreachable goal
+[19:35:04] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:35:05] {Miner} MINEDEEP result: 5 coal
+[19:35:16] {Fighter} UNSTUCK triggered
+[19:35:16] {Fighter} UNSTUCK dropped an unreachable goal
+[19:35:37] {Fighter} DEADLOCK cleared after 47s (busy=true locked=false)
+[19:35:39] {Forager} UNSTUCK triggered
+[19:35:40] {Forager} UNSTUCK dropped an unreachable goal
+[19:35:53] {Woodcutter} DEADLOCK cleared after 50s (busy=true locked=false)
+[19:35:59] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:36:03] {Fighter} COMBAT "get off me!" (attacked vs zombie)
+[19:36:03] {Miner} DEADLOCK cleared after 50s (busy=true locked=false)
+[19:36:04] {Miner} UNSTUCK triggered
+[19:36:04] {Woodcutter} EAT FAILED bread, food still 9
+[19:36:04] {Miner} UNSTUCK dropped an unreachable goal
+[19:36:05] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:36:10] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:36:10] {Miner} MINEDEEP result: 5 coal
+[19:36:12] {Miner} MINEDEEP result: 5 coal
+[19:36:13] {Miner} MINEDEEP result: 5 coal
+[19:36:15] {Fighter} COMBAT "oh no zombie" (attacked vs zombie)
+[19:36:17] {Forager} UNSTUCK triggered
+[19:36:17] {Forager} UNSTUCK dropped an unreachable goal
+[19:36:21] {Fighter} UNSTUCK triggered
+[19:36:22] {Fighter} UNSTUCK dropped an unreachable goal
+[19:36:23] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:36:37] {Miner} MINEDEEP result: 5 coal
+[19:36:42] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:36:46] {Miner} UNSTUCK triggered
+[19:36:46] {Miner} UNSTUCK dropped an unreachable goal
+[19:36:49] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:36:52] {Fighter} COMBAT "get away from me you rotting menace!" (attacked vs zombie)
+[19:36:53] {Forager} UNSTUCK triggered
+[19:36:53] {Forager} UNSTUCK dropped an unreachable goal
+[19:36:55] {Woodcutter} EAT FAILED bread, food still 8
+[19:36:55] {Woodcutter} MINEDEEP result: 2 raw_iron, 2 coal, 4 raw_copper
+[19:36:57] {Miner} MINEDEEP result: 5 coal
+[19:36:59] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:37:02] {Builder} MINEDEEP result: 1 raw_iron, 2 coal
+[19:37:02] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:37:02] {Woodcutter} ATE bread (8 -> 13)
+[19:37:05] {Fighter} COMBAT "incoming!" (attacked vs zombie)
+[19:37:08] {Builder} EAT FAILED bread, food still 15
+[19:37:25] {Miner} MINEDEEP result: 5 coal
+[19:37:26] {Miner} UNSTUCK triggered
+[19:37:27] {Miner} UNSTUCK dropped an unreachable goal
+[19:37:30] {Forager} UNSTUCK triggered
+[19:37:30] {Forager} UNSTUCK dropped an unreachable goal
+[19:37:35] {Fighter} UNSTUCK triggered
+[19:37:35] {Fighter} UNSTUCK dropped an unreachable goal
+[19:37:41] {Fighter} COMBAT "zombie got me!" (attacked vs zombie)
+[19:37:53] {Fighter} COMBAT "back off zombie!" (attacked vs zombie)
+[19:38:06] {Forager} UNSTUCK triggered
+[19:38:07] {Forager} UNSTUCK dropped an unreachable goal
+[19:38:07] {Miner} UNSTUCK triggered
+[19:38:08] {Miner} UNSTUCK dropped an unreachable goal
+[19:38:14] {Miner} MINEDEEP result: 5 coal
+[19:38:17] {Fighter} UNSTUCK triggered
+[19:38:18] {Fighter} UNSTUCK dropped an unreachable goal
+[19:38:19] {Builder} EAT FAILED bread, food still 13
+[19:38:23] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:38:39] {Builder} EAT FAILED cooked_beef, food still 13
+[19:38:44] {Forager} UNSTUCK triggered
+[19:38:44] {Fighter} COMBAT "take that undead mess away!" (attacked vs zombie)
+[19:38:44] {Forager} UNSTUCK dropped an unreachable goal
+[19:38:47] {Miner} MINEDEEP result: 5 coal
+[19:38:52] {Miner} UNSTUCK triggered
+[19:38:53] {Miner} UNSTUCK dropped an unreachable goal
+[19:38:56] {Fighter} COMBAT "get back from me!" (attacked vs zombie)
+[19:39:05] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:39:16] {Woodcutter} EAT FAILED bread, food still 13
+[19:39:20] {Builder} EAT FAILED bread, food still 12
+[19:39:21] {Forager} UNSTUCK triggered
+[19:39:21] {Forager} UNSTUCK dropped an unreachable goal
+[19:39:29] {Fighter} UNSTUCK triggered
+[19:39:29] {Fighter} UNSTUCK dropped an unreachable goal
+[19:39:29] {Miner} MINEDEEP result: 5 coal
+[19:39:33] {Fighter} COMBAT "zombie time" (attacked vs zombie)
+[19:39:33] {Miner} UNSTUCK triggered
+[19:39:34] {Miner} UNSTUCK dropped an unreachable goal
+[19:39:36] {Claude} MINEDEEP result: 5 raw_iron, 7 coal
+[19:39:39] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:39:39] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:39:41] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:39:43] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:39:50] {Woodcutter} EAT FAILED bread, food still 13
+[19:39:50] {Miner} MINEDEEP result: 5 coal
+[19:39:53] {Builder} EAT FAILED bread, food still 11
+[19:39:57] {Forager} UNSTUCK triggered
+[19:39:58] {Forager} UNSTUCK dropped an unreachable goal
+[19:40:07] {Fighter} UNSTUCK triggered
+[19:40:08] {Fighter} UNSTUCK dropped an unreachable goal
+[19:40:15] {Miner} UNSTUCK triggered
+[19:40:16] {Miner} UNSTUCK dropped an unreachable goal
+[19:40:42] {Builder} DEADLOCK cleared after 48s (busy=true locked=false)
+[19:40:42] {Woodcutter} DEADLOCK cleared after 48s (busy=true locked=false)
+[19:40:44] {Forager} UNSTUCK triggered
+[19:40:45] {Forager} UNSTUCK dropped an unreachable goal
+[19:40:47] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:40:48] {Builder} EAT FAILED bread, food still 10
+[19:40:57] {Woodcutter} EAT FAILED bread, food still 12
+[19:41:00] {Fighter} UNSTUCK triggered
+[19:41:00] {Fighter} UNSTUCK dropped an unreachable goal
+[19:41:01] {Miner} MINEDEEP result: 5 coal
+[19:41:10] {Miner} UNSTUCK triggered
+[19:41:11] {Miner} UNSTUCK dropped an unreachable goal
+[19:41:21] {Forager} UNSTUCK triggered
+[19:41:21] {Forager} UNSTUCK dropped an unreachable goal
+[19:41:29] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:41:42] {Builder} DEADLOCK cleared after 50s (busy=true locked=false)
+[19:41:47] {Fighter} UNSTUCK triggered
+[19:41:47] {Fighter} UNSTUCK dropped an unreachable goal
+[19:41:55] {Miner} UNSTUCK triggered
+[19:41:56] {Miner} UNSTUCK dropped an unreachable goal
+[19:41:58] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:41:59] {Builder} EAT FAILED bread, food still 9
+[19:42:02] {Forager} UNSTUCK triggered
+[19:42:02] {Forager} UNSTUCK dropped an unreachable goal
+[19:42:09] {Woodcutter} EAT FAILED bread, food still 11
+[19:42:28] {Fighter} UNSTUCK triggered
+[19:42:29] {Fighter} UNSTUCK dropped an unreachable goal
+[19:42:31] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:42:33] {Miner} UNSTUCK triggered
+[19:42:34] {Miner} UNSTUCK dropped an unreachable goal
+[19:42:38] {Forager} UNSTUCK triggered
+[19:42:39] {Forager} UNSTUCK dropped an unreachable goal
+[19:42:46] {Woodcutter} EAT FAILED bread, food still 10
+[19:42:48] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:42:49] {Builder} DEADLOCK cleared after 50s (busy=true locked=false)
+[19:42:51] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:42:53] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:42:57] {Woodcutter} EAT FAILED bread, food still 10
+[19:42:58] {Builder} EAT FAILED bread, food still 8
+[19:43:04] {Miner} DEADLOCK cleared after 46s (busy=true locked=false)
+[19:43:09] {Fighter} UNSTUCK triggered
+[19:43:09] {Fighter} UNSTUCK dropped an unreachable goal
+[19:43:11] {Miner} UNSTUCK triggered
+[19:43:11] {Miner} UNSTUCK dropped an unreachable goal
+[19:43:14] {Forager} UNSTUCK triggered
+[19:43:14] {Forager} UNSTUCK dropped an unreachable goal
+[19:43:26] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:43:31] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:43:37] {Builder} EAT FAILED bread, food still 8
+[19:43:39] {Forager} DEADLOCK cleared after 45s (busy=true locked=false)
+[19:43:46] {Woodcutter} EAT FAILED cooked_beef, food still 8
+[19:43:47] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:43:49] {Fighter} UNSTUCK triggered
+[19:43:49] {Fighter} UNSTUCK dropped an unreachable goal
+[19:43:49] {Miner} UNSTUCK triggered
+[19:43:50] {Miner} UNSTUCK dropped an unreachable goal
+[19:43:51] {Forager} UNSTUCK triggered
+[19:43:51] {Forager} UNSTUCK dropped an unreachable goal
+[19:43:55] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:44:02] {Miner} DEADLOCK cleared after 47s (busy=true locked=false)
+[19:44:04] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:44:05] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:44:07] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:44:08] {Woodcutter} UNSTUCK triggered
+[19:44:09] {Woodcutter} UNSTUCK dropped an unreachable goal
+[19:44:11] {Claude} UNSTUCK triggered
+[19:44:11] {Claude} UNSTUCK dropped an unreachable goal
+[19:44:17] {Builder} EAT FAILED bread, food still 7
+[19:44:19] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:44:27] {Forager} UNSTUCK triggered
+[19:44:27] {Forager} UNSTUCK dropped an unreachable goal
+[19:44:28] {Miner} UNSTUCK triggered
+[19:44:29] {Miner} UNSTUCK dropped an unreachable goal
+[19:44:29] {Fighter} UNSTUCK triggered
+[19:44:31] {Fighter} UNSTUCK dropped an unreachable goal
+[19:44:31] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:44:43] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:44:45] {Woodcutter} UNSTUCK triggered
+[19:44:45] {Woodcutter} UNSTUCK dropped an unreachable goal
+[19:44:47] {Claude} UNSTUCK triggered
+[19:44:48] {Claude} UNSTUCK dropped an unreachable goal
+[19:44:55] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:44:56] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:45:02] {Builder} EAT FAILED bread, food still 6
+[19:45:04] {Forager} UNSTUCK triggered
+[19:45:04] {Forager} UNSTUCK dropped an unreachable goal
+[19:45:05] {Miner} UNSTUCK triggered
+[19:45:06] {Miner} UNSTUCK dropped an unreachable goal
+[19:45:07] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:45:08] {Fighter} UNSTUCK triggered
+[19:45:08] {Fighter} UNSTUCK dropped an unreachable goal
+[19:45:19] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:45:21] {Woodcutter} UNSTUCK triggered
+[19:45:21] {Woodcutter} UNSTUCK dropped an unreachable goal
+[19:45:23] {Claude} UNSTUCK triggered
+[19:45:24] {Claude} UNSTUCK dropped an unreachable goal
+[19:45:24] {Forager} DEADLOCK cleared after 45s (busy=true locked=false)
+[19:45:26] {Builder} EAT FAILED bread, food still 5
+[19:45:26] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:45:31] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:45:37] {Builder} EAT FAILED bread, food still 5
+[19:45:39] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 5 raw_copper
+[19:45:40] {Forager} UNSTUCK triggered
+[19:45:40] {Forager} UNSTUCK dropped an unreachable goal
+[19:45:41] {Miner} UNSTUCK triggered
+[19:45:42] {Miner} UNSTUCK dropped an unreachable goal
+[19:45:43] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:45:47] {Fighter} UNSTUCK triggered
+[19:45:47] {Fighter} UNSTUCK dropped an unreachable goal
+[19:45:49] {Builder} EAT FAILED bread, food still 4
+[19:45:51] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 7 raw_copper
+[19:45:55] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:45:57] {Woodcutter} UNSTUCK triggered
+[19:45:57] {Woodcutter} UNSTUCK dropped an unreachable goal
+[19:45:59] {Claude} UNSTUCK triggered
+[19:46:00] {Claude} UNSTUCK dropped an unreachable goal
+[19:46:00] {Builder} EAT FAILED bread, food still 4
+[19:46:01] {Builder} MINEDEEP result: 1 raw_iron, 2 coal, 7 raw_copper
+[19:46:07] {Woodcutter} MINEDEEP result: 2 raw_iron, 4 coal, 4 raw_copper
+[19:46:14] {Builder} ATE bread via consume (3 -> 8)
+[19:46:28] {Claude} CATCHPHRASE "lets get this diamond"
+[19:46:32] {Woodcutter} CATCHPHRASE "cutting it fine, one log at a time!"
+[19:46:36] {Builder} CATCHPHRASE "cut and try again!"
+[19:46:38] {Claude} ATE bread (14 -> 19)
+[19:46:43] {Forager} CATCHPHRASE "gotta chop, gotta scout, gotta live!"
+[19:46:43] {Miner} CATCHPHRASE "digging deeper, wealth will surrender!"
+[19:46:46] {Builder} ATE bread (8 -> 13)
+[19:46:50] {Fighter} CATCHPHRASE "time to throw some punches!"
+[19:46:57] {Builder} ATE bread (13 -> 18)
+[19:47:12] {Fighter} COMBAT "incoming!" (attacked vs zombie)
+[19:47:28] {Woodcutter} DEADLOCK cleared after 45s (busy=true locked=true)
+[19:47:28] {Fighter} UNSTUCK triggered
+[19:47:29] {Fighter} UNSTUCK dropped an unreachable goal
+[19:47:35] {Claude} DEADLOCK cleared after 46s (busy=true locked=true)
+[19:47:44] {Fighter} DEADLOCK cleared after 45s (busy=true locked=false)
+[19:47:49] {Forager} DEADLOCK cleared after 45s (busy=true locked=true)
+[19:47:57] {Builder} DEADLOCK cleared after 45s (busy=true locked=true)
+[19:48:03] {Miner} DEADLOCK cleared after 47s (busy=true locked=true)
+[19:48:04] {Fighter} UNSTUCK triggered
+[19:48:05] {Fighter} UNSTUCK dropped an unreachable goal
+[19:48:25] {Claude} DEADLOCK cleared after 46s (busy=true locked=true)
+[19:48:28] {Woodcutter} DEADLOCK cleared after 46s (busy=true locked=true)
+[19:48:41] {Forager} DEADLOCK cleared after 46s (busy=true locked=true)
+[19:48:41] {Fighter} UNSTUCK triggered
+[19:48:41] {Fighter} UNSTUCK dropped an unreachable goal
+[19:48:50] {Fighter} COMBAT "i'm not going down like this!" (attacked vs zombie)
+[19:48:57] {Builder} DEADLOCK cleared after 46s (busy=true locked=true)
+[19:49:04] {Claude} FIGHT killed skeleton
+[19:49:08] {Builder} FIGHT killed skeleton
+[19:49:12] {Fighter} COMBAT "get off me!" (attacked vs zombie)
+[19:49:13] {Builder} COMBAT "incoming!" (attacked vs skeleton)
+[19:49:14] {Claude} COMBAT "get off me you bony freak" (attacked vs skeleton)
+[19:49:14] {Fighter} COMBAT "zombie time over" (attacked vs zombie)
+[19:49:17] {Fighter} UNSTUCK triggered
+[19:49:18] {Fighter} UNSTUCK dropped an unreachable goal
+[19:49:36] {Fighter} COMBAT "incoming!" (attacked vs zombie)
+[19:49:36] {Fighter} COMBAT "get off me!" (attacked vs zombie)
+[19:49:42] {Forager} DEADLOCK cleared after 46s (busy=true locked=true)
+[19:49:54] {Fighter} UNSTUCK triggered
+[19:49:54] {Fighter} UNSTUCK dropped an unreachable goal
+[19:49:56] {Forager} EAT FAILED bread, food still 13
+[19:49:59] {Fighter} COMBAT "get off me!" (attacked vs zombie)
+[19:50:05] {Fighter} COMBAT "zombie incoming! get ready!" (attacked vs zombie)
+[19:50:27] {Claude} CATCHPHRASE "let's get this mine going, team"
+[19:50:27] {Woodcutter} CATCHPHRASE "gotta chop, gotta move!"
+[19:50:29] {Builder} CATCHPHRASE "i chop, you build, we thrive"
+[19:50:37] {Forager} CATCHPHRASE "cut the wood not yourself"
+[19:50:39] {Miner} CATCHPHRASE "digging deep, treasures keep!"
+[19:50:50] {Fighter} CATCHPHRASE "don't die on me first"
+[19:50:51] {Fighter} COMBAT "Incoming! back off zombie!" (attacked vs zombie)
+[19:51:11] {Forager} COMBAT "Incoming! skeleton coming for me!" (attacked vs skeleton)
+[19:51:11] {Forager} FIGHT killed skeleton
+[19:51:26] {Fighter} UNSTUCK triggered
+[19:51:26] {Fighter} UNSTUCK dropped an unreachable goal
+[19:51:28] {Builder} DEADLOCK cleared after 46s (busy=true locked=false)
+[19:51:39] {Fighter} DEADLOCK cleared after 46s (busy=true locked=false)
+[19:51:50] {Miner} UNSTUCK triggered
+[19:51:50] {Miner} UNSTUCK dropped an unreachable goal
+[19:52:03] {Fighter} UNSTUCK triggered
+[19:52:04] {Fighter} UNSTUCK dropped an unreachable goal
+[19:52:04] {Builder} ATE bread (15 -> 20)

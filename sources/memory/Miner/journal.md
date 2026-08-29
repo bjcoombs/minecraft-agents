@@ -1,0 +1,122 @@
+# Miner — journal
+- 2026-08-29 16:08 chopped wood, now holding 7 logs
+- 2026-08-29 16:10 completed quest stage stone
+- 2026-08-29 16:19 completed quest stage iron
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:19 chopped wood, now holding 0 logs
+- 2026-08-29 16:20 chopped wood, now holding 0 logs
+- 2026-08-29 16:23 smelted 4 iron_ingot
+- 2026-08-29 16:25 mined deep at y-1: 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:26 mined deep at y-5: 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:26 mined deep at y-9: 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:27 mined deep at y-9: 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:27 mined deep at y-8: 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:27 mined deep at y-7: 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:29 mined deep at y-31: 1 diamond, 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:29 mined deep at y-24: 1 diamond, 10 raw_iron, 21 raw_copper, 32 lapis_lazuli
+- 2026-08-29 16:41 crafted a diamond pickaxe
+- 2026-08-29 16:44 smelted 1 iron_ingot
+- 2026-08-29 16:45 I died
+- 2026-08-29 16:45 chopped wood, now holding 2 logs
+- 2026-08-29 16:45 chopped wood, now holding 0 logs
+- 2026-08-29 16:47 chopped wood, now holding 2 logs
+- 2026-08-29 16:47 chopped wood, now holding 0 logs
+- 2026-08-29 16:47 chopped wood, now holding 0 logs
+- 2026-08-29 16:47 mined deep at y116: nothing
+- 2026-08-29 16:47 mined deep at y116: nothing
+- 2026-08-29 16:47 mined deep at y102: nothing
+- 2026-08-29 16:48 mined deep at y103: nothing
+- 2026-08-29 16:49 mined deep at y99: nothing
+- 2026-08-29 16:53 joined saying: digging deep, finding sweet
+- 2026-08-29 16:55 joined saying: digging deep, staying keen
+- 2026-08-29 16:57 joined saying: digging deep, hoping to keep up
+- 2026-08-29 17:01 joined saying: dig or die, bro
+- 2026-08-29 17:11 joined saying: dirt beneath my feet, treasures to be found
+- 2026-08-29 17:25 joined saying: digging deep
+- 2026-08-29 17:28 joined saying: dig deep, diamonds await
+- 2026-08-29 17:28 I died
+- 2026-08-29 17:29 got stuck and had to dig out
+- 2026-08-29 17:30 joined saying: digging deep, finding gold within
+- 2026-08-29 17:31 I died
+- 2026-08-29 17:33 joined saying: digging deep, finding riches!
+- 2026-08-29 17:34 I died
+- 2026-08-29 17:34 joined saying: digging deep, finding the way out
+- 2026-08-29 17:37 joined saying: time to dig in, literally
+- 2026-08-29 17:38 I died
+- 2026-08-29 17:38 killed a skeleton
+- 2026-08-29 17:40 mined deep at y84: nothing
+- 2026-08-29 17:40 I died
+- 2026-08-29 17:42 joined saying: digging deep, treasures wait!
+- 2026-08-29 17:47 joined saying: digging deep, we'll find it all in my sleep!
+- 2026-08-29 17:48 I died
+- 2026-08-29 17:52 mined deep at y83: nothing
+- 2026-08-29 17:53 mined deep at y84: nothing
+- 2026-08-29 17:53 mined deep at y87: nothing
+- 2026-08-29 17:53 mined deep at y90: nothing
+- 2026-08-29 17:53 I died
+- 2026-08-29 17:54 mined deep at y106: nothing
+- 2026-08-29 17:54 mined deep at y106: nothing
+- 2026-08-29 17:55 I died
+- 2026-08-29 17:56 joined saying: digging deep, mining sweet!
+- 2026-08-29 17:57 killed a zombie
+- 2026-08-29 18:01 joined saying: digging deep, gonna make it sweet!
+- 2026-08-29 18:02 got stuck and had to dig out
+- 2026-08-29 18:03 got stuck and had to dig out
+- 2026-08-29 18:04 got stuck and had to dig out
+- 2026-08-29 18:06 joined saying: dig deep, riches are near
+- 2026-08-29 18:07 killed a zombie
+- 2026-08-29 18:09 I died
+- 2026-08-29 18:11 mined deep at y58: 5 coal
+- 2026-08-29 18:14 got stuck and had to dig out
+- 2026-08-29 18:15 got stuck and had to dig out
+- 2026-08-29 18:15 got stuck and had to dig out
+- 2026-08-29 18:16 got stuck and had to dig out
+- 2026-08-29 18:16 got stuck and had to dig out
+- 2026-08-29 18:17 got stuck and had to dig out
+- 2026-08-29 18:18 got stuck and had to dig out
+- 2026-08-29 18:18 mined deep at y86: 5 coal
+- 2026-08-29 18:19 got stuck and had to dig out
+- 2026-08-29 18:19 got stuck and had to dig out
+- 2026-08-29 18:20 joined saying: digging deep, finding gold
+- 2026-08-29 18:21 mined deep at y83: 5 coal
+- 2026-08-29 18:30 joined saying: dig deep, riches sleep!
+- 2026-08-29 18:32 got stuck and had to dig out
+- 2026-08-29 18:32 got stuck and had to dig out
+- 2026-08-29 18:33 got stuck and had to dig out
+- 2026-08-29 18:34 got stuck and had to dig out
+- 2026-08-29 18:34 mined deep at y88: 5 coal
+- 2026-08-29 18:34 mined deep at y88: 5 coal
+- 2026-08-29 18:34 mined deep at y88: 5 coal
+- 2026-08-29 18:35 got stuck and had to dig out
+- 2026-08-29 18:35 mined deep at y88: 5 coal
+- 2026-08-29 18:36 got stuck and had to dig out
+- 2026-08-29 18:36 mined deep at y88: 5 coal
+- 2026-08-29 18:36 mined deep at y88: 5 coal
+- 2026-08-29 18:36 mined deep at y88: 5 coal
+- 2026-08-29 18:36 mined deep at y88: 5 coal
+- 2026-08-29 18:36 got stuck and had to dig out
+- 2026-08-29 18:36 mined deep at y88: 5 coal
+- 2026-08-29 18:37 mined deep at y88: 5 coal
+- 2026-08-29 18:37 got stuck and had to dig out
+- 2026-08-29 18:38 got stuck and had to dig out
+- 2026-08-29 18:38 mined deep at y88: 5 coal
+- 2026-08-29 18:38 mined deep at y88: 5 coal
+- 2026-08-29 18:38 got stuck and had to dig out
+- 2026-08-29 18:39 mined deep at y88: 5 coal
+- 2026-08-29 18:39 got stuck and had to dig out
+- 2026-08-29 18:39 mined deep at y88: 5 coal
+- 2026-08-29 18:40 got stuck and had to dig out
+- 2026-08-29 18:41 mined deep at y88: 5 coal
+- 2026-08-29 18:41 got stuck and had to dig out
+- 2026-08-29 18:41 got stuck and had to dig out
+- 2026-08-29 18:42 got stuck and had to dig out
+- 2026-08-29 18:43 got stuck and had to dig out
+- 2026-08-29 18:43 got stuck and had to dig out
+- 2026-08-29 18:44 got stuck and had to dig out
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:45 got stuck and had to dig out
+- 2026-08-29 18:46 joined saying: digging deeper, wealth will surrender!
+- 2026-08-29 18:50 joined saying: digging deep, treasures keep!
+- 2026-08-29 18:51 got stuck and had to dig out
