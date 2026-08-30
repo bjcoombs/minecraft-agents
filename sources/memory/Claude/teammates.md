@@ -1,7 +1,4 @@
 # Claude — teammates
-- **Woodchopper**: x=-45 y=-45 (cut 11 logs initially)
-- **Logger**: x=67 y=28 (stashed 47 items in chest, smelted 3 iron_ingot)
-- **New Teammate** (1): joined at 16:53 saying "let's dig into this thing", died at 16:49
-- **New Teammate** (2): joined again at 17:11 saying "time to dig our way out", x=12 y=-10, later switched to **New Teammate** (4)
-- **New Teammate** (4): x=67 y=28
-- No record of death for **New Teammate** (4)
+- **Woodcutter**: x=-45 y=-45 (cut 11 logs initially)
+- **Builder**: died at unknown time; previously worked alongside me 4 times; last known alive at x=67 y=28
+- **Miner**: x=12 y=10; worked alongside me 6 times; stashed 1 raw_iron, 24 coal, and 2 raw_copper

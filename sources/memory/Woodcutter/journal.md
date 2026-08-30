@@ -257,3 +257,24 @@
 - 2026-08-30 09:36 got stuck and had to dig out
 - 2026-08-30 09:37 got stuck and had to dig out
 - 2026-08-30 09:39 got stuck and had to dig out
+- 2026-08-30 09:51 I died
+- 2026-08-30 09:53 got stuck and had to dig out
+- 2026-08-30 09:55 got stuck and had to dig out
+- 2026-08-30 09:58 got stuck and had to dig out
+- 2026-08-30 09:59 gave 16 oak_planks to Builder
+- 2026-08-30 10:02 got stuck and had to dig out
+- 2026-08-30 10:04 got stuck and had to dig out
+- 2026-08-30 10:06 got stuck and had to dig out
+- 2026-08-30 10:09 got stuck and had to dig out
+- 2026-08-30 10:11 got stuck and had to dig out
+- 2026-08-30 10:13 got stuck and had to dig out
+- 2026-08-30 10:15 got stuck and had to dig out
+- 2026-08-30 10:17 got stuck and had to dig out
+- 2026-08-30 10:20 got stuck and had to dig out
+- 2026-08-30 10:22 got stuck and had to dig out
+- 2026-08-30 10:24 got stuck and had to dig out
+- 2026-08-30 10:27 got stuck and had to dig out
+- 2026-08-30 10:29 got stuck and had to dig out
+- 2026-08-30 10:31 got stuck and had to dig out
+- 2026-08-30 11:40 joined saying: gotta chop down, gotta haul home!
+- 2026-08-30 11:41 got stuck and had to dig out

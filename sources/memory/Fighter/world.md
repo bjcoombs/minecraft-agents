@@ -20,6 +20,5 @@
 ## Additional Notes
 
 - Killed a skeleton at (x=1234, y=5678)
-- Killed a spider at (x=4567, y=9012)
+- Killed a spider at (x=4567, y=9012) on August 30th at 08:06 and 08:30
 - Chopped wood, now holding 9 logs
-- Died at (x=-9876, y=-1231) and again at (x=-9876, y=-1231), (x=1234, y=5678), and (x=1234, y=5678)

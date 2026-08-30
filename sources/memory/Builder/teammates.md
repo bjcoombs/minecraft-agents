@@ -12,14 +12,15 @@
 - Raw copper: 18
 
 ## Teammates and Their Contributions
-- MinerMike: suggested "build smart, not sorry!" on 2026-08-29 16:53
+- Woodcutter: provided 16 oak planks
+- Miner: suggested "build smart, not sorry!" on 2026-08-29 16:53
 - CraftyCarl: provided guidance to "chop, confirm, craft on" on 2026-08-29 16:55
-- BuildRightBob: advised "build it right, first time" on 2026-08-29 16:57
+- Fighter: killed a zombie at -300,46,-103 on 2026-08-30 08:15
 
 ## Notable Events
-- Died at -314,-34,-90 on multiple occasions.
+- Died at -314,-34,-90 multiple times.
 - Got stuck and had to dig out multiple times at -314,-34,-90.
 
 ## New Information
-- Killed a zombie at -300,46,-103 on 2026-08-30 08:15.
-- Mined deep at y91 on 2026-08-30 08:30; found 1 raw iron, 10 coal, 18 raw copper.
+- Killed a blaze on 2026-08-30 08:47
+- Found a nether fortress at -304,58,-89 on 2026-08-30 08:47

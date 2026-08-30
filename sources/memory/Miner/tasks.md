@@ -6,4 +6,5 @@
 * Crafted diamond pickaxe at (-1234,5678) on 2026-08-29
 * Mined deep at y-24: found 1 diamond, 10 raw_iron, 21 raw_copper, 32 lapis_lazuli (verified with Cartographer's map)
 * Found Nether fortress at (-314,34,-90) and multiple times at (-300,46,-103) on 2026-08-30
-Tomorrow: Expand quest stage stone and iron to include smelted ingots.
+* Revised estimate of diamond find: likely to be near y-31 at (-1234,5678), given Ben's cartography and Redminer's testimony
+* Tomorrow: Expand quest stage stone and iron to include smelted ingots.

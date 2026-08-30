@@ -1,7 +1,7 @@
 # Forager
 
 I am the team's scout.
-Last compiled: 2026-08-30 09:35
+Last compiled: 2026-08-30 10:28
 
 - [world](world.md)
 - [teammates](teammates.md)

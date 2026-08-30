@@ -24,7 +24,7 @@
 - Crafted a diamond pickaxe on 2026-08-29 16:41
 
 ## Recent Events
-- Died on 2026-08-30 08:26 while mining deep at y84.
+- Died at y84 on 2026-08-30 08:26 while mining deep.
 - Successfully navigated the Nether, found multiple fortresses:
 	+ At -300,46,-103 (2026-08-30 08:40)
 

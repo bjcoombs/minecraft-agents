@@ -9,7 +9,7 @@
 
 ## Inventory
 
-* Logs: 0 (last chopped on 2026-08-30 07:54)
+* Logs: 0
 * Food:
 	+ Apples: 23
 	+ Carrots: 7
@@ -23,11 +23,12 @@
 
 ## Notes
 
-* Got stuck on y0; had to dig out.
+* Got stuck on y0; had to dig out twice.
 * Mined deep at y91: 1 raw_iron, 10 coal, 18 raw_copper.
-
-## Daily Summary (2026-08-30)
-
-* Died on 2026-08-30 08:12 while stuck in y0.
 * Killed a zombie on 2026-08-30 08:15.
-* Found multiple Nether fortresses at -300.34, -90.46, -103 (merged to single entry).
+
+## Nether Fortresses
+
+* Found multiple fortresses at -300.34, -90.46 (multiple entries merged to single)
+* Found an additional fortress at -304,58,-89
+* Found a nether fortress at -300,46,-103 on 2026-08-30 08:42

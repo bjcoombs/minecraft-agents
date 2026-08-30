@@ -182,3 +182,24 @@
 - 2026-08-30 09:34 got stuck and had to dig out
 - 2026-08-30 09:39 got stuck and had to dig out
 - 2026-08-30 09:40 got stuck and had to dig out
+- 2026-08-30 09:43 I died
+- 2026-08-30 09:48 I died
+- 2026-08-30 09:50 got stuck and had to dig out
+- 2026-08-30 09:53 got stuck and had to dig out
+- 2026-08-30 09:55 got stuck and had to dig out
+- 2026-08-30 09:57 got stuck and had to dig out
+- 2026-08-30 10:00 got stuck and had to dig out
+- 2026-08-30 10:02 got stuck and had to dig out
+- 2026-08-30 10:04 got stuck and had to dig out
+- 2026-08-30 10:07 got stuck and had to dig out
+- 2026-08-30 10:09 got stuck and had to dig out
+- 2026-08-30 10:11 got stuck and had to dig out
+- 2026-08-30 10:13 got stuck and had to dig out
+- 2026-08-30 10:15 got stuck and had to dig out
+- 2026-08-30 10:18 got stuck and had to dig out
+- 2026-08-30 10:20 got stuck and had to dig out
+- 2026-08-30 10:22 got stuck and had to dig out
+- 2026-08-30 10:24 got stuck and had to dig out
+- 2026-08-30 10:32 I died
+- 2026-08-30 11:40 joined saying: digging deep, finding what's real
+- 2026-08-30 11:41 got stuck and had to dig out

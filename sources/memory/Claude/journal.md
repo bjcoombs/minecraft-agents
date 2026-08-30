@@ -181,3 +181,25 @@
 - 2026-08-30 09:36 got stuck and had to dig out
 - 2026-08-30 09:38 got stuck and had to dig out
 - 2026-08-30 09:41 got stuck and had to dig out
+- 2026-08-30 09:43 got stuck and had to dig out
+- 2026-08-30 09:46 got stuck and had to dig out
+- 2026-08-30 09:48 got stuck and had to dig out
+- 2026-08-30 09:50 got stuck and had to dig out
+- 2026-08-30 09:52 got stuck and had to dig out
+- 2026-08-30 09:54 got stuck and had to dig out
+- 2026-08-30 09:57 got stuck and had to dig out
+- 2026-08-30 09:59 got stuck and had to dig out
+- 2026-08-30 10:02 got stuck and had to dig out
+- 2026-08-30 10:04 got stuck and had to dig out
+- 2026-08-30 10:06 got stuck and had to dig out
+- 2026-08-30 10:09 got stuck and had to dig out
+- 2026-08-30 10:11 got stuck and had to dig out
+- 2026-08-30 10:13 got stuck and had to dig out
+- 2026-08-30 10:15 got stuck and had to dig out
+- 2026-08-30 10:17 got stuck and had to dig out
+- 2026-08-30 10:20 got stuck and had to dig out
+- 2026-08-30 10:22 got stuck and had to dig out
+- 2026-08-30 10:24 got stuck and had to dig out
+- 2026-08-30 10:26 got stuck and had to dig out
+- 2026-08-30 10:33 got stuck and had to dig out
+- 2026-08-30 11:40 joined saying: time to get this dig going!
