@@ -47,6 +47,9 @@ wiki/          compiled learnings (layer 2)
   models.md        local model benchmarks and selection
   wiki-memory.md   the sleep/dream memory cycle
   process.md       how to debug this kind of system
+  monitoring.md    what to watch in an unattended swarm
+  multi-agent-chat.md  making agents converse, not repeat
+  verifying-advice.md  testing a recommendation before adopting it
 sources/       raw immutable evidence (layer 1)
   memory/          the agents' own journals and compiled wikis
   quest-final.json final progression state

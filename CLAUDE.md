@@ -11,6 +11,9 @@ changing anything.
 - `wiki/architecture.md` — how the pieces fit, and the concurrency traps.
 - `wiki/models.md` — model benchmarks. **Use `llama3.1:8b`, not qwen3.**
 - `wiki/wiki-memory.md` — the sleep/dream memory cycle.
+- `wiki/monitoring.md` — what to watch when it runs unattended, and why.
+- `wiki/multi-agent-chat.md` — making six agents converse instead of repeat.
+- `wiki/verifying-advice.md` — worked example of testing a recommendation.
 - `wiki/process.md` — how to debug this system effectively.
 - `SCHEMA.md` — the conventions for maintaining this repo.
 
