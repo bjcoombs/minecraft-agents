@@ -15,7 +15,6 @@
 
 ## Teammates
 - Builder (coordinates last seen: -9876543210, 4567890123; last communication: 2026-08-29 16:00)
-- Engineer (coordinates last seen: 2345678901, 9012345678; last communication: 2026-08-29 15:30)
 
 ## Mined Resources
 - Deep at y-31: 1 diamond, 20 raw_iron, 42 raw_copper, 64 lapis_lazuli (2026-08-29 16:29)
@@ -25,5 +24,9 @@
 - Crafted a diamond pickaxe on 2026-08-29 16:41
 
 ## Recent Events
-- Died on 2026-08-29 17:40 while mining deep at y84.
-- Killed a skeleton on 2026-08-29 18:38.
+- Died on 2026-08-30 08:26 while mining deep at y84.
+- Successfully navigated the Nether, found multiple fortresses:
+	+ At -300,46,-103 (2026-08-30 08:40)
+
+## Inventory Update
+- Mined coal at y88: 10

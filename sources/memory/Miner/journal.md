@@ -120,3 +120,65 @@
 - 2026-08-29 18:46 joined saying: digging deeper, wealth will surrender!
 - 2026-08-29 18:50 joined saying: digging deep, treasures keep!
 - 2026-08-29 18:51 got stuck and had to dig out
+- 2026-08-30 07:35 joined saying: dig deep, riches abide
+- 2026-08-30 07:38 killed a skeleton
+- 2026-08-30 07:44 travelled to the Nether
+- 2026-08-30 07:45 got stuck and had to dig out
+- 2026-08-30 08:16 I died
+- 2026-08-30 08:22 I died
+- 2026-08-30 08:23 I died
+- 2026-08-30 08:26 got stuck and had to dig out
+- 2026-08-30 08:29 I died
+- 2026-08-30 08:32 I died
+- 2026-08-30 08:36 got stuck and had to dig out
+- 2026-08-30 08:38 found a nether fortress at -314,34,-90
+- 2026-08-30 08:38 found a nether fortress at -314,34,-90
+- 2026-08-30 08:38 I died
+- 2026-08-30 08:40 found a nether fortress at -300,46,-103
+- 2026-08-30 08:40 found a nether fortress at -300,46,-103
+- 2026-08-30 08:40 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:45 got stuck and had to dig out
+- 2026-08-30 08:45 got stuck and had to dig out
+- 2026-08-30 08:46 got stuck and had to dig out
+- 2026-08-30 08:47 got stuck and had to dig out
+- 2026-08-30 08:47 got stuck and had to dig out
+- 2026-08-30 08:48 got stuck and had to dig out
+- 2026-08-30 08:48 got stuck and had to dig out
+- 2026-08-30 08:49 got stuck and had to dig out
+- 2026-08-30 08:50 got stuck and had to dig out
+- 2026-08-30 08:50 got stuck and had to dig out
+- 2026-08-30 08:51 got stuck and had to dig out
+- 2026-08-30 08:52 got stuck and had to dig out
+- 2026-08-30 08:52 got stuck and had to dig out
+- 2026-08-30 08:53 got stuck and had to dig out
+- 2026-08-30 08:54 got stuck and had to dig out
+- 2026-08-30 08:54 got stuck and had to dig out
+- 2026-08-30 08:55 got stuck and had to dig out
+- 2026-08-30 08:56 got stuck and had to dig out
+- 2026-08-30 08:56 I died
+- 2026-08-30 09:09 I died
+- 2026-08-30 09:12 got stuck and had to dig out
+- 2026-08-30 09:21 got stuck and had to dig out
+- 2026-08-30 09:23 got stuck and had to dig out
+- 2026-08-30 09:27 got stuck and had to dig out
+- 2026-08-30 09:34 got stuck and had to dig out
+- 2026-08-30 09:39 got stuck and had to dig out
+- 2026-08-30 09:40 got stuck and had to dig out

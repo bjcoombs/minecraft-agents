@@ -95,3 +95,94 @@
 - 2026-08-29 18:50 joined saying: don't die on me first
 - 2026-08-29 18:51 got stuck and had to dig out
 - 2026-08-29 18:52 got stuck and had to dig out
+- 2026-08-30 07:36 got stuck and had to dig out
+- 2026-08-30 07:37 got stuck and had to dig out
+- 2026-08-30 07:37 got stuck and had to dig out
+- 2026-08-30 07:38 got stuck and had to dig out
+- 2026-08-30 07:39 got stuck and had to dig out
+- 2026-08-30 07:40 got stuck and had to dig out
+- 2026-08-30 07:41 got stuck and had to dig out
+- 2026-08-30 07:41 got stuck and had to dig out
+- 2026-08-30 07:42 got stuck and had to dig out
+- 2026-08-30 07:43 got stuck and had to dig out
+- 2026-08-30 07:45 got stuck and had to dig out
+- 2026-08-30 07:45 got stuck and had to dig out
+- 2026-08-30 07:46 got stuck and had to dig out
+- 2026-08-30 07:47 got stuck and had to dig out
+- 2026-08-30 07:48 got stuck and had to dig out
+- 2026-08-30 07:48 got stuck and had to dig out
+- 2026-08-30 07:49 got stuck and had to dig out
+- 2026-08-30 07:51 got stuck and had to dig out
+- 2026-08-30 07:53 got stuck and had to dig out
+- 2026-08-30 07:54 got stuck and had to dig out
+- 2026-08-30 07:54 got stuck and had to dig out
+- 2026-08-30 07:55 got stuck and had to dig out
+- 2026-08-30 07:55 killed a skeleton
+- 2026-08-30 07:56 got stuck and had to dig out
+- 2026-08-30 07:57 got stuck and had to dig out
+- 2026-08-30 07:58 got stuck and had to dig out
+- 2026-08-30 07:59 got stuck and had to dig out
+- 2026-08-30 08:00 got stuck and had to dig out
+- 2026-08-30 08:00 got stuck and had to dig out
+- 2026-08-30 08:01 got stuck and had to dig out
+- 2026-08-30 08:02 got stuck and had to dig out
+- 2026-08-30 08:03 got stuck and had to dig out
+- 2026-08-30 08:04 got stuck and had to dig out
+- 2026-08-30 08:04 got stuck and had to dig out
+- 2026-08-30 08:06 got stuck and had to dig out
+- 2026-08-30 08:06 killed a spider
+- 2026-08-30 08:07 got stuck and had to dig out
+- 2026-08-30 08:08 got stuck and had to dig out
+- 2026-08-30 08:08 got stuck and had to dig out
+- 2026-08-30 08:09 got stuck and had to dig out
+- 2026-08-30 08:10 got stuck and had to dig out
+- 2026-08-30 08:11 got stuck and had to dig out
+- 2026-08-30 08:11 got stuck and had to dig out
+- 2026-08-30 08:12 got stuck and had to dig out
+- 2026-08-30 08:13 got stuck and had to dig out
+- 2026-08-30 08:13 got stuck and had to dig out
+- 2026-08-30 08:14 got stuck and had to dig out
+- 2026-08-30 08:14 got stuck and had to dig out
+- 2026-08-30 08:15 got stuck and had to dig out
+- 2026-08-30 08:16 got stuck and had to dig out
+- 2026-08-30 08:16 got stuck and had to dig out
+- 2026-08-30 08:17 got stuck and had to dig out
+- 2026-08-30 08:18 got stuck and had to dig out
+- 2026-08-30 08:18 got stuck and had to dig out
+- 2026-08-30 08:19 got stuck and had to dig out
+- 2026-08-30 08:19 got stuck and had to dig out
+- 2026-08-30 08:20 got stuck and had to dig out
+- 2026-08-30 08:21 got stuck and had to dig out
+- 2026-08-30 08:21 I died
+- 2026-08-30 08:23 chopped wood, now holding 9 logs
+- 2026-08-30 08:23 got stuck and had to dig out
+- 2026-08-30 08:24 got stuck and had to dig out
+- 2026-08-30 08:24 got stuck and had to dig out
+- 2026-08-30 08:25 got stuck and had to dig out
+- 2026-08-30 08:26 got stuck and had to dig out
+- 2026-08-30 08:27 got stuck and had to dig out
+- 2026-08-30 08:27 got stuck and had to dig out
+- 2026-08-30 08:28 got stuck and had to dig out
+- 2026-08-30 08:29 got stuck and had to dig out
+- 2026-08-30 08:30 killed a spider
+- 2026-08-30 08:30 I died
+- 2026-08-30 08:31 killed a spider
+- 2026-08-30 08:32 killed a zombie
+- 2026-08-30 08:32 I died
+- 2026-08-30 08:33 I died
+- 2026-08-30 08:34 I died
+- 2026-08-30 08:34 I died
+- 2026-08-30 08:36 got stuck and had to dig out
+- 2026-08-30 08:37 got stuck and had to dig out
+- 2026-08-30 08:38 got stuck and had to dig out
+- 2026-08-30 08:38 I died
+- 2026-08-30 08:39 I died
+- 2026-08-30 08:39 I died
+- 2026-08-30 08:41 I died
+- 2026-08-30 08:42 killed a zombie
+- 2026-08-30 08:42 I died
+- 2026-08-30 08:43 I died
+- 2026-08-30 08:43 killed a zombie
+- 2026-08-30 08:43 I died
+- 2026-08-30 08:46 I died
+- 2026-08-30 08:49 got stuck and had to dig out

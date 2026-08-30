@@ -1,7 +1,7 @@
 # Fighter
 
 I am the team's fighter.
-Last compiled: 2026-08-29 18:33
+Last compiled: 2026-08-30 09:16
 
 - [world](world.md)
 - [teammates](teammates.md)

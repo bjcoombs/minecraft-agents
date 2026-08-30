@@ -1,7 +1,7 @@
 # Claude — world
 ## Overview
 
-* Current date: 2026-08-29
+* Current date: 2026-08-30
 * Team members: Alex, Emma, Liam, Olivia, and myself (Claude)
 
 ## Resources
@@ -23,16 +23,16 @@
 
 ## Mining Attempts
 * Mined deep at y-54 on August 29th yielded nothing.
-* Attempted to mine at various depths; last successful attempt was not recorded.
+* Attempted to mine at various depths; last successful attempt was mined deep at y83 on August 29th with 4 coal each.
+* Mined deep at y75 on August 30th: 5 raw iron, 24 coal, 2 raw copper.
 
 ## Crafting
 * Crafted a diamond pickaxe on August 29th using materials from the inventory.
 
 ## Death
-* Died on August 29th due to unknown cause while mining at y-34.
+* Died multiple times while attempting to dig out; exact coordinates unclear.
+* Found nether fortresses at (-301.43,-102) on August 30th.
 
-## Notes
+## Additional Notes
 
-* Crafted iron ingots: 3
-* Mined deep at y83 on August 29th yielded 4 coal each.
-* Mined deep at y90 on August 29th yielded 6 coal.
+* Mined deep at y75 on August 30th is recorded as a successful attempt, contradicting the "mined deep attempts resumed" entry.

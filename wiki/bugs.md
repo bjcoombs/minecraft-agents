@@ -222,3 +222,51 @@ Correct method: match against `say -v '?'` output, which is authoritative.
 
 **Lesson:** when a check is cheap, verify the checker. I passed both false
 results to the user as fact.
+
+---
+
+## Runaway retry loop burned two CPU cores
+
+**Symptom:** the fan spun up; load average hit **22.4** on a 10-core machine.
+Two `bot.js` processes at 100 % and 83 %.
+
+**Evidence:**
+```
+{Claude}  NETHER failed to transfer
+{Forager} NETHER failed to transfer
+{Builder} NETHER failed to transfer
+{Miner}   NETHER failed to transfer
+```
+Four agents failing, retrying immediately, each retry launching a fresh
+pathfinding search.
+
+**Cause:** no backoff on a failing operation. Pathfinding is the expensive part,
+and a hopeless search was being restarted continuously.
+
+**Fix:**
+- 2-minute cooldown after a failed dimension transfer
+- hard caps on the pathfinder: `thinkTimeout 3000ms`, `tickTimeout 20ms`,
+  `searchRadius 96`
+- ragdoll poll slowed 100 ms → 250 ms
+
+**Result:** five of six agents went from ~75–92 % CPU to under 3 %; load 22.4 →
+8.8.
+
+**Lesson:** any retry against the world needs backoff. In an agent loop the
+failure path runs far more often than the success path, so it deserves more care,
+not less. Now watched automatically — see `wiki/monitoring.md`.
+
+---
+
+## Checking a zsh script with `bash -n`
+
+**Symptom:** `syntax error: unexpected end of file` on a working script.
+
+**Cause:** the script is `#!/bin/zsh`; `note() { ... }` without a trailing
+semicolon is valid zsh, invalid bash. My checker was wrong, not the script.
+
+**Fix:** `zsh -n babysit.sh`.
+
+**Lesson:** third instance in this project of trusting a verification method
+without verifying it — see also `bot.consume()` and `say -v`. Match the checker
+to the interpreter.

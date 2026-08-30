@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"
 LOG=babysit.log
 J=/opt/homebrew/opt/openjdk@25/bin/java
-BOTS=(Claude Woodcutter Builder Miner Forager)
+BOTS=(Claude Woodcutter Builder Miner Forager Fighter)
 
 note() { echo "[$(date +%H:%M:%S)] $1" >> $LOG }
 
@@ -67,6 +67,25 @@ for f in sorted(glob.glob('state_*.json')):
         print(f"[err] {name}: {e}")
 PY
 
+
+  # --- 6. CPU watch: a bot spinning at 100% means a runaway loop ---
+  load=$(uptime | sed 's/.*load averages*: //' | awk '{print $1}' | tr -d ',')
+  hot=0
+  ps -Ao pid=,%cpu=,command= | grep "[n]ode bot.js" | while read pid cpu rest; do
+    name=$(ps -Eo command= -p $pid 2>/dev/null | tr ' ' '\n' | grep '^BOT_NAME=' | cut -d= -f2)
+    whole=${cpu%%.*}
+    if [ "${whole:-0}" -ge 70 ]; then
+      note "HOT ${name:-?} at ${cpu}% cpu (load $load) - clearing its goal"
+      # drop whatever it is grinding on; the deadlock watchdog does the rest
+      printf 'stop\n' >> "cmds_${name}.txt" 2>/dev/null
+    fi
+  done
+  # sustained high load is worth flagging even if no single bot is hot
+  loadint=${load%%.*}
+  if [ "${loadint:-0}" -ge 18 ]; then
+    note "LOAD HIGH: $load (10 cores) - bots may be thrashing"
+  fi
+
   # --- 5. progress snapshot every 5 minutes ---
   m=$(date +%M)
   if [ $((10#$m % 5)) -eq 0 ]; then
@@ -74,7 +93,8 @@ PY
     deaths=$(grep -c "DIED" events.log 2>/dev/null || echo 0)
     stuck=$(grep -c "UNSTUCK triggered" events.log 2>/dev/null || echo 0)
     fish=$(grep -c "FISH done" events.log 2>/dev/null || echo 0)
-    note "progress: build-cycles=$placed deaths=$deaths unstucks=$stuck fish-trips=$fish bots-online=$online"
+    topcpu=$(ps -Ao %cpu=,command= | grep "[n]ode bot.js" | sort -rn | head -1 | awk '{print $1}')
+    note "progress: deaths=$deaths unstucks=$stuck bots=$online load=$load top-bot-cpu=${topcpu}%"
   fi
 
   sleep 60

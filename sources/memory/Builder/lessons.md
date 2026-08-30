@@ -1,9 +1,8 @@
 # Builder — lessons
-* At (1234, 5678), held only 7 logs before chopping wood; subsequent attempts depleted resources without replenishing, ending with 0 logs. Should have checked resource count before starting to chop again.
-* Forgot to verify if Miner had already chopped tree at same location (1234, 5678) before my own cut.
-* Realized that 1 log per block for door frame was insufficient; will adjust build plan to account for more logs, e.g., 3-5 logs per block.
-* Prioritize quest stage wood over chopping trees, especially when working towards a specific milestone like today's goal. Avoided excessive tree chopping at (1234, 5678) where I chopped 11 times without replenishing resources.
-* Stopped chopping wood after first cut when not enough logs were available, avoiding unnecessary attempts at (1234, 5678).
-* At y96, failed to find resources despite multiple attempts; will review mine plan and adjust accordingly.
-* Failed to heed teammate warnings: "cut to the woodshed", "hammer away, not all day!", and "build smart, not sore!".
-* Died 5 times due to resource depletion and poor planning; will implement resource sharing system with Miner to optimize distribution.
+* Cut wood at (-1234, 5678) without verifying if Miner had already chopped tree there; will prioritize communication and resource management.
+* Failed to find resources at y96 due to digging too shallow; need to dig deeper.
+* Died due to resource depletion and poor planning; will implement resource sharing system with Miner.
+* Went back to nether fortress at -314,34,-90 multiple times without clearing previous issues; will review approach and create a better plan.
+* Ran out of torches during nether fortress expedition. Found only 1 raw_iron, 10 coal, and 18 raw_copper at y91 instead of searching more thoroughly.
+* Got stuck in nether fortress for 10+ minutes multiple times (see raw journal); need to bring more torches and have a backup plan for getting out.
+* Died while trying to get out of the same nether fortress; will prioritize safety and have a clear exit strategy.

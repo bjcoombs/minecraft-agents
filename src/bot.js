@@ -40,6 +40,9 @@ bot.once('spawn', () => {
   mv.dontCreateFlow = true
   mv.allow1by1towers = false     // stop it pillaring itself into the air
   bot.pathfinder.setMovements(mv)
+  bot.pathfinder.thinkTimeout = 3000      // ms per search, default is much higher
+  bot.pathfinder.tickTimeout = 20         // ms of CPU per tick
+  bot.pathfinder.searchRadius = 96        // do not scan the whole world
   const sp = bot.entity.position.floored()
   HOME.x = sp.x; HOME.y = sp.y; HOME.z = sp.z
   log(`spawned, home set to ${HOME.x},${HOME.y},${HOME.z}`)
@@ -49,6 +52,7 @@ bot.once('spawn', () => {
 bot.on('chat', (u, m) => {
   if (u === bot.username) return
   log(`CHAT <${u}> ${m}`)
+  if (NAME === 'Claude' && !BOTS.includes(u)) logChat(u, m)   // only the human; bots log themselves in speak()
   const isBot = ['Woodcutter','Builder','Miner','Forager','Claude'].includes(u)
   if (USE_LLM) {
     history.push(`${u}: ${m}`)
@@ -149,11 +153,16 @@ const pick = a => a[Math.floor(Math.random() * a.length)]
 let lastSpoke = 0
 function speak (lines, force) {
   const now = Date.now()
+  const text = typeof lines === 'string' ? lines : null
   // on AI bots, let the model do the talking - suppress canned lines
   if (typeof USE_LLM !== 'undefined' && USE_LLM && !force) return
   if (!force && now - lastSpoke < 6000) return   // don't spam the chat
+  const out = typeof lines === 'string' ? lines : pick(lines)
+  if (tooSimilar(out)) { log(`SKIP repeat: ${out}`); return }
   lastSpoke = now
-  bot.chat(typeof lines === 'string' ? lines : pick(lines))
+  rememberSaid(out)
+  logChat(NAME, out)
+  bot.chat(out)
 }
 
 const SAY = {
@@ -658,6 +667,68 @@ async function fightBack (attacker) {
   busy = was
 }
 
+
+// ---------- let knockback actually land ---------------------------------
+// These are headless clients: the pathfinder re-asserts movement every tick and
+// cancels the server's velocity packet, so hits look like they do nothing.
+// Briefly stop steering so the knockback carries.
+let ragdollUntil = 0
+bot.on('entityHurt', (e) => {
+  if (e !== bot.entity) return
+  ragdollUntil = Date.now() + 1200
+  try { bot.pathfinder.setGoal(null) } catch {}
+  bot.clearControlStates()
+  log('KNOCKBACK taking the hit')
+})
+setInterval(() => {
+  if (Date.now() < ragdollUntil) {
+    // stay limp: no steering at all while the velocity plays out
+    try { if (bot.pathfinder && bot.pathfinder.goal) bot.pathfinder.setGoal(null) } catch {}
+    bot.clearControlStates()
+  }
+}, 100)
+
+
+// ---------- shared conversation memory -----------------------------------
+// Every bot appends what it hears and says to one file, so they all share a
+// transcript and can build on each other rather than talking past each other.
+const CHATLOG = path.join(DIR, 'chatlog.txt')
+const recentlySaid = []            // this bot's own last lines, to avoid repeats
+
+function logChat (who, text) {
+  try {
+    const t = new Date().toTimeString().slice(0, 5)
+    fs.appendFileSync(CHATLOG, `${t} <${who}> ${text}\n`)
+  } catch {}
+}
+function readChat (n) {
+  try {
+    const lines = fs.readFileSync(CHATLOG, 'utf8').trim().split('\n')
+    return lines.slice(-(n || 14)).join('\n')
+  } catch { return '' }
+}
+
+// refuse to say something we have just said, or that someone else just said
+function tooSimilar (text) {
+  const norm = t => t.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim()
+  const a = norm(text)
+  if (!a) return true
+  if (recentlySaid.some(p => norm(p) === a)) return true
+  const words = new Set(a.split(/\s+/))
+  for (const p of recentlySaid) {
+    const b = new Set(norm(p).split(/\s+/))
+    const shared = [...words].filter(w => b.has(w)).length
+    if (shared >= Math.min(words.size, b.size) * 0.75) return true   // near-duplicate
+  }
+  const recent = readChat(8).toLowerCase()
+  if (a.length > 12 && recent.includes(a)) return true               // someone just said it
+  return false
+}
+function rememberSaid (text) {
+  recentlySaid.push(text)
+  while (recentlySaid.length > 8) recentlySaid.shift()
+}
+
 // ---------- do not provoke endermen ------------------------------------
 function endermanNear (range) {
   return bot.nearestEntity(e => e.name === 'enderman' &&
@@ -801,6 +872,70 @@ async function buildPortal () {
       }
     } catch (e) { log('PORTAL light: ' + e.message) }
   } catch (e) { log('PORTAL ' + e.message) }
+  finally { busy = false; locked = false }
+}
+
+
+// ---------- Nether: explore for a fortress, do not strip mine ------------
+const FORTRESS_BLOCKS = ['nether_bricks','nether_brick_fence','nether_brick_stairs','nether_wart']
+function inNether () {
+  const d = bot.game && bot.game.dimension
+  return d && String(d).includes('nether')
+}
+
+async function exploreNether () {
+  if (!inNether() && Date.now() < (globalThis.netherCooldown || 0)) {
+    log('NETHER on cooldown, skipping')
+    return
+  }
+  busy = true; locked = true
+  try {
+    if (!inNether()) {
+      // get there first
+      const id = bot.registry.blocksByName.nether_portal && bot.registry.blocksByName.nether_portal.id
+      const found = id ? bot.findBlocks({ matching: id, maxDistance: 128, count: 1 }) : []
+      if (!found.length) { speak(['need a portal to reach the nether'], true); return }
+      const p = found[0]
+      speak(['heading through to the nether'], true)
+      try { await bot.pathfinder.goto(new goals.GoalBlock(p.x, p.y, p.z)) } catch {}
+      for (let i = 0; i < 10 && !inNether(); i++) await bot.waitForTicks(20)
+      if (!inNether()) {
+        globalThis.netherCooldown = Date.now() + 120000    // stop hammering it
+        log('NETHER failed to transfer, backing off 2 min')
+        return
+      }
+      log('NETHER arrived')
+    }
+
+    // already found a fortress? go mine blaze rods there
+    const fbIds = FORTRESS_BLOCKS.map(n => bot.registry.blocksByName[n]).filter(Boolean).map(b => b.id)
+    const seen = bot.findBlocks({ matching: fbIds, maxDistance: 96, count: 5 })
+    if (seen.length) {
+      const f = seen[0]
+      log(`NETHER fortress blocks at ${f.x},${f.y},${f.z}`)
+      speak([`fortress at ${f.x}, ${f.z}!`], true)
+      journal(`found a nether fortress at ${f.x},${f.y},${f.z}`)
+      try { await bot.pathfinder.goto(new goals.GoalNear(f.x, f.y, f.z, 6)) } catch {}
+      // blazes spawn here - fight them for rods
+      const blaze = bot.nearestEntity(e => e.name === 'blaze' && e.position.distanceTo(bot.entity.position) < 32)
+      if (blaze) { busy = false; locked = false; await fightBack(blaze); return }
+      return
+    }
+
+    // otherwise EXPLORE - long runs along open ground, not digging
+    speak([pick(['exploring for a fortress', 'looking for nether brick', 'scouting the nether'])], true)
+    const p = bot.entity.position.floored()
+    const ang = Math.random() * Math.PI * 2
+    const dist = 60 + Math.random() * 60          // long legs, not strip mining
+    const tx = p.x + Math.round(Math.cos(ang) * dist)
+    const tz = p.z + Math.round(Math.sin(ang) * dist)
+    log(`NETHER exploring toward ${tx},${tz}`)
+    try {
+      await bot.pathfinder.goto(new goals.GoalNear(tx, p.y, tz, 8))
+    } catch (e) {
+      log('NETHER explore: ' + e.message)
+    } finally { try { bot.pathfinder.setGoal(null) } catch {} }
+  } catch (e) { log('NETHER ' + e.message) }
   finally { busy = false; locked = false }
 }
 
@@ -1222,6 +1357,7 @@ const HOME = { x: 0, y: 64, z: 0 }   // set from spawn on first join
 const LEASH = 400   // speedrun: they need to range far
 async function comeHomeIfLost () {
   if (!bot.entity) return false
+  if (inNether()) return false      // home is an overworld coordinate - do not drag them back
   const p = bot.entity.position
   const d = Math.hypot(p.x - HOME.x, p.z - HOME.z)
   if (d < LEASH) return false
@@ -1802,6 +1938,7 @@ async function mineDeep (targetY) {
 }
 
 // ---------- roles and the shared depot --------------------------------
+const BOTS = ['Claude','Woodcutter','Builder','Miner','Forager','Fighter']
 const ROLES = { Claude: 'leader', Woodcutter: 'gatherer', Builder: 'crafter',
                 Miner: 'miner', Forager: 'scout', Fighter: 'fighter' }
 const ROLE = ROLES[NAME] || 'woodcutter'
@@ -2371,6 +2508,7 @@ let cycle = 0
 let placedTotal = 0
 async function workCycle () {
   if (busy || fleeing || follow || locked) return
+  if (Date.now() < ragdollUntil) return
   // survival checks run for EVERY bot, including the director which has auto off
   await dumpJunk().catch(() => {})
   if (await eatIfHungry()) return
@@ -2396,14 +2534,21 @@ async function workCycle () {
       }
       else if (st.id === 'stone') await mineInner(24)
       else if (st.id === 'iron' || st.id === 'diamond') await mineDeep(st.id === 'diamond' ? -54 : 14)
-      else if (st.id === 'obsidian') {
+      else if (st.id === 'obsidian' && false) {   // obsidian stage complete - do not pursue
         // try for obsidian occasionally; otherwise keep mining for resources
         if (count('diamond_pickaxe') || count('diamond') >= 3) {
           busy = false; await getObsidian(10); busy = true
         } else { busy = false; await mineDeep(8); busy = true }   // stay above the lava lakes
       }
       else if (st.id === 'nether') {
-        busy = false; await buildPortal(); busy = true
+        // explore for a fortress; only build a portal if we cannot find one
+        busy = false
+        const haveWay = bot.findBlock({
+          matching: bot.registry.blocksByName.nether_portal &&
+                    bot.registry.blocksByName.nether_portal.id, maxDistance: 128 })
+        if (inNether() || haveWay) await exploreNether()
+        else await buildPortal()
+        busy = true
       }
       else { speak([`working on: ${st.what}`], true); await mineDeep(8) }
     } else if (CREATIVE) {
@@ -2492,18 +2637,46 @@ function worldSummary () {
        + `carrying: ${inv || 'nothing'}; nearby: ${near.join(', ') || 'nobody'}`
 }
 
-const SYSTEM = `You are ${NAME}, the ${ROLE}. You and your teammates Woodcutter, Builder, Miner, Forager and Claude are trying to BEAT MINECRAFT together - reach the End and kill the Ender Dragon. Ben is the human watching. You are a friendly, capable companion.
-Speak like a real person: short, casual, lowercase is fine. Never mention being an AI or a bot.
-You must reply ONLY with JSON of this shape:
-{"say":"<what you say out loud, under 15 words, or empty string to stay quiet>",
- "action":"<one of: follow, stop, chop, mine, deep, forage, farm, fish, come, deposit, build, chest, eat, idle>"}
-Choose the action that best matches what was asked. Use "idle" if no action is needed.
-You can talk to your teammates by name. Keep replies short - this is a game chat, not an essay.
-Never try to mine stone or chop trees without the right tool; ask a teammate if you lack one.
-IMPORTANT: only claim to do things you actually did. Do not say you handed someone an item unless
-you used the give action. If you cannot do something, say so plainly.
-Useful teamwork: Woodcutter supplies planks, Miner supplies stone and ore, Forager supplies food,
-Builder puts up the house, Claude coordinates. Forager also farms crops and fishes. Ask each other for what you need.`
+const PERSONALITY = {
+  Claude:     'the leader. you think ahead, set direction, check on people. dry humour.',
+  Woodcutter: 'blunt and practical. short sentences. grumbles about work but always does it.',
+  Builder:    'enthusiastic, proud of your builds, easily distracted by a nice view.',
+  Miner:      'gruff, happiest underground, suspicious of the surface. deadpan.',
+  Forager:    'chatty and warm. worries about whether everyone has eaten.',
+  Fighter:    'brash, spoiling for a scrap, loyal. teases the others.'
+}
+
+const SYSTEM = `You are ${NAME}, ${PERSONALITY[NAME] || 'a member of the team'}
+You are one of six friends playing Minecraft together, trying to beat the game.
+
+WHO IS WHO - do not confuse these:
+- "RampageLand" is Ben, the HUMAN playing with you. Same person. Call him Ben.
+- Your five teammates are bots like you: Claude, Woodcutter, Builder, Miner,
+  Forager, Fighter (minus yourself).
+- "Claude" here is your TEAMMATE, one of the six. Not an assistant, not a
+  narrator, not the person who set this up. Just another player on the team.
+- You are ${NAME}. Never speak as anyone else, never answer for them.
+
+HOW TO TALK:
+- You are friends on a long adventure. Tell the story of what is happening.
+- React to what your teammates JUST said. Answer their questions. Tease them.
+  Agree, disagree, build on their idea, remember what they said earlier.
+- Never repeat yourself or echo what someone else just said. If you have
+  nothing new, say nothing at all (empty "say").
+- Mention specifics: where you are, what you found, what went wrong, who helped.
+- Under 15 words. Lowercase is fine. Be funny when it fits. Never mention being
+  an AI or a bot, never narrate your own mechanics.
+
+CURRENT SITUATION:
+You are past the obsidian stage - do NOT gather obsidian.
+In the Nether: do NOT strip mine. Explore for a fortress; blazes there drop the
+blaze rods you need.
+Only claim to do things you actually did. Use the give action to hand items over.
+
+Reply ONLY with JSON:
+{"say":"<what you say, or empty string to stay quiet>",
+ "action":"<one of: follow, stop, chop, mine, deep, forage, farm, fish, come, deposit, build, chest, eat, explore, idle>"}
+`
 
 async function think (trigger) {
   if (thinking) return
@@ -2511,8 +2684,11 @@ async function think (trigger) {
   try {
     const prompt = `${SYSTEM}
 
-Recent conversation:
-${history.slice(-6).join('\n') || '(nothing yet)'}
+What the team has been saying (shared transcript):
+${readChat(14) || '(quiet so far)'}
+
+Things YOU have already said - do not repeat any of these:
+${recentlySaid.slice(-6).map(x => '- ' + x).join('\n') || '- (nothing yet)'}
 
 Your current state: ${worldSummary()}
 
@@ -2541,8 +2717,9 @@ JSON:`
     try { out = JSON.parse(data.response) } catch { log('LLM bad json: ' + (data.response||'').slice(0,120)); return }
     log(`LLM say="${out.say}" action=${out.action}`)
     if (out.say && out.say.trim()) {
-      history.push(`Claude: ${out.say}`)
-      speak(out.say, true)
+      const line = out.say.trim()
+      if (!tooSimilar(line)) { speak(line, true) }
+      else log(`LLM skipped repeat: ${line}`)
     }
     const a = (out.action || 'idle').toLowerCase()
     if ((busy || goingToBed || locked) && a !== 'idle' && a !== 'stop') {
@@ -2551,7 +2728,7 @@ JSON:`
     }
     if (a !== 'idle') {
       const map = { follow: 'follow', stop: 'stop', chop: 'chop 20', mine: 'mine 32',
-                    forage: 'forage', farm: 'farm', fish: 'fish', smelt: 'smelt', plant: 'farm', harvest: 'farm', come: 'come', deposit: 'deposit', chest: 'chest', deep: 'deep', eat: 'eat',
+                    forage: 'forage', farm: 'farm', fish: 'fish', smelt: 'smelt', explore: 'explore', nether: 'explore', plant: 'farm', harvest: 'farm', come: 'come', deposit: 'deposit', chest: 'chest', deep: 'deep', eat: 'eat',
                     build: 'work', work: 'work', help: 'come' }
       if (map[a]) handle(map[a]).catch(e => log('LLM action: ' + e.message))
     }
@@ -2617,6 +2794,60 @@ async function handle (line) {
         break
       }
       case 'portal': await buildPortal(); break
+      case 'findportal': {
+        const id = bot.registry.blocksByName.nether_portal &&
+                   bot.registry.blocksByName.nether_portal.id
+        if (!id) { log('PORTAL no nether_portal block type'); break }
+        const found = bot.findBlocks({ matching: id, maxDistance: 128, count: 4 })
+        if (!found.length) { log('PORTAL none within 128 blocks'); speak(['cannot see a portal from here'], true); break }
+        const p = found[0]
+        log(`PORTAL found at ${p.x},${p.y},${p.z}`)
+        globalThis.PORTAL = { x: p.x, y: p.y, z: p.z }
+        speak([`found the portal at ${p.x}, ${p.z}`], true)
+        break
+      }
+      case 'enter': {
+        const t = globalThis.PORTAL
+        if (!t) { speak(['no portal location known'], true); break }
+        busy = true; locked = true
+        try {
+          log(`PORTAL walking to ${t.x},${t.y},${t.z}`)
+          speak(['going through the portal'], true)
+          for (let a = 0; a < 4; a++) {
+            try { await bot.pathfinder.goto(new goals.GoalBlock(t.x, t.y, t.z)); break }
+            catch (e) { log(`PORTAL walk ${a+1}: ${e.message}`); try { bot.pathfinder.setGoal(null) } catch {} ; await bot.waitForTicks(20) }
+          }
+          // stand in it - the transfer takes about 4 seconds
+          for (let i = 0; i < 12; i++) {
+            await bot.waitForTicks(20)
+            const dim = bot.game && bot.game.dimension
+            if (dim && String(dim).includes('nether')) {
+              log(`PORTAL ARRIVED in ${dim}`)
+              speak(['made it to the nether!'], true)
+              journal('travelled to the Nether')
+              break
+            }
+          }
+          log(`PORTAL after wait, dimension=${bot.game && bot.game.dimension}`)
+        } catch (e) { log('PORTAL enter: ' + e.message) }
+        finally { busy = false; locked = false }
+        break
+      }
+      case 'findspawner': {
+        const ids = ['spawner','trial_spawner']
+          .map(n => bot.registry.blocksByName[n]).filter(Boolean).map(b => b.id)
+        const found = bot.findBlocks({ matching: ids, maxDistance: 128, count: 5 })
+        if (!found.length) { log('SPAWNER none within 128'); break }
+        for (const p of found.slice(0,3)) log(`SPAWNER at ${p.x},${p.y},${p.z}`)
+        break
+      }
+      case 'whereami': {
+        const under = bot.blockAt(bot.entity.position.floored().offset(0,-1,0))
+        log(`WHERE dim=${JSON.stringify(bot.game && bot.game.dimension)} `
+          + `y=${Math.round(bot.entity.position.y)} under=${under && under.name}`)
+        break
+      }
+      case 'explore': await exploreNether(); break
       case 'patrol': await patrol(); break
       case 'fight': {
         const t = bot.nearestEntity(x => (x.type === 'mob' || x.type === 'hostile') &&

@@ -1,13 +1,15 @@
 # Builder — teammates
 
 ## Coordinates
-- Woodcutting quest stage: **completed** (no coordinates needed)
-- Chopped wood at -9012 3456 on 2026-08-29 16:12
-- Mined deep at y135 on 2026-08-29 16:34; nothing found
+- Obsidian mining completed at -9012 3456 on 2026-08-29 18:20
+- Mined deep at y135 on 2026-08-29 16:34; found coal (10 total)
+- Found a nether fortress at -300,46,-103 on 2026-08-30 08:40
 
 ## Items in Stock
-- Logs: 1 (after chopping wood at -9012 3456)
-- Chopped wood at multiple locations on 2026-08-29, but stock remains 0 logs due to continuous logging until last entry at 17:33.
+- Logs: 0
+- Coal: 10
+- Raw iron: 1
+- Raw copper: 18
 
 ## Teammates and Their Contributions
 - MinerMike: suggested "build smart, not sorry!" on 2026-08-29 16:53
@@ -15,5 +17,9 @@
 - BuildRightBob: advised "build it right, first time" on 2026-08-29 16:57
 
 ## Notable Events
-- Died at unknown coordinates on 2026-08-29 16:31 and again on 17:21, 17:25, 17:30, and 17:41.
-- Got stuck and had to dig out multiple times throughout the day.
+- Died at -314,-34,-90 on multiple occasions.
+- Got stuck and had to dig out multiple times at -314,-34,-90.
+
+## New Information
+- Killed a zombie at -300,46,-103 on 2026-08-30 08:15.
+- Mined deep at y91 on 2026-08-30 08:30; found 1 raw iron, 10 coal, 18 raw copper.

@@ -139,3 +139,111 @@
 - 2026-08-29 18:46 joined saying: gotta chop, gotta scout, gotta live!
 - 2026-08-29 18:50 joined saying: cut the wood not yourself
 - 2026-08-29 18:51 killed a skeleton
+- 2026-08-30 07:35 joined saying: cut loose and find wood
+- 2026-08-30 07:46 got stuck and had to dig out
+- 2026-08-30 07:54 I died
+- 2026-08-30 07:55 killed a skeleton
+- 2026-08-30 07:57 got stuck and had to dig out
+- 2026-08-30 07:57 got stuck and had to dig out
+- 2026-08-30 07:58 got stuck and had to dig out
+- 2026-08-30 07:59 got stuck and had to dig out
+- 2026-08-30 07:59 got stuck and had to dig out
+- 2026-08-30 08:00 got stuck and had to dig out
+- 2026-08-30 08:01 got stuck and had to dig out
+- 2026-08-30 08:01 got stuck and had to dig out
+- 2026-08-30 08:02 got stuck and had to dig out
+- 2026-08-30 08:03 got stuck and had to dig out
+- 2026-08-30 08:03 got stuck and had to dig out
+- 2026-08-30 08:04 got stuck and had to dig out
+- 2026-08-30 08:05 got stuck and had to dig out
+- 2026-08-30 08:06 killed a spider
+- 2026-08-30 08:11 got stuck and had to dig out
+- 2026-08-30 08:12 got stuck and had to dig out
+- 2026-08-30 08:12 got stuck and had to dig out
+- 2026-08-30 08:13 killed a zombie
+- 2026-08-30 08:13 got stuck and had to dig out
+- 2026-08-30 08:13 got stuck and had to dig out
+- 2026-08-30 08:14 got stuck and had to dig out
+- 2026-08-30 08:15 got stuck and had to dig out
+- 2026-08-30 08:15 got stuck and had to dig out
+- 2026-08-30 08:16 got stuck and had to dig out
+- 2026-08-30 08:16 got stuck and had to dig out
+- 2026-08-30 08:17 got stuck and had to dig out
+- 2026-08-30 08:18 got stuck and had to dig out
+- 2026-08-30 08:18 got stuck and had to dig out
+- 2026-08-30 08:19 got stuck and had to dig out
+- 2026-08-30 08:20 got stuck and had to dig out
+- 2026-08-30 08:20 got stuck and had to dig out
+- 2026-08-30 08:21 got stuck and had to dig out
+- 2026-08-30 08:21 got stuck and had to dig out
+- 2026-08-30 08:22 got stuck and had to dig out
+- 2026-08-30 08:23 got stuck and had to dig out
+- 2026-08-30 08:23 got stuck and had to dig out
+- 2026-08-30 08:24 got stuck and had to dig out
+- 2026-08-30 08:24 got stuck and had to dig out
+- 2026-08-30 08:25 got stuck and had to dig out
+- 2026-08-30 08:25 farmed: harvested 0, planted 0
+- 2026-08-30 08:26 got stuck and had to dig out
+- 2026-08-30 08:26 got stuck and had to dig out
+- 2026-08-30 08:27 got stuck and had to dig out
+- 2026-08-30 08:27 got stuck and had to dig out
+- 2026-08-30 08:28 got stuck and had to dig out
+- 2026-08-30 08:29 got stuck and had to dig out
+- 2026-08-30 08:30 got stuck and had to dig out
+- 2026-08-30 08:30 got stuck and had to dig out
+- 2026-08-30 08:33 I died
+- 2026-08-30 08:35 I died
+- 2026-08-30 08:37 I died
+- 2026-08-30 08:38 found a nether fortress at -313,34,-90
+- 2026-08-30 08:38 I died
+- 2026-08-30 08:40 found a nether fortress at -300,46,-103
+- 2026-08-30 08:40 found a nether fortress at -300,46,-103
+- 2026-08-30 08:40 found a nether fortress at -300,46,-103
+- 2026-08-30 08:40 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:41 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:42 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:43 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:44 found a nether fortress at -300,46,-103
+- 2026-08-30 08:45 found a nether fortress at -300,46,-103
+- 2026-08-30 08:45 found a nether fortress at -300,46,-103
+- 2026-08-30 08:45 found a nether fortress at -300,46,-103
+- 2026-08-30 08:45 found a nether fortress at -300,46,-103
+- 2026-08-30 08:45 found a nether fortress at -300,46,-103
+- 2026-08-30 08:46 found a nether fortress at -300,46,-103
+- 2026-08-30 08:46 found a nether fortress at -300,46,-103
+- 2026-08-30 08:46 found a nether fortress at -300,46,-103
+- 2026-08-30 08:46 found a nether fortress at -300,46,-103
+- 2026-08-30 08:46 farmed: harvested 0, planted 0
+- 2026-08-30 08:46 found a nether fortress at -300,46,-103
+- 2026-08-30 08:47 found a nether fortress at -300,46,-103
+- 2026-08-30 08:47 killed a blaze
+- 2026-08-30 08:47 found a nether fortress at -302,57,-91
+- 2026-08-30 08:47 I died
+- 2026-08-30 08:48 farmed: harvested 0, planted 0
+- 2026-08-30 08:51 got stuck and had to dig out
+- 2026-08-30 08:56 got stuck and had to dig out
+- 2026-08-30 09:09 got stuck and had to dig out
+- 2026-08-30 09:13 got stuck and had to dig out
+- 2026-08-30 09:17 got stuck and had to dig out
+- 2026-08-30 09:22 got stuck and had to dig out
+- 2026-08-30 09:25 got stuck and had to dig out
+- 2026-08-30 09:29 got stuck and had to dig out
+- 2026-08-30 09:31 got stuck and had to dig out
+- 2026-08-30 09:35 got stuck and had to dig out
+- 2026-08-30 09:40 got stuck and had to dig out

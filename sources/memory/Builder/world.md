@@ -3,12 +3,13 @@
 ## Coordinates
 
 * Home base: -1234, 5678 (near village)
-* Quest stage wood completed at: 9876, 4321
-* Wood chopping location: 6543, 2109
+* Quest stage wood chopping location: 6543, 2109
+* Engineer's position: -5678, 9012
+* Miner's position: 1234, -5678
 
 ## Inventory
 
-* Logs: 11 (chopped on 2026-08-29 16:12)
+* Logs: 0 (last chopped on 2026-08-30 07:54)
 * Food:
 	+ Apples: 23
 	+ Carrots: 7
@@ -23,9 +24,10 @@
 ## Notes
 
 * Got stuck on y0; had to dig out.
-* Mined deep at y96: no resources found.
+* Mined deep at y91: 1 raw_iron, 10 coal, 18 raw_copper.
 
-## Daily Summary (2026-08-29)
+## Daily Summary (2026-08-30)
 
-* Completed quest stage wood at 9876, 4321
-* Chopped wood at 6543, 2109; now holding 11 logs
+* Died on 2026-08-30 08:12 while stuck in y0.
+* Killed a zombie on 2026-08-30 08:15.
+* Found multiple Nether fortresses at -300.34, -90.46, -103 (merged to single entry).
