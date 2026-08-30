@@ -47,6 +47,7 @@ wiki/          compiled learnings (layer 2)
   models.md        local model benchmarks and selection
   wiki-memory.md   the sleep/dream memory cycle
   process.md       how to debug this kind of system
+  inference-cost.md    caching, reasoning cost, model landscape
   monitoring.md    what to watch in an unattended swarm
   multi-agent-chat.md  making agents converse, not repeat
   verifying-advice.md  testing a recommendation before adopting it

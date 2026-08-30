@@ -11,6 +11,7 @@ changing anything.
 - `wiki/architecture.md` — how the pieces fit, and the concurrency traps.
 - `wiki/models.md` — model benchmarks. **Use `llama3.1:8b`, not qwen3.**
 - `wiki/wiki-memory.md` — the sleep/dream memory cycle.
+- `wiki/inference-cost.md` — prompt caching, reasoning cost, model landscape.
 - `wiki/monitoring.md` — what to watch when it runs unattended, and why.
 - `wiki/multi-agent-chat.md` — making six agents converse instead of repeat.
 - `wiki/verifying-advice.md` — worked example of testing a recommendation.
@@ -34,6 +35,12 @@ Everything is local: server on `127.0.0.1:25566`, Ollama on `127.0.0.1:11434`.
 **No internet is used at runtime.**
 
 ## Hard-won rules
+
+**Order prompts by volatility.** Ollama caches byte-identical prefixes (28x
+faster prompt eval). Static first, live state last, or you poison the cache.
+
+**Set `think: false` on free-text calls.** A reasoning model burns its whole
+budget on hidden tokens and returns nothing. Harmless on non-reasoning models.
 
 **Verify effects, never trust a successful call.** `bot.consume()` resolves and
 does nothing on 26.1. Assert on world state:

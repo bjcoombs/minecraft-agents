@@ -30,10 +30,12 @@ qwen3:8b  11 GB  100% GPU  Stopping...     ← thrashing under load
 Wiki compiles ran at 1 success to 6 failures. After reverting to `llama3.1:8b`:
 **14 successes, then 34, then 210.**
 
-**Lesson:** for a low-latency loop emitting structured actions, a non-reasoning
-instruct model beats a reasoning model of the same size. Reasoning models suit
-one-shot hard problems, not tight loops. And trust your own measurements over
-a model's reputation.
+**Lesson at the time:** avoid reasoning models. **This was too broad** — later
+measurement showed the boundary is about *output constraint*, not the model.
+With `format:json` a reasoning model costs ~1 extra token; only unconstrained
+free-text generation breaks, and `think:false` fixes that completely. See
+`wiki/inference-cost.md`. The durable lesson is the other one: trust your own
+measurements over a model's reputation.
 
 ## Serving several agents from one model
 

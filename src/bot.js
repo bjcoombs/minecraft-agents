@@ -90,7 +90,7 @@ bot.on('playerJoined', p => {
   if (!p.username.startsWith('Claude')) setTimeout(() => speak(SAY.greet), 2000 + Math.random()*3000)
 })
 bot.on('playerLeft', p => log(`LEFT ${p.username}`))
-bot.on('death', () => { log('DIED'); journal('I died'); if (USE_LLM) combatShout('death', 'losing').catch(()=>{}); else speak(SAY.died, true) })
+bot.on('death', () => { log('DIED'); journal('I died'); recordEvent({ type: 'died' }); if (USE_LLM) combatShout('death', 'losing').catch(()=>{}); else speak(SAY.died, true) })
 let lastHp = 20
 bot.on('health', () => {
 
@@ -340,7 +340,7 @@ Reply ONLY with JSON: {"say":"<your catchphrase>"}`
       res = await fetch(LLM_URL, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
         body: JSON.stringify({ model: LLM_MODEL, prompt, stream: false, format: 'json',
-          keep_alive: '30m', options: { num_predict: 60, temperature: 1.0, num_ctx: 4096 } })
+          keep_alive: '30m', think: false, options: { num_predict: 60, temperature: 1.0, num_ctx: 4096 } })
       })
     } finally { clearTimeout(t) }
     const data = await res.json()
@@ -598,7 +598,7 @@ Reply ONLY with JSON: {"say":"<your shout>"}`
       res = await fetch(LLM_URL, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ac.signal,
         body: JSON.stringify({ model: LLM_MODEL, prompt, stream: false, format: 'json',
-          keep_alive: '30m', options: { num_predict: 40, temperature: 1.1, num_ctx: 4096 } })
+          keep_alive: '30m', think: false, options: { num_predict: 40, temperature: 1.1, num_ctx: 4096 } })
       })
     } finally { clearTimeout(t) }
     const out = JSON.parse((await res.json()).response)
@@ -637,6 +637,7 @@ async function fightBack (attacker) {
     for (let swing = 0; swing < 30; swing++) {
       if (!attacker.isValid) {                     // it died
         log(`FIGHT killed ${name}`)
+        recordEvent({ type: 'killed', mob: name })
         journal(`killed a ${name}`)
         combatShout(name, 'won').catch(() => {})
         break
@@ -728,6 +729,71 @@ function rememberSaid (text) {
   recentlySaid.push(text)
   while (recentlySaid.length > 8) recentlySaid.shift()
 }
+
+
+// ---------- verified relationships --------------------------------------
+// Agents were inventing teammates ("Carpenter", "Engineer") and placeholder
+// coordinates. This ledger records only things that provably happened, so the
+// model narrates real history instead of confabulating it.
+const LEDGER = path.join(DIR, 'relations.jsonl')
+
+function recordEvent (ev) {
+  try {
+    ev.t = new Date().toISOString().slice(11, 16)
+    ev.actor = NAME
+    fs.appendFileSync(LEDGER, JSON.stringify(ev) + '\n')
+  } catch (e) { log('ledger: ' + e.message) }
+}
+
+function readLedger (limit) {
+  try {
+    const lines = fs.readFileSync(LEDGER, 'utf8').trim().split('\n').filter(Boolean)
+    return lines.slice(-(limit || 400)).map(l => { try { return JSON.parse(l) } catch { return null } }).filter(Boolean)
+  } catch { return [] }
+}
+
+// what has actually passed between me and each teammate
+function relationContext () {
+  const evs = readLedger(400)
+  const mates = BOTS.filter(n => n !== NAME)
+  const lines = []
+  for (const m of mates) {
+    const facts = []
+    const gaveThem = evs.filter(e => e.type === 'gave' && e.actor === NAME && e.to === m)
+    const gaveMe   = evs.filter(e => e.type === 'gave' && e.actor === m && e.to === NAME)
+    const savedMe  = evs.filter(e => e.type === 'defended' && e.actor === m && e.who === NAME)
+    const savedThem= evs.filter(e => e.type === 'defended' && e.actor === NAME && e.who === m)
+    const theirDeaths = evs.filter(e => e.type === 'died' && e.actor === m)
+    const together = evs.filter(e => e.type === 'together' && e.actor === NAME && e.with === m)
+
+    if (gaveThem.length) facts.push(`you gave them ${gaveThem.map(e=>`${e.n} ${e.what}`).slice(-2).join(', ')}`)
+    if (gaveMe.length)   facts.push(`they gave you ${gaveMe.map(e=>`${e.n} ${e.what}`).slice(-2).join(', ')}`)
+    if (savedMe.length)  facts.push(`they fought off a ${savedMe[savedMe.length-1].mob} that was attacking you`)
+    if (savedThem.length)facts.push(`you saved them from a ${savedThem[savedThem.length-1].mob}`)
+    if (theirDeaths.length) facts.push(`they have died ${theirDeaths.length}x (last: ${theirDeaths[theirDeaths.length-1].how || 'unknown'})`)
+    if (together.length >= 3) facts.push(`you have worked alongside them ${together.length} times`)
+    if (facts.length) lines.push(`- ${m}: ${facts.join('; ')}`)
+  }
+  if (!lines.length) return 'You have no shared history with anyone yet - do not invent any.'
+  return 'VERIFIED shared history (only these things actually happened):\n' + lines.join('\n')
+}
+
+// note when we spend time near a teammate - the basis of "we work together"
+setInterval(() => {
+  if (!bot.entity) return
+  for (const p of Object.values(bot.players)) {
+    if (!p.entity || p.username === bot.username) continue
+    if (!BOTS.includes(p.username)) continue
+    if (p.entity.position.distanceTo(bot.entity.position) < 12) {
+      const key = 'near_' + p.username
+      const now = Date.now()
+      if (now - (globalThis[key] || 0) > 300000) {      // at most once per 5 min per mate
+        globalThis[key] = now
+        recordEvent({ type: 'together', with: p.username })
+      }
+    }
+  }
+}, 30000)
 
 // ---------- do not provoke endermen ------------------------------------
 function endermanNear (range) {
@@ -1313,6 +1379,7 @@ async function giveInner (who, itemName, qty) {
     await bot.toss(item.type, null, n)
     speak([`${n} ${item.name.replace(/_/g,' ')} for you, ${who}`], true)
     log(`GAVE ${n} ${item.name} to ${who}`)
+    recordEvent({ type: 'gave', to: who, what: item.name, n })
     journal(`gave ${n} ${item.name} to ${who}`)
     return true
   } catch (e) { log('give: ' + e.message); return false }
@@ -1524,8 +1591,14 @@ async function dream () {
 
     for (const page of PAGES) {
       const current = readPage(page)
+      const extra = page === 'teammates'
+        ? `\n\nVERIFIED interactions - use ONLY these, invent nothing:\n${relationContext()}\n`
+        : ''
       const prompt = `You are ${NAME}, the ${ROLE} in a Minecraft team.
 You are asleep, consolidating the day into your long-term notes.
+The only players that exist are: Claude, Woodcutter, Builder, Miner, Forager,
+Fighter, and Ben (the human). Never write about anyone else.
+Never invent coordinates - if you do not know a real one, omit it.${extra}
 
 Your "${page}" page currently says:
 ---
@@ -2286,6 +2359,7 @@ bot.on('entityHurt', (e) => {
     x.position.distanceTo(e.position) < 6)
   if (threat && bot.health > 12 && bestWeapon()) {
     log(`FIGHT defending ${e.username} from ${threat.name}`)
+    recordEvent({ type: 'defended', who: e.username, mob: threat.name })
     fightBack(threat).catch(() => {})
   }
 })
@@ -2656,6 +2730,16 @@ WHO IS WHO - do not confuse these:
 - "Claude" here is your TEAMMATE, one of the six. Not an assistant, not a
   narrator, not the person who set this up. Just another player on the team.
 - You are ${NAME}. Never speak as anyone else, never answer for them.
+- These SIX names are the only players that exist: Claude, Woodcutter, Builder,
+  Miner, Forager, Fighter, plus Ben. NEVER invent a teammate. If you catch
+  yourself about to mention a Carpenter, Engineer, Warrior or anyone else, stop.
+
+SHARED HISTORY:
+You are given a VERIFIED list of what has actually happened between you and each
+teammate. Reference it naturally - thank someone who gave you something, rib
+someone who keeps dying, mention who saved you. If the list is empty, you have
+no history with them yet: do not pretend otherwise, and never invent
+coordinates, favours or events.
 
 HOW TO TALK:
 - You are friends on a long adventure. Tell the story of what is happening.
@@ -2682,8 +2766,18 @@ async function think (trigger) {
   if (thinking) return
   thinking = true
   try {
+    // Ordered for KV-cache reuse: static first, then slow-changing, then
+    // volatile. Ollama caches the longest identical prefix, so anything that
+    // changes every call must come LAST or it invalidates everything after it.
     const prompt = `${SYSTEM}
 
+${wikiContext()}
+
+${relationContext()}
+
+${questContext()}
+
+--- live ---
 What the team has been saying (shared transcript):
 ${readChat(14) || '(quiet so far)'}
 
@@ -2691,8 +2785,6 @@ Things YOU have already said - do not repeat any of these:
 ${recentlySaid.slice(-6).map(x => '- ' + x).join('\n') || '- (nothing yet)'}
 
 Your current state: ${worldSummary()}
-
-${questContext()}\n\n${wikiContext()}
 
 ${trigger}
 
