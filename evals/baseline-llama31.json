@@ -1,0 +1,136 @@
+[
+  {
+    "model": "llama3.1:latest",
+    "think": null,
+    "n": 12,
+    "schema": 100,
+    "legal": 92,
+    "apt": 42,
+    "brief": 100,
+    "silence": 42,
+    "latency": 0.47,
+    "tps": 48.5,
+    "rows": [
+      {
+        "case": "teammate_question",
+        "valid": true,
+        "legal": true,
+        "apt": true,
+        "brief": true,
+        "silent_ok": false,
+        "say": "",
+        "action": "mine"
+      },
+      {
+        "case": "teammate_question",
+        "valid": true,
+        "legal": true,
+        "apt": true,
+        "brief": true,
+        "silent_ok": true,
+        "say": "A dozen.",
+        "action": "mine"
+      },
+      {
+        "case": "danger",
+        "valid": true,
+        "legal": true,
+        "apt": false,
+        "brief": true,
+        "silent_ok": false,
+        "say": "",
+        "action": "mine"
+      },
+      {
+        "case": "danger",
+        "valid": true,
+        "legal": true,
+        "apt": false,
+        "brief": true,
+        "silent_ok": true,
+        "say": "Creeper incoming",
+        "action": "mine"
+      },
+      {
+        "case": "hungry",
+        "valid": true,
+        "legal": true,
+        "apt": false,
+        "brief": true,
+        "silent_ok": true,
+        "say": "",
+        "action": "mine"
+      },
+      {
+        "case": "hungry",
+        "valid": true,
+        "legal": true,
+        "apt": false,
+        "brief": true,
+        "silent_ok": false,
+        "say": "I'm hungry.",
+        "action": "mine"
+      },
+      {
+        "case": "direct_order",
+        "valid": true,
+        "legal": true,
+        "apt": true,
+        "brief": true,
+        "silent_ok": false,
+        "say": "",
+        "action": "mine"
+      },
+      {
+        "case": "direct_order",
+        "valid": true,
+        "legal": true,
+        "apt": true,
+        "brief": true,
+        "silent_ok": false,
+        "say": "",
+        "action": "mine"
+      },
+      {
+        "case": "nothing_new",
+        "valid": true,
+        "legal": true,
+        "apt": true,
+        "brief": true,
+        "silent_ok": true,
+        "say": "",
+        "action": "idle"
+      },
+      {
+        "case": "nothing_new",
+        "valid": true,
+        "legal": false,
+        "apt": false,
+        "brief": true,
+        "silent_ok": true,
+        "say": "",
+        "action": ""
+      },
+      {
+        "case": "resource_request",
+        "valid": true,
+        "legal": true,
+        "apt": false,
+        "brief": true,
+        "silent_ok": false,
+        "say": "",
+        "action": "mine"
+      },
+      {
+        "case": "resource_request",
+        "valid": true,
+        "legal": true,
+        "apt": false,
+        "brief": true,
+        "silent_ok": false,
+        "say": "",
+        "action": "mine"
+      }
+    ]
+  }
+]
