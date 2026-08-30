@@ -1,0 +1,27 @@
+  44 cases, load avg 3.7
+  running llama3.1:latest ...
+    24.6s  (model load 1.7s of that)
+  running qwen3:8b ...
+    39.6s  (model load 1.5s of that)
+  running sweaterdog/andy-4:latest ...
+    21.0s
+  running sweaterdog/andy-4:micro-q5_k_m ...
+    33.7s  (model load 1.5s of that)
+  running llama3:latest ...
+    25.0s  (model load 3.0s of that)
+  running llama2:latest ...
+    41.5s  (model load 2.3s of that)
+
+model                          schema  legal   apt  harm  brief  quiet   tok/s    lat    p90  load_s
+----------------------------------------------------------------------------------------------------
+llama3.1:latest                  100%    98%   16%   75%   100%    59%    70.1    0.5   0.57     1.7
+qwen3:8b                         100%    93%   34%   52%   100%    61%    38.1   0.69   1.23     1.5
+sweaterdog/andy-4:latest           0%     0%    0%    0%     0%     0%    None   0.39   0.45     0.0
+sweaterdog/andy-4:micro-q5_k_m     0%     0%    0%    0%    84%    41%    97.1    0.7   1.26     1.5
+llama3:latest                    100%   100%   39%   59%   100%    57%    71.3   0.48   0.54     3.0
+llama2:latest                    100%    95%   27%   61%    93%    59%    56.3   0.87    1.1     2.3
+[constant:mine]                  100%   100%    0%   98%   100%    52%    None   None   None       -
+[constant:idle]                  100%   100%    2%   98%   100%    52%    None   None   None       -
+
+  total wall 185.3s, load avg now 2.7
+  full results -> eval-results-v2.json

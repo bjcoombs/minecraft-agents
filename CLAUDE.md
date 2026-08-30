@@ -9,7 +9,9 @@ changing anything.
 - `wiki/bugs.md` — every bug found, with the log line that exposed it. Most
   cost an hour or more to find. Do not rediscover them.
 - `wiki/architecture.md` — how the pieces fit, and the concurrency traps.
-- `wiki/models.md` — model benchmarks. **Use `llama3.1:8b`, not qwen3.**
+- `wiki/models.md` — model benchmarks. **Model choice depends on the call:**
+  `llama3.1:8b` for free-text, but it is the *worst* tested model at choosing
+  actions (see `evals/README.md`). Do not assume one model wins both.
 - `wiki/wiki-memory.md` — the sleep/dream memory cycle.
 - `wiki/inference-cost.md` — prompt caching, reasoning cost, model landscape.
 - `wiki/monitoring.md` — what to watch when it runs unattended, and why.
@@ -35,6 +37,15 @@ Everything is local: server on `127.0.0.1:25566`, Ollama on `127.0.0.1:11434`.
 **No internet is used at runtime.**
 
 ## Hard-won rules
+
+**Benchmark against a baseline, or you have measured nothing.** "42%
+appropriateness" meant nothing until a constant-`mine` policy was scored on the
+same cases and got 42% too. Always score the degenerate policy and chance.
+
+**Evict other models before benchmarking.** Ollama would not co-load qwen3
+(11GB) beside llama3.1, so qwen3 queued behind a 30-minute `keep_alive` lease
+the bots kept renewing, and looked hung for 8 minutes. It loads in 3.8s. Send
+`keep_alive: 0` for every other model first.
 
 **Order prompts by volatility.** Ollama caches byte-identical prefixes (28x
 faster prompt eval). Static first, live state last, or you poison the cache.

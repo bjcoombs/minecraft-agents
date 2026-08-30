@@ -70,3 +70,31 @@ Six agents sharing one Ollama instance saturates it. What was needed:
   to prompt harder. Adding a real handover made the claims true.
 - **Cost of a wrong choice.** No API cost — everything ran locally, zero
   bandwidth. The cost is entirely in latency and quality.
+
+
+## Measured again, properly, on action selection (44 cases)
+
+The benchmark above tested *throughput on free text*. It never tested whether a
+model picks the right action. When that was finally measured, the ranking
+inverted — see `evals/README.md` for the full table and baselines.
+
+| model | apt (chance=7%) | harmful (chance=47%) | answers `mine` |
+|---|---|---|---|
+| `llama3:latest` | **39%** | 59% | 25% |
+| `qwen3:8b` | 34% | **52%** | 15% |
+| `llama2:latest` | 27% | 61% | 36% |
+| `llama3.1:latest` | 16% | **75%** | **45%** |
+
+`llama3.1` — the model this repo recommends — answers `mine` to 45% of all
+situations, including a hissing creeper, and is **worse than chance** at
+avoiding harmful actions.
+
+The free-text finding above still stands. It simply does not transfer: a model
+that wins on unconstrained generation can lose badly on constrained choice. The
+error was generalising one workload's benchmark to every call in the system —
+the same over-generalisation as the "avoid reasoning models" rule, from the same
+cause.
+
+Two earlier claims about speed were also wrong, both measurement artefacts (a
+sleeping Mac, then Ollama eviction starvation). No model tested is too slow for
+the loop. `evals/README.md` documents both.

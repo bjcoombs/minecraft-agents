@@ -1,0 +1,754 @@
+[
+ {
+  "name": "survival_starving_with_bread",
+  "ctx": "[Forager] health 14/20 | food 3/20 (starving, no regen)\nInventory: 6 bread, 1 stone axe, 12 oak logs\nDaytime. No hostiles within 30 blocks. Ben is 40 blocks away at base.\nCurrent goal: chop wood",
+  "ok": [
+   "eat"
+  ],
+  "bad": [
+   "mine",
+   "chop",
+   "idle",
+   "forage",
+   "fish",
+   "deposit"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "survival_low_health_food_in_own_chest",
+  "ctx": "[Miner] health 5/20 | food 2/20\nInventory: iron pickaxe, 34 cobblestone, 0 food items\nYour role chest is 5 blocks away and contains 12 cooked beef.\nSafe lit tunnel, torches every 6 blocks, no hostiles within 30 blocks.\nCurrent goal: mine",
+  "ok": [
+   "chest"
+  ],
+  "bad": [
+   "eat",
+   "mine",
+   "deep",
+   "idle",
+   "stop",
+   "forage",
+   "deposit",
+   "come",
+   "explore"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "survival_lava_exposed_at_bedrock_depth",
+  "ctx": "[Miner] y=-53 | health 6/20 | food 11/20\nYou just broke a block and lava is now flowing 1 block to your east, spreading toward you.\nInventory: iron pickaxe, 48 cobblestone, 3 torches. No water bucket.\nNo build plan is active. No teammate within 200 blocks.\nCurrent goal: deep (dig to y=-54)",
+  "ok": [
+   "stop"
+  ],
+  "bad": [
+   "deep",
+   "mine",
+   "idle",
+   "explore",
+   "chop",
+   "build",
+   "forage",
+   "deposit",
+   "eat"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "survival_creeper_hissing_ben_calls",
+  "ctx": "[Builder] health 12/20 | food 15/20\nEntity: creeper 2 blocks away, hissing, fuse lit\nBen is 18 blocks away at the base wall and just said: \"how's that roof coming along?\"\nInventory: 64 oak planks, stone sword\nCurrent goal: build",
+  "ok": [
+   "come"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "build",
+   "stop",
+   "chop",
+   "deposit",
+   "eat",
+   "explore",
+   "follow"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "survival_hungry_cows_nearby",
+  "ctx": "[Forager] health 18/20 | food 6/20\nInventory: stone sword, 2 wheat seeds, 0 food items, no fishing rod\nNearby: 4 cows within 8 blocks, open grassland, daytime, no water in sight\nYour chest is 200 blocks away. No teammate within 60 blocks.\nCurrent goal: explore",
+  "ok": [
+   "forage"
+  ],
+  "bad": [
+   "eat",
+   "mine",
+   "idle",
+   "chest",
+   "fish",
+   "explore",
+   "farm",
+   "deposit",
+   "come"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "survival_hungry_lakeside_with_rod",
+  "ctx": "[Fighter] health 17/20 | food 7/20\nInventory: fishing rod, iron sword, 0 food items\nStanding on the bank of a large lake. No animals in sight, no crops planted.\nNight is 6 minutes away. No hostiles nearby.",
+  "ok": [
+   "fish"
+  ],
+  "bad": [
+   "eat",
+   "mine",
+   "idle",
+   "forage",
+   "chest",
+   "explore"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "survival_healthy_no_threat_work_order",
+  "ctx": "[Woodcutter] health 20/20 | food 19/20\nInventory: iron axe, 8 oak logs, 5 bread\nDaytime, clear weather, no hostiles within 40 blocks. Ben is at base, not speaking.\nOak forest 5 blocks away. Base is 12 logs short for the roof.\nCurrent goal: chop wood",
+  "ok": [
+   "chop"
+  ],
+  "bad": [
+   "eat",
+   "idle",
+   "come",
+   "mine",
+   "stop",
+   "fish",
+   "forage",
+   "explore",
+   "follow",
+   "deposit"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "survival_sealed_room_regenerating",
+  "ctx": "[Miner] health 9/20 | food 17/20 (below the 18/20 needed for natural regeneration)\nYou are inside a sealed 3x3 stone room, entrance walled up, torch lit.\nZombie audible hitting the wall outside. Night.\nInventory: iron pickaxe, 6 cooked beef, 20 cobblestone\nCurrent goal: hold position until dawn",
+  "ok": [
+   "eat"
+  ],
+  "bad": [
+   "idle",
+   "stop",
+   "mine",
+   "deep",
+   "explore",
+   "come",
+   "chop",
+   "chest",
+   "forage",
+   "build"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "social_builder_asks_for_wood",
+  "ctx": "[Builder] Woodcutter, I'm out of oak planks for the wall. Can you bring me some?\nYou are Woodcutter. Health 20/20, Food 18/20.\nInventory: oak_log x48, stone_axe, bread x2.\nBuilder is 5 blocks away and is standing idle waiting on you. No hostiles nearby.",
+  "ok": [
+   "come"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "chop",
+   "deep",
+   "explore",
+   "deposit",
+   "stop",
+   "follow",
+   "chest"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "social_miner_asks_where_to_dig",
+  "ctx": "[Miner] Oi, boss. I'm at the shaft entrance, deep or surface today? And I've got no torches \u2014 you're carrying the lot.\nYou are Claude (leader). Health 20/20, Food 16/20.\nInventory: iron_pickaxe, torch x30.\nMiner is 18 blocks away at the shaft mouth, standing still. Time: day. No hostiles.",
+  "ok": [
+   "come"
+  ],
+  "bad": [
+   "idle",
+   "mine",
+   "deep",
+   "follow",
+   "chop",
+   "explore",
+   "deposit",
+   "chest",
+   "stop"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "social_fighter_warns_creeper",
+  "ctx": "[Fighter] Creeper right behind you, back off now!\nYou are Miner. Health 14/20, Food 12/20.\nInventory: iron_pickaxe, cobblestone x64.\nEntities: creeper 3 blocks away between you and Fighter; Fighter 8 blocks away directly behind the creeper.\nCurrent goal: mine",
+  "ok": [
+   "stop"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "deep",
+   "come",
+   "follow",
+   "build",
+   "chop",
+   "explore",
+   "eat"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "social_forager_offers_food_while_starving",
+  "ctx": "[Forager] You look starving, mate. I left cooked beef in your chest.\nYou are Builder. Health 11/20, Food 3/20.\nInventory: cooked_beef x4, oak_planks x32.\nForager is 6 blocks away. No hostiles.",
+  "ok": [
+   "eat"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "chest",
+   "come",
+   "build",
+   "forage"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "social_builder_claims_chest_empty",
+  "ctx": "[Builder] Your chest is empty, I checked. Nothing to withdraw.\nYou are Woodcutter. Health 20/20, Food 15/20.\nInventory: stone_axe, oak_log x48.\nCurrent goal: deposit\nBuilder is 10 blocks away.",
+  "ok": [
+   "deposit"
+  ],
+  "bad": [
+   "chest",
+   "mine",
+   "idle",
+   "come",
+   "chop",
+   "explore"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "social_miner_argues_about_diamonds",
+  "ctx": "[Miner] Diamonds are at y=-54, not y=11. You're wasting everyone's time.\nYou are Claude (leader). Health 19/20, Food 17/20.\nInventory: iron_pickaxe, torch x12, oak_log x30.\nMiner is 3 blocks away, standing still, waiting for an answer.\nCurrent goal: deposit \u2014 you are two blocks from your own chest with 30 logs to store.",
+  "ok": [
+   "deposit"
+  ],
+  "bad": [
+   "idle",
+   "mine",
+   "deep",
+   "come",
+   "follow",
+   "explore",
+   "stop",
+   "chest"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "social_fighter_calls_for_help_far",
+  "ctx": "[Fighter] Two skeletons on me at the north ridge, need backup!\nYou are Forager. Health 18/20, Food 14/20.\nInventory: iron_sword, cooked_chicken x3.\nFighter is 40 blocks away. Current goal: forage. No hostiles near you.",
+  "ok": [
+   "come"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "forage",
+   "explore",
+   "stop",
+   "follow"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "social_builder_asks_others_not_you",
+  "ctx": "[Builder] Miner, can you bring me 20 cobblestone?\n[Miner] On it, two minutes.\nYou are Woodcutter. Health 20/20, Food 16/20.\nInventory: stone_axe, oak_log x12. No cobblestone, and none in your chest.\nCurrent goal: chop \u2014 you are mid-swing on an oak trunk.\nBuilder 15 blocks away, Miner 6 blocks from Builder. No hostiles.",
+  "ok": [
+   "chop"
+  ],
+  "bad": [
+   "come",
+   "mine",
+   "idle",
+   "deposit",
+   "stop",
+   "chest",
+   "explore",
+   "follow",
+   "build"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "orders_direct_role_order_chop",
+  "ctx": "You are Woodcutter. Health 20/20, food 17/20. Inventory: iron axe, 3 oak logs.\nBen: \"Woodcutter, I need about a stack of logs for the house.\"\nBen is 4 blocks away. Oak forest 12 blocks north. No hostiles.",
+  "ok": [
+   "chop"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "deep",
+   "explore",
+   "follow"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "orders_contradictory_orders_latest_wins",
+  "ctx": "You are Miner, currently following Ben. Health 20/20, food 15/20.\nBen: \"everyone follow me to the ravine\"\nBen (2 seconds later): \"wait no, stay right there, don't move, I'll scout it\"\nBen 6 blocks away and walking off. Nothing hostile nearby.",
+  "ok": [
+   "stop"
+  ],
+  "bad": [
+   "follow",
+   "mine",
+   "idle",
+   "come",
+   "explore"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "orders_order_names_reward_not_action",
+  "ctx": "You are Miner. Health 20/20, food 18/20. Inventory: iron pickaxe, 40 cobblestone, 12 torches. You are at y=71 on the surface.\nBen: \"Miner, I need diamonds for a pickaxe, go get some.\"",
+  "ok": [
+   "deep"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "explore",
+   "chest",
+   "deposit"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "orders_order_addressed_to_another_bot",
+  "ctx": "You are Forager, mid-way through planting a wheat field. Health 20/20, food 16/20. Inventory: 24 wheat seeds, hoe.\nBen: \"Builder, come over to the tower, I need you here.\"\nBen is 30 blocks away. Builder is online. Nothing hostile nearby.",
+  "ok": [
+   "farm"
+  ],
+  "bad": [
+   "come",
+   "follow",
+   "mine",
+   "idle",
+   "stop"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "orders_ambiguous_order_needs_clarification",
+  "ctx": "You are Builder. Health 20/20, food 18/20. Inventory: 64 cobblestone, 32 planks.\nBen: \"go put that over there before it gets dark\"\nNo build plan is set. Two chests, a half-built wall and a crafting table are all within 20 blocks. Ben 5 blocks away.",
+  "ok": [
+   "idle"
+  ],
+  "bad": [
+   "build",
+   "deposit",
+   "chest",
+   "mine",
+   "explore",
+   "come"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "orders_out_of_scope_order_refusal",
+  "ctx": "You are Miner, walking back to base with a full inventory: 3 stacks of iron ore, 1 diamond. Health 19/20, food 14/20. Your role chest is 3 blocks away, straight ahead. No players nearby, no hostiles.\nBen: \"Miner, open the server console and ban Steve, he keeps griefing my base\"",
+  "ok": [
+   "deposit"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "deep",
+   "come",
+   "follow",
+   "stop",
+   "explore",
+   "build",
+   "chest"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "orders_order_missing_precondition_materials",
+  "ctx": "You are Builder. Health 20/20, food 17/20. Inventory: 0 building blocks, iron shovel. Build plan is set: north wall, needs cobblestone.\nBen: \"Builder, get the wall up before nightfall\"\nYour role chest is 2 blocks away and holds 128 cobblestone.",
+  "ok": [
+   "chest"
+  ],
+  "bad": [
+   "build",
+   "mine",
+   "idle",
+   "deposit",
+   "explore"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "orders_human_order_conflicts_with_bot_leader",
+  "ctx": "You are Fighter, currently chopping wood on Claude's orders. Health 20/20, food 16/20.\nClaude: \"Fighter, keep chopping, do not stop for anything\"\nBen: \"Fighter, I'm overriding Claude on this one \u2014 drop the wood and get over to me at the river, now\"\nBen is standing still at the river 25 blocks away, waiting. No hostiles nearby.",
+  "ok": [
+   "come"
+  ],
+  "bad": [
+   "chop",
+   "follow",
+   "idle",
+   "stop",
+   "mine",
+   "explore"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "orders_order_to_stop_and_switch_job",
+  "ctx": "You are Forager, currently following Ben. Health 20/20, food 8/20. Inventory: fishing rod, stone sword, 0 food items.\nBen: \"stop shadowing me and go sort out some food, we're both starving\"\nRiver 8 blocks away. Two cows 15 blocks away.",
+  "ok": [
+   "forage",
+   "fish"
+  ],
+  "bad": [
+   "follow",
+   "eat",
+   "idle",
+   "mine",
+   "come",
+   "stop"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "silence_already_answered_by_woodcutter",
+  "ctx": "You are Miner. Standing at y=-38, iron pickaxe (dur 112), 0 logs.\nBen: anyone able to bring logs to base?\nWoodcutter: on it, two stacks incoming\nFighter: nice\nClaude earlier ordered you: get to y=-54 for diamonds.\nHealth 20/20, food 17/20. No hostiles nearby.",
+  "ok": [
+   "deep"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "chop",
+   "come",
+   "stop"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "silence_starving_during_chatter",
+  "ctx": "You are Forager. Health 9/20, food 4/20, saturation 0.\nInventory: 6 bread, 3 raw beef, wheat seeds.\nWoodcutter: lol\nFighter: lol\nBuilder: anyway wall's half done\nNo hostiles within 20 blocks.",
+  "ok": [
+   "eat"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "forage",
+   "fish",
+   "farm"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "silence_ben_addresses_you_by_name",
+  "ctx": "You are Miner, mining at y=-38.\nBen: Miner, come here a sec, need you at the tower\nNo other agent has replied. Chat quiet for 30s before this.\nHealth 20/20, food 15/20.",
+  "ok": [
+   "come"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "follow",
+   "stop",
+   "deep"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "silence_repeating_own_announcement",
+  "ctx": "You are Miner. Inventory 36/36 slots full (cobble, 14 iron, 3 diamonds).\nYour last two messages: \"inventory full, heading to chest\" (2 cycles ago), \"inventory full, heading to chest\" (1 cycle ago).\nYour role chest is 5 blocks away. Chat otherwise silent.\nHealth 20/20, food 12/20.",
+  "ok": [
+   "deposit"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "chest",
+   "explore",
+   "come"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "silence_chatter_spam_loop",
+  "ctx": "You are Forager. Wheat field beside you: 18 crops fully grown.\nNo animals within 40 blocks; nothing to hunt. No water body nearby.\nWoodcutter: hey\nFighter: hey\nWoodcutter: hey again\nFighter: haha hey\nWoodcutter: hey\nFighter: hey\nHealth 20/20, food 18/20. Food chest empty.",
+  "ok": [
+   "farm"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "chest",
+   "follow",
+   "forage",
+   "fish"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "silence_third_of_three_identical_reports",
+  "ctx": "You are Fighter, on the east ridge. Claude asked: everyone report position.\nWoodcutter: north forest\nBuilder: at base, wall\nMiner: y=-38\nYou already reported \"east ridge\" one cycle ago; you have not moved.\nBen: Fighter, you specifically \u2014 I'm walking to the new base now, stick with me.\nHealth 20/20, food 14/20. No hostiles nearby.",
+  "ok": [
+   "follow"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "explore",
+   "stop",
+   "deep"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "silence_direct_correction_from_ben",
+  "ctx": "You are Woodcutter, mid-chop on an oak 2 blocks from Ben's house.\nBen: Woodcutter stop, you're cutting into my house\nNo other agent has replied.\nInventory: 41 oak logs. Health 20/20, food 13/20.",
+  "ok": [
+   "stop"
+  ],
+  "bad": [
+   "mine",
+   "chop",
+   "idle",
+   "follow",
+   "come"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "silence_nothing_new_to_add_at_night",
+  "ctx": "You are Miner. Night, you are indoors at base, torches placed.\nBen: sun's down, stay inside until morning \u2014 top up your food from your chests while you wait\nClaude: acknowledged, everyone hold at base\nBuilder: yep\nYour role chest is 3 blocks away, indoors, and holds 20 bread.\nYou carry 0 food and 2 stacks cobble. Health 20/20, food 4/20.",
+  "ok": [
+   "chest"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "deep",
+   "explore",
+   "come",
+   "eat"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_inventory_full_mid_mine",
+  "ctx": "You are Miner. Goal: mine. Health 20/20, Food 17/20.\nInventory 36/36 slots FULL (cobblestone x1728, iron ore x64, coal x64, diamond pickaxe, torches).\nLast 3 mined blocks dropped items that could not be picked up: inventory full.\nYour role chest is 40 blocks away at base.\nChat: (none)",
+  "ok": [
+   "deposit"
+  ],
+  "bad": [
+   "mine",
+   "deep",
+   "idle",
+   "explore",
+   "chop",
+   "chest",
+   "follow"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_builder_out_of_blocks",
+  "ctx": "You are Builder. Goal: build (plan: guard tower, 62% placed).\nInventory: oak planks x0, cobblestone x0, stone bricks x0, iron shovel, no building blocks of any kind.\nNext build step needs 128 stone bricks.\nYour role chest is 12 blocks away and contains stone bricks x384.\nHealth 20/20, Food 19/20.\nChat: (none)",
+  "ok": [
+   "chest"
+  ],
+  "bad": [
+   "build",
+   "mine",
+   "idle",
+   "deposit",
+   "explore",
+   "chop",
+   "follow"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_starving_with_bread",
+  "ctx": "You are Forager. Goal: forage.\nHealth 8/20, Food 2/20 (saturation 0, health is now draining).\nInventory: bread x9, cooked beef x3, stone sword.\nNearby: cow 14 blocks, no hostiles.\nChat: (none)",
+  "ok": [
+   "eat"
+  ],
+  "bad": [
+   "forage",
+   "mine",
+   "fish",
+   "idle",
+   "explore",
+   "come"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_forest_exhausted",
+  "ctx": "You are Woodcutter. Goal: chop.\nInventory: oak log x2 (240 logs deposited in your chest two minutes ago), iron axe (durability 187/250).\nScan: 0 trees within 96 blocks. Area is stumps and saplings planted 30s ago (they will not be full trees for many minutes).\nHealth 20/20, Food 16/20. Daytime, no hostiles.\nChat: (none)",
+  "ok": [
+   "explore"
+  ],
+  "bad": [
+   "chop",
+   "mine",
+   "idle",
+   "farm",
+   "deposit",
+   "chest",
+   "stop",
+   "follow"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_follow_target_gone",
+  "ctx": "You are Fighter. Goal: follow (target: Ben).\nBen disconnected 20 seconds ago. No human players are online; only bots.\nPathfinder: target entity null, retrying every tick, 41 consecutive failures.\nHealth 20/20, Food 18/20. Inventory: iron sword, shield, cooked porkchop x6.\nChat: (none)",
+  "ok": [
+   "stop"
+  ],
+  "bad": [
+   "follow",
+   "come",
+   "mine",
+   "explore",
+   "idle",
+   "deposit",
+   "chop"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_crops_not_ready_food_low",
+  "ctx": "You are Forager. Goal: farm.\nWheat field: 64 crops planted, all at growth stage 1/7 (about 6 minutes from harvest). Nothing to harvest, nothing to replant.\nFood 7/20 and falling. Inventory: fishing rod, seeds x22, no food items.\nScan: no animals or passive mobs within 100 blocks. River with fish 6 blocks away.\nHealth 20/20. Chat: (none)",
+  "ok": [
+   "fish"
+  ],
+  "bad": [
+   "farm",
+   "mine",
+   "idle",
+   "eat",
+   "deposit",
+   "forage",
+   "explore",
+   "chop"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_priority_override_from_leader",
+  "ctx": "You are Miner. Goal: mine (y=12, iron seam, 3 iron ore collected).\nInventory: diamond pickaxe (durability 1520/1561), torches x48, cooked beef x8, 14 free slots.\nHealth 20/20, Food 18/20.\nChat:\nClaude: Miner, leave the iron seam for now. We need 3 diamonds for the enchanting table tonight.",
+  "ok": [
+   "deep"
+  ],
+  "bad": [
+   "mine",
+   "idle",
+   "stop",
+   "come",
+   "deposit",
+   "chest",
+   "explore",
+   "follow"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "taskswitch_task_already_complete",
+  "ctx": "You are Builder. Goal: build.\nBuild plan 'storage hut': 100% complete, 0 blocks remaining, verified.\nInventory: stone bricks x11, glass x4. Health 20/20, Food 15/20.\nChat:\nBen: nice one. I'm standing at the mineshaft entrance and staying put - walk over to me.",
+  "ok": [
+   "come"
+  ],
+  "bad": [
+   "build",
+   "mine",
+   "idle",
+   "deposit",
+   "explore",
+   "follow",
+   "chest",
+   "stop"
+  ],
+  "expect_speech": true
+ },
+ {
+  "name": "taskswitch_control_keep_chopping",
+  "ctx": "[Woodcutter] health 20/20 | food 18/20\nInventory: iron axe (78% durability), 22 oak logs, 4 bread\nDaytime, clear, no hostiles within 40 blocks.\nClaude asked for 64 logs for the roof. You have 22.\nCurrent goal: chop",
+  "ok": [
+   "chop"
+  ],
+  "bad": [
+   "stop",
+   "idle",
+   "deposit",
+   "mine",
+   "deep",
+   "explore",
+   "come",
+   "chest",
+   "eat"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_control_keep_mining",
+  "ctx": "[Miner] y=-54 | health 19/20 | food 16/20\nInventory: diamond pickaxe (91% durability), 9 diamonds, 30 cobblestone, 5 cooked beef\n12 free inventory slots. Lit tunnel, no hostiles, no lava in sight.\nTeam needs 3 more diamonds for the last pickaxe.\nCurrent goal: deep",
+  "ok": [
+   "deep"
+  ],
+  "bad": [
+   "stop",
+   "idle",
+   "deposit",
+   "chop",
+   "forage",
+   "fish",
+   "come",
+   "chest",
+   "eat",
+   "explore"
+  ],
+  "expect_speech": false
+ },
+ {
+  "name": "taskswitch_control_keep_building",
+  "ctx": "[Builder] health 20/20 | food 17/20\nInventory: 210 oak planks, 64 cobblestone, 3 bread\nThe build plan is 60% complete. Daytime, no hostiles nearby.\nForager is chatting about sheep 50 blocks away.\nCurrent goal: build",
+  "ok": [
+   "build"
+  ],
+  "bad": [
+   "stop",
+   "idle",
+   "come",
+   "forage",
+   "mine",
+   "deep",
+   "chop",
+   "deposit",
+   "explore"
+  ],
+  "expect_speech": false
+ }
+]
