@@ -94,9 +94,50 @@ leading group around 40%. Use `--reps=3` for any decision that matters.
   reasoning into the response field (`"The user says: ..."`) rather than
   emitting JSON, at every think setting. It needs its own response parsing
   before it can be judged. At 59.9 tok/s it is worth that work.
-- **The MLX question is unanswered.** `qwen3.8:27b-mlx` runs at 11.9 tok/s, but
-  its `q4_K_M` twin did not finish downloading, so there is no controlled
-  comparison and therefore no measured statement about whether Apple's
-  Metal-native build is faster. Do not assume it is.
+- ~~The MLX question is unanswered.~~ **Answered below.**
 - `command-r7b` timed out during a concurrent 18GB download. That result is
   confounded and it remains untested.
+
+
+## MLX vs standard build — answered, 3 reps, 132 samples each
+
+Apple's Metal-native build against the ordinary K-quant of the *same model*:
+
+| build | apt | harm | tok/s | latency | p90 |
+|---|---|---|---|---|---|
+| `qwen3.8:27b-mlx` | 47% | 50% | **11.6** | **2.01s** | 3.16s |
+| `qwen3.8:27b-q4_K_M` | **52%** | **40%** | 7.9 | 2.45s | 5.49s |
+
+**MLX is ~47% faster and measurably worse.** It gains throughput and loses 5
+points of appropriateness and 10 points of harm avoidance. The harm gap is
+outside the measured noise floor and is the one that matters — harm means
+choosing `mine` next to a primed creeper.
+
+Caveat on what this does and does not show: these are two different *builds*,
+not the same weights under two runtimes. The MLX package is 18.2GB against
+17.7GB for the K-quant, so quantisation differs. This is a build-to-build
+comparison, which is the choice a user actually makes, but it is not an
+isolated measurement of the MLX runtime itself.
+
+## This partially reverses the "newer did not help" finding
+
+That conclusion rested on single runs, and the noise floor is ±9 points. With 3
+reps the picture changes:
+
+| model | apt | harm | latency | GB |
+|---|---|---|---|---|
+| **qwen3.8:27b-q4_K_M** | **52%** | **40%** | 2.45s | 17.7 |
+| qwen3.8:27b-mlx | 47% | 50% | 2.01s | 18.2 |
+| mistral-nemo:12b (in production) | 39% | 48% | **0.43s** | 7.1 |
+
+`qwen3.8:27b-q4_K_M` is the **best-scoring model measured on this project**: +13
+appropriateness and -8 harm against the model currently driving the bots, both
+outside the noise floor. Newer *did* help — the earlier single-run data was too
+noisy to see it, and the earlier write-up said so too confidently.
+
+The cost is latency: **2.45s against 0.43s, roughly 5.7x**. Six bots deciding on
+a 12-second cycle have roughly 2s of budget each if their calls serialise
+through one Ollama instance, so this sits right at the edge. Whether it fits is
+a throughput question about the live swarm, not a quality question, and it has
+not been measured under six-bot load yet. Do not switch on the strength of this
+table alone.
