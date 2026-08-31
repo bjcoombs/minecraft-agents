@@ -205,7 +205,11 @@ def row(r):
 
 if __name__ == "__main__":
     cases = load_cases()
-    models = sys.argv[1:] or ["llama3.1:latest"]
+    argv = sys.argv[1:]
+    # reasoning models return EMPTY unless told to stop thinking - qwen3:4b
+    # scored 0% purely because the harness never sent think:false.
+    think = False if "--think-false" in argv else None
+    models = [a for a in argv if not a.startswith("--")] or ["llama3.1:latest"]
     t_start = time.time()
     print(f"  {len(cases)} cases, load avg {loadavg():.1f}", flush=True)
     out = []
@@ -213,10 +217,12 @@ if __name__ == "__main__":
         print(f"  running {m} ...", flush=True)
         t0 = time.time()
         try:
-            r = score(m, cases)
+            r = score(m, cases, think=think)
         except Exception as e:
             r = dict(model=m, error=str(e)[:80], rows=[])
         r["wall_total"] = round(time.time() - t0, 1)
+        if think is not None:
+            r["model"] = r["model"] + " (think:false)"
         print(f"    {r['wall_total']}s"
               + (f"  (model load {r['warm']['load_s']}s of that)" if r.get("warm",{}).get("load_s") else ""),
               flush=True)
