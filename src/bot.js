@@ -545,6 +545,115 @@ async function fillBucket () {
   return false
 }
 
+
+// wiki/bugs.md: "Digging aborts on long mines" - any movement cancels a dig,
+// and obsidian takes ~9s. Approach ONCE, drop the goal, stop moving, verify
+// range, then dig. Going straight from goto() to dig() produced 1587
+// "goal was changed" errors in seven minutes.
+async function digBlockCarefully (p, toolName) {
+  const blk = bot.blockAt(p)
+  if (!blk) return false
+  try {
+    if (bot.entity.position.distanceTo(p) > 4) {
+      await bot.pathfinder.goto(new goals.GoalNear(p.x, p.y, p.z, 2))
+    }
+    bot.pathfinder.setGoal(null)
+    bot.clearControlStates()
+    await bot.waitForTicks(4)
+    if (bot.entity.position.distanceTo(p) > 5) return false   // never got there
+    const t = bot.inventory.items().find(i => i.name === toolName)
+    if (t) await bot.equip(t, 'hand')
+    const fresh = bot.blockAt(p)
+    if (!fresh || fresh.name !== blk.name) return false        // someone got it
+    await bot.dig(fresh)
+    await bot.waitForTicks(6)
+    return true
+  } catch (e) {
+    log('dig ' + (blk.name || '?') + ': ' + e.message)
+    return false
+  }
+}
+
+
+// Making obsidian from lava. wiki/bugs.md records that the ORIGINAL version of
+// this caused 7 deaths and 0 blocks and was deleted: the bot stood beside the
+// lava source to pour, and kept walking into it.
+//
+// Natural obsidian turned out to be too scarce to finish the portal (the team
+// found 5 in an hour of searching at depth), so this is reinstated - but the
+// failure mode is designed out rather than retried:
+//   - never stand adjacent to lava, and never at or below its level
+//   - pour from a block ABOVE and diagonally away, so the flow runs downhill
+//   - confirm obsidian actually formed before approaching it
+//   - dig via digBlockCarefully, which stops all movement before digging
+//   - bail on any health loss at all
+async function makeObsidianFromLava (target) {
+  const need = () => (target || 10) - count('obsidian')
+  if (need() <= 0) return true
+  const waterBucket = () => bot.inventory.items().find(i => i.name === 'water_bucket')
+  if (!waterBucket()) { log('LAVAOBS no water bucket'); return false }
+
+  const lavaId = bot.registry.blocksByName.lava && bot.registry.blocksByName.lava.id
+  if (!lavaId) return false
+  const lavas = bot.findBlocks({ matching: lavaId, maxDistance: 64, count: 40 })
+  log(`LAVAOBS ${lavas.length} lava blocks in range, need ${need()} obsidian`)
+  let made = 0
+  for (const lp of lavas) {
+    if (need() <= 0) break
+    const lava = bot.blockAt(lp)
+    if (!lava || lava.metadata !== 0) continue           // source blocks only
+    const above = bot.blockAt(lp.offset(0, 1, 0))
+    if (!above || !['air','cave_air','void_air'].includes(above.name)) continue
+
+    // a standing spot strictly higher than the lava and not touching it
+    let stand = null
+    for (const [dx, dz] of [[2,0],[-2,0],[0,2],[0,-2],[2,2],[-2,-2]]) {
+      const sp = lp.offset(dx, 1, dz)
+      const feet = bot.blockAt(sp), floor = bot.blockAt(sp.offset(0,-1,0))
+      if (!feet || !floor) continue
+      if (!['air','cave_air'].includes(feet.name)) continue
+      if (floor.name === 'lava' || floor.name === 'water' || floor.boundingBox !== 'block') continue
+      // nothing molten touching where we will stand
+      let safe = true
+      for (const [ax,ay,az] of [[1,0,0],[-1,0,0],[0,0,1],[0,0,-1],[0,-1,0]]) {
+        const n = bot.blockAt(sp.offset(ax,ay,az))
+        if (n && n.name === 'lava') { safe = false; break }
+      }
+      if (safe) { stand = sp; break }
+    }
+    if (!stand) continue
+
+    const hpBefore = bot.health
+    try {
+      await bot.pathfinder.goto(new goals.GoalBlock(stand.x, stand.y, stand.z))
+      bot.pathfinder.setGoal(null); bot.clearControlStates()
+      await bot.waitForTicks(4)
+      if (bot.health < hpBefore) { log('LAVAOBS took damage approaching - aborting'); return made > 0 }
+      const wb = waterBucket(); if (!wb) break
+      await bot.equip(wb, 'hand')
+      await safeLookAt(lp.offset(0.5, 1.5, 0.5), true)
+      const ref = bot.blockAt(stand.offset(0, -1, 0))
+      await bot.placeBlock(ref, new Vec3(0, 1, 0)).catch(() => {})
+      await bot.waitForTicks(20)
+      const now = bot.blockAt(lp)
+      if (now && now.name === 'obsidian') {
+        if (await digBlockCarefully(lp, 'diamond_pickaxe')) { made++; log(`LAVAOBS made obsidian (${count('obsidian')})`) }
+      }
+      // take the water back so we can reuse it
+      const empty = bot.inventory.items().find(i => i.name === 'bucket')
+      const w = bot.findBlocks({ matching: bot.registry.blocksByName.water.id, maxDistance: 4, count: 1 })
+      if (empty && w.length) {
+        await bot.equip(empty, 'hand').catch(() => {})
+        await safeLookAt(w[0], true)
+        await bot.activateItem(); await bot.waitForTicks(10); bot.deactivateItem()
+      }
+    } catch (e) { log('LAVAOBS ' + e.message) }
+    if (bot.health < 10) { log('LAVAOBS health low - stopping'); break }
+  }
+  log(`LAVAOBS made ${made}, now hold ${count('obsidian')}`)
+  return made > 0
+}
+
 async function getObsidian (target) {
   busy = true; locked = true
   try { await getObsidianInner(target) }
@@ -555,21 +664,43 @@ async function getObsidianInner (target) {
     if (!await makeDiamondPick()) { log('OBSIDIAN aborted - no diamond pickaxe'); return }
     // existing obsidian first
     const oid = bot.registry.blocksByName.obsidian.id
-    let found = bot.findBlocks({ matching: oid, maxDistance: 64, count: 20 })
+    let found = bot.findBlocks({ matching: oid, maxDistance: 128, count: 30 })
     for (const p of found) {
       if (count('obsidian') >= (target || 10)) break
-      try {
-        await bot.pathfinder.goto(new goals.GoalNear(p.x, p.y, p.z, 2))
-        const dp = bot.inventory.items().find(i => i.name === 'diamond_pickaxe')
-        if (dp) await bot.equip(dp, 'hand')
-        await bot.dig(bot.blockAt(p)); await bot.waitForTicks(10)
-      } catch (e) { log('obsidian dig: ' + e.message) }
+      await digBlockCarefully(p, 'diamond_pickaxe')
     }
     if (count('obsidian') >= (target || 10)) {
       speak([`${count('obsidian')} obsidian`], true); busy = false; return
     }
-    // Making obsidian by pouring water on lava kept drowning bots in the lava
-    // (7 deaths, 0 blocks). Only mine obsidian that already exists.
+    // Obsidian forms where water met lava - that is deep, not on the surface.
+    // Searching 64 blocks from y=117 finds nothing however long you try, which
+    // is exactly how the team sat at 3/10 for hours.
+    const y = Math.round(bot.entity.position.y)
+    if (y > 16 && !globalThis.obsDescended) {
+      globalThis.obsDescended = true
+      log(`OBSIDIAN none within 64 blocks at y=${y} - going deep first`)
+      speak(['no obsidian up here, heading down'], true)
+      try {
+        // keep `locked` held - dropping it lets the work cycle and the LLM
+        // dispatcher steal the pathfinder goal mid-dig (wiki/bugs.md)
+        await mineDeep(-20)   // lava lakes, where obsidian actually forms
+        found = bot.findBlocks({ matching: oid, maxDistance: 128, count: 30 })
+        log(`OBSIDIAN after descending to y=${Math.round(bot.entity.position.y)}: ${found.length} candidates`)
+        for (const p of found) {
+          if (count('obsidian') >= (target || 10)) break
+          await digBlockCarefully(p, 'diamond_pickaxe')
+        }
+      } catch (e) { log('OBSIDIAN descend: ' + e.message) }
+      finally { globalThis.obsDescended = false }
+      if (count('obsidian') >= (target || 10)) {
+        speak([`${count('obsidian')} obsidian`], true); return
+      }
+    }
+    // natural obsidian exhausted - make some, carefully
+    if (count('obsidian') < (target || 10)) {
+      await makeObsidianFromLava(target || 10)
+      if (count('obsidian') >= (target || 10)) { speak([`${count('obsidian')} obsidian`], true); return }
+    }
     log(`OBSIDIAN only ${count('obsidian')} found; none nearby`)
     if (Date.now() - (globalThis.lastObsGrumble || 0) > 300000) {
       globalThis.lastObsGrumble = Date.now()
@@ -854,7 +985,25 @@ async function buildPortal () {
       // pull obsidian from teammates' chests if we are short
       await fetchItem('obsidian', 10 - count('obsidian'))
     }
-    if (count('obsidian') < 10) { log(`PORTAL aborted: only ${count('obsidian')} obsidian`); speak([`only ${count('obsidian')} obsidian, need 10`], true); return }
+    if (count('obsidian') < 10) {
+      // do not give up alone - the team may hold enough between them
+      let pooled = await poolItems(['obsidian'], 10, 'obsidian')
+      if (!pooled) {
+        // The obsidian STAGE is already marked complete, so no other code path
+        // will ever send anyone to mine more. Without this the team loops on
+        // "PORTAL aborted" indefinitely, which it did for hours.
+        log(`PORTAL short of obsidian (${count('obsidian')}) - going to mine some`)
+        // getObsidian's wrapper would clear the lock in its finally block and
+        // hand the goal to another subsystem; call the inner directly.
+        await getObsidianInner(10)
+        pooled = count('obsidian') >= 10 || await poolItems(['obsidian'], 10, 'obsidian')
+      }
+      if (!pooled) {
+        log(`PORTAL aborted: only ${count('obsidian')} obsidian after mining`)
+        speak([`only ${count('obsidian')} obsidian, need 10`], true)
+        return
+      }
+    }
 
     // find flat open ground to stand the frame on
     const p = bot.entity.position.floored()
@@ -1109,7 +1258,7 @@ function currentStage () {
 }
 function teamCount (names) {
   let total = 0
-  for (const n of ['Claude','Woodcutter','Builder','Miner','Forager']) {
+  for (const n of BOTS) {
     try {
       const st = JSON.parse(fs.readFileSync(path.join(DIR, `state_${n}.json`), 'utf8'))
       for (const line of st.inventory || []) {
@@ -1120,6 +1269,61 @@ function teamCount (names) {
   }
   return total
 }
+
+// Who on the team is holding `names`, and how much. Reads the same state files
+// teamCount() does.
+function teamHolders (names) {
+  const out = []
+  for (const n of BOTS) {
+    if (n === NAME) continue
+    try {
+      const st = JSON.parse(fs.readFileSync(path.join(DIR, `state_${n}.json`), 'utf8'))
+      let have = 0
+      for (const line of st.inventory || []) {
+        const m = line.match(/^(\w+) x(\d+)$/)
+        if (m && names.includes(m[1])) have += parseInt(m[2], 10)
+      }
+      if (have > 0) out.push({ who: n, have })
+    } catch {}
+  }
+  return out.sort((a, b) => b.have - a.have)
+}
+
+// Gather `qty` of `names` into MY inventory before attempting a build.
+//
+// The portal stage stalled for hours because every bot checked only its own
+// pockets: "PORTAL aborted: only 1 obsidian" while the team held enough
+// between them. teamCount() already knew the team total - nothing acted on it.
+// Asks the holders to hand items over, then waits for them to actually arrive.
+async function poolItems (names, qty, label) {
+  const mine = () => names.reduce((t, n) => t + count(n), 0)
+  if (mine() >= qty) return true
+  const holders = teamHolders(names)
+  const teamTotal = mine() + holders.reduce((t, h) => t + h.have, 0)
+  if (teamTotal < qty) {
+    log(`POOL ${label}: team has ${teamTotal}/${qty} - not enough to gather`)
+    return false
+  }
+  let want = qty - mine()
+  log(`POOL ${label}: I have ${mine()}/${qty}, team has ${teamTotal}. Asking ${holders.length} teammates.`)
+  speak([`bring me ${want} ${label}, i'll build it`], true)
+  for (const h of holders) {
+    if (want <= 0) break
+    const ask = Math.min(want, h.have)
+    // the file-based control plane is how bots command each other
+    try { fs.appendFileSync(path.join(DIR, `cmds_${h.who}.txt`), `give ${NAME} ${names[0]} ${ask}\n`) } catch {}
+    log(`POOL asked ${h.who} for ${ask} ${names[0]}`)
+    want -= ask
+  }
+  // wait for delivery - handovers are a walk plus a toss, so give them time
+  for (let i = 0; i < 30; i++) {
+    await bot.waitForTicks(20)
+    if (mine() >= qty) { log(`POOL ${label}: got ${mine()}/${qty}`); return true }
+  }
+  log(`POOL ${label}: timed out with ${mine()}/${qty}`)
+  return false
+}
+
 // having a downstream item proves the earlier stage happened
 const PROVES = {
   wood:  ['oak_planks','birch_planks','spruce_planks','stick','crafting_table','wooden_pickaxe','stone_pickaxe'],

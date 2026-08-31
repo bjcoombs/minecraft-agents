@@ -270,3 +270,95 @@ semicolon is valid zsh, invalid bash. My checker was wrong, not the script.
 **Lesson:** third instance in this project of trusting a verification method
 without verifying it — see also `bot.consume()` and `say -v`. Match the checker
 to the interpreter.
+
+---
+
+## Nobody could build the portal because every bot checked only its own pockets
+
+**Symptom:** the team sat on the `nether` stage for hours, all six looping:
+
+```
+{Claude}     PORTAL aborted: only 1 obsidian
+{Forager}    PORTAL aborted: only 0 obsidian
+{Woodcutter} PORTAL aborted: only 2 obsidian
+```
+
+**Cause 1 — no pooling.** `buildPortal()` tested `count('obsidian') < 10`, which
+is the *caller's* inventory. `teamCount()` already existed and already knew the
+team total; nothing connected the two. Even with 10 obsidian spread two-per-bot,
+no one would ever build the portal.
+
+**Cause 2 — `teamCount` silently excluded Fighter.** It iterated a hardcoded
+`['Claude','Woodcutter','Builder','Miner','Forager']`, so anything the Fighter
+carried was invisible to every quest check. Now iterates `BOTS`.
+
+**Fix:** `poolItems(names, qty, label)` — read every teammate's state file, find
+holders, append `give <me> <item> <n>` to their command files, then wait for
+delivery and re-check. Failure now reports the honest reason
+(`team has 3/10 - not enough to gather`) instead of six bots each blaming their
+own empty pockets.
+
+---
+
+## A completed stage stops anyone from ever gathering its material again
+
+**Symptom:** `PORTAL aborted` forever, with nobody mining obsidian.
+
+**Cause:** the `obsidian` stage completed legitimately (17 blocks at 18:20). The
+material was later spent or lost. Because the stage was marked done, no code
+path would ever task anyone with obsidian again — but the *next* stage needs 10
+of it for a portal. A one-way stage counter cannot express "this material is
+consumed downstream".
+
+**Fix:** a failed portal now calls `getObsidianInner(10)` itself rather than
+logging and returning. Make the failure actionable at the point of failure.
+
+---
+
+## Obsidian does not exist where the bots were looking
+
+**Symptom:** `OBSIDIAN only 0 found; none nearby`, repeatedly, at y=117.
+
+**Cause:** `getObsidian` searched 64 blocks from wherever the bot stood, and the
+bots were on the surface. Obsidian forms where water met lava — deep. The search
+would never succeed however long it ran.
+
+**Fix:** descend (`mineDeep(-20)`) before giving up, and widen the search to 128
+blocks. Bots now reach y=-54 and do find obsidian.
+
+---
+
+## Reinstating the lava routine, with the failure designed out
+
+The original water-on-lava routine was **deleted** after 7 deaths and 0 blocks
+(above). It was reinstated only because natural obsidian proved too scarce to
+finish the portal — the team found 5 in an hour at depth.
+
+The difference is that the old routine's failure mode is now structurally
+prevented rather than retried: never stand adjacent to lava or at its level;
+pour from a block above and diagonally away; confirm obsidian formed before
+approaching; dig through `digBlockCarefully`; abort on any health loss.
+
+**Measured:** across the monitoring window it caused **zero** lava deaths. The
+deaths that did occur (zombies, creepers, a fall) are the ordinary cost of
+mining at y=-54 with `keep_inventory` on. The single "tried to swim in lava"
+predates the routine.
+
+**Still not working, honestly:** five of six bots hold *empty* buckets, so they
+log `LAVAOBS no water bucket` and skip. The one bot with water gets its
+pathfinding interrupted mid-approach. The team remains at 5/10.
+
+---
+
+## `digBlockCarefully` — the documented remedy, applied
+
+"Digging aborts on long mines" was recorded above but the obsidian loop still
+went straight from `pathfinder.goto()` to `bot.dig()`, producing **1587**
+`goal was changed` errors in seven minutes. Routing both obsidian dig loops
+through a helper that approaches once, clears the goal, stops all movement,
+verifies range and re-checks the block halved that to 762.
+
+Halved, not eliminated — something still issues goals during long operations.
+`locked` is honoured by the work cycle, follow loop, stuck watchdog and deadlock
+watchdog, and `escapeHazard` only fires when already *in* lava, so the remaining
+thief has not been identified.
