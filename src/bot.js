@@ -2743,12 +2743,13 @@ async function workCycle () {
   } catch (e) { log('CYCLE ' + e.message) }
   busy = false
 }
-setInterval(() => { workCycle().catch(e => log('cycle err ' + e.message)) }, 12000)
+const CYCLE_MS = Number(process.env.CYCLE_MS || 20000)   // 6 bots x 2.45s = 14.7s of GPU; 12s would saturate
+setInterval(() => { workCycle().catch(e => log('cycle err ' + e.message)) }, CYCLE_MS)
 
 
 // ---------- local LLM brain (Ollama) ----------------------------------
-const LLM_MODEL = process.env.LLM_MODEL || 'mistral-nemo:12b'
-const DREAM_MODEL = process.env.DREAM_MODEL || 'mistral-nemo:12b'
+const LLM_MODEL = process.env.LLM_MODEL || 'qwen3.8:27b-q4_K_M'
+const DREAM_MODEL = process.env.DREAM_MODEL || 'qwen3.8:27b-q4_K_M'
 const LLM_URL = 'http://127.0.0.1:11434/api/generate'
 const USE_LLM = process.env.USE_LLM === '1'
 let history = []

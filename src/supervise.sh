@@ -21,7 +21,7 @@ while true; do
     fi
     if [ "$alive" -eq 0 ]; then
       echo "[$(date +%T)] supervisor: starting $n" >> events.log
-      BOT_NAME="$n" USE_LLM=1 LLM_MODEL="${LLM_MODEL:-mistral-nemo:12b}" DREAM_MODEL="${DREAM_MODEL:-mistral-nemo:12b}" nohup node bot.js >> "bot_$n.out" 2>&1 &
+      BOT_NAME="$n" USE_LLM=1 LLM_MODEL="${LLM_MODEL:-qwen3.8:27b-q4_K_M}" DREAM_MODEL="${DREAM_MODEL:-qwen3.8:27b-q4_K_M}" CYCLE_MS="${CYCLE_MS:-20000}" nohup node bot.js >> "bot_$n.out" 2>&1 &
       echo $! > "$pf"
       sleep 4
     fi
