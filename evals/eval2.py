@@ -209,6 +209,9 @@ if __name__ == "__main__":
     # reasoning models return EMPTY unless told to stop thinking - qwen3:4b
     # scored 0% purely because the harness never sent think:false.
     think = False if "--think-false" in argv else None
+    reps = 1
+    for a in argv:
+        if a.startswith("--reps="): reps = int(a.split("=")[1])
     models = [a for a in argv if not a.startswith("--")] or ["llama3.1:latest"]
     t_start = time.time()
     print(f"  {len(cases)} cases, load avg {loadavg():.1f}", flush=True)
@@ -217,7 +220,7 @@ if __name__ == "__main__":
         print(f"  running {m} ...", flush=True)
         t0 = time.time()
         try:
-            r = score(m, cases, think=think)
+            r = score(m, cases, think=think, reps=reps)
         except Exception as e:
             r = dict(model=m, error=str(e)[:80], rows=[])
         r["wall_total"] = round(time.time() - t0, 1)
