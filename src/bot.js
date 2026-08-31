@@ -551,6 +551,7 @@ async function fillBucket () {
 // range, then dig. Going straight from goto() to dig() produced 1587
 // "goal was changed" errors in seven minutes.
 async function digBlockCarefully (p, toolName) {
+  progress()
   const blk = bot.blockAt(p)
   if (!blk) return false
   try {
@@ -567,6 +568,7 @@ async function digBlockCarefully (p, toolName) {
     if (!fresh || fresh.name !== blk.name) return false        // someone got it
     await bot.dig(fresh)
     await bot.waitForTicks(6)
+    progress()
     return true
   } catch (e) {
     log('dig ' + (blk.name || '?') + ': ' + e.message)
@@ -599,6 +601,7 @@ async function makeObsidianFromLava (target) {
   log(`LAVAOBS ${lavas.length} lava blocks in range, need ${need()} obsidian`)
   let made = 0
   for (const lp of lavas) {
+    progress()
     if (need() <= 0) break
     const lava = bot.blockAt(lp)
     if (!lava || lava.metadata !== 0) continue           // source blocks only
@@ -654,6 +657,32 @@ async function makeObsidianFromLava (target) {
   return made > 0
 }
 
+
+// Five of six bots carried EMPTY buckets, so the lava routine skipped them all
+// with "LAVAOBS no water bucket" while one bot did everything. Fill it.
+async function fillWaterBucket () {
+  if (count('water_bucket')) return true
+  const empty = bot.inventory.items().find(i => i.name === 'bucket')
+  if (!empty) return false
+  const wid = bot.registry.blocksByName.water && bot.registry.blocksByName.water.id
+  if (!wid) return false
+  const near = bot.findBlocks({ matching: wid, maxDistance: 48, count: 5 })
+  if (!near.length) return false
+  for (const p of near) {
+    progress()
+    try {
+      await bot.pathfinder.goto(new goals.GoalNear(p.x, p.y, p.z, 2))
+      bot.pathfinder.setGoal(null); bot.clearControlStates()
+      await bot.waitForTicks(4)
+      await bot.equip(empty, 'hand')
+      await safeLookAt(p, true)
+      await bot.activateItem(); await bot.waitForTicks(12); bot.deactivateItem()
+      if (count('water_bucket')) { log('BUCKET filled with water'); return true }
+    } catch (e) { log('BUCKET ' + e.message) }
+  }
+  return false
+}
+
 async function getObsidian (target) {
   busy = true; locked = true
   try { await getObsidianInner(target) }
@@ -666,6 +695,7 @@ async function getObsidianInner (target) {
     const oid = bot.registry.blocksByName.obsidian.id
     let found = bot.findBlocks({ matching: oid, maxDistance: 128, count: 30 })
     for (const p of found) {
+      progress()
       if (count('obsidian') >= (target || 10)) break
       await digBlockCarefully(p, 'diamond_pickaxe')
     }
@@ -1317,6 +1347,7 @@ async function poolItems (names, qty, label) {
   }
   // wait for delivery - handovers are a walk plus a toss, so give them time
   for (let i = 0; i < 30; i++) {
+    progress()
     await bot.waitForTicks(20)
     if (mine() >= qty) { log(`POOL ${label}: got ${mine()}/${qty}`); return true }
   }
@@ -1468,10 +1499,18 @@ setInterval(() => { escapeHazard().catch(e => log('hazard: ' + e.message)) }, 10
 
 // ---------- release a stuck lock ---------------------------------------
 let busySince = 0
+// A task that is WORKING calls progress() to say so. Without this the watchdog
+// cannot tell a deadlock from a long job, and 45s is not "plenty" for any real
+// task: obsidian is ~9s per block and descending to y=-20 takes minutes. The
+// watchdog was killing every long operation mid-flight - it is the source of
+// the "goal was changed before it could be completed" errors throughout this
+// project, not the work cycle or the LLM dispatcher.
+function progress () { if (busy || locked) busySince = Date.now() }
+
 setInterval(() => {
   if (busy || locked) {
     if (!busySince) busySince = Date.now()
-    else if (Date.now() - busySince > 45000) {       // 45s is plenty for any single task
+    else if (Date.now() - busySince > 180000) {      // only a genuine stall gets here now
       log(`DEADLOCK cleared after ${Math.round((Date.now()-busySince)/1000)}s (busy=${busy} locked=${locked})`)
       busy = false; locked = false; goingToBed = false; escaping = false; unsticking = false
       try { bot.pathfinder.setGoal(null) } catch {}
@@ -2879,7 +2918,23 @@ async function workCycle () {
           matching: bot.registry.blocksByName.nether_portal &&
                     bot.registry.blocksByName.nether_portal.id, maxDistance: 128 })
         if (inNether() || haveWay) await exploreNether()
-        else await buildPortal()
+        else {
+          // Calling buildPortal() every cycle when the team has no obsidian
+          // just logs an abort and burns the cycle - that is what stalled this
+          // stage for hours. Gather FIRST as a standing team objective, and
+          // only build once the material actually exists.
+          const team = teamCount(['obsidian'])
+          if (team < 10) {
+            if (cycle % 10 === 0) log(`NETHER gathering: team has ${team}/10 obsidian`)
+            await fillWaterBucket().catch(() => {})
+            await getObsidian(10)
+          } else if (count('obsidian') >= 10) {
+            await buildPortal()
+          } else {
+            // team has enough but it is scattered - consolidate onto me
+            if (await poolItems(['obsidian'], 10, 'obsidian')) await buildPortal()
+          }
+        }
         busy = true
       }
       else { speak([`working on: ${st.what}`], true); await mineDeep(8) }

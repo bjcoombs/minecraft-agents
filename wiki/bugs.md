@@ -362,3 +362,55 @@ Halved, not eliminated — something still issues goals during long operations.
 `locked` is honoured by the work cycle, follow loop, stuck watchdog and deadlock
 watchdog, and `escapeHazard` only fires when already *in* lava, so the remaining
 thief has not been identified.
+
+---
+
+## The deadlock watchdog was the goal thief all along
+
+**Symptom:** *"The goal was changed before it could be completed!"* — thousands
+of them, across fishing, farming, item handovers, sleeping, bucket filling and
+every obsidian attempt. Recorded earlier in this file as "uncoordinated
+pathfinder goal changes" and blamed on the work cycle and the LLM dispatcher.
+Both were innocent.
+
+**Cause:** the deadlock watchdog, added as a *mitigation* for a leaked lock:
+
+```js
+else if (Date.now() - busySince > 45000) {   // "45s is plenty for any single task"
+  busy = false; locked = false; ...
+  try { bot.pathfinder.setGoal(null) } catch {}
+}
+```
+
+45 seconds is not plenty. Obsidian takes ~9 seconds **per block**; descending to
+y=-20 takes minutes; walking to a lava lake and back takes longer. The watchdog
+could not distinguish a deadlocked bot from a working one, so it killed the
+pathfinder goal of every legitimately long task, forever. The lock guards added
+elsewhere could never help: the thief ran on a timer and cleared the lock itself.
+
+**Fix:** a heartbeat. Long-running loops call `progress()`, which resets the
+timer, and the threshold moves to 180s as a backstop:
+
+```js
+function progress () { if (busy || locked) busySince = Date.now() }
+```
+
+Called from the dig loop, the lava routine, bucket filling, the pooling wait and
+the obsidian search.
+
+**Measured over eight minutes, same workload:**
+
+| | before | after |
+|---|---|---|
+| `DEADLOCK cleared` | 1817 | **1** |
+| `goal was changed` | 762 / 7 min | **360 / 8 min** |
+
+Combined with `digBlockCarefully`, the goal-change rate is down from 1587 per
+seven minutes to 360 per eight — roughly 4.4x. Obsidian started accumulating
+again for the first time in hours.
+
+**Lesson:** a watchdog that cannot tell "slow" from "stuck" will eventually
+become the outage. Give long work a way to say it is still alive, rather than
+picking a timeout and hoping. And note the shape of the original error: this was
+a *mitigation* for a bug that was never found, and the mitigation did far more
+damage than the leak it covered.
