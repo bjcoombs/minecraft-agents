@@ -1,5 +1,11 @@
 # Is a newer model better? Is "a little thinking" better?
 
+> **Superseded in part.** The "no useful middle ground for thinking" conclusion
+> below holds for **qwen3-family** models only. It does not generalise: on
+> `gpt-oss:20b` the middle setting is the best setting measured on this whole
+> project. See `GPT-OSS-AND-THINKING.md`. The finding below was drawn from two
+> model families and stated as though it were universal.
+
 Both asked by Ben. Both measured. Both answers are no, for reasons worth
 recording.
 
@@ -90,10 +96,9 @@ leading group around 40%. Use `--reps=3` for any decision that matters.
 
 ## Unmeasured, honestly
 
-- **`gpt-oss:20b` still scores 0%** and is NOT known to be bad. It leaks its
-  reasoning into the response field (`"The user says: ..."`) rather than
-  emitting JSON, at every think setting. It needs its own response parsing
-  before it can be judged. At 59.9 tok/s it is worth that work.
+- ~~`gpt-oss:20b` still scores 0%~~ **Resolved.** The cause was sending
+  `format: json`, which corrupts that model family. See
+  `GPT-OSS-AND-THINKING.md` - it turned out to be the best-scoring model here.
 - ~~The MLX question is unanswered.~~ **Answered below.**
 - `command-r7b` timed out during a concurrent 18GB download. That result is
   confounded and it remains untested.
