@@ -94,3 +94,56 @@ reflected what it had learned. Cheap, and it makes the memory visible in play:
 <Miner>       digging deep, finding sweet
 <Forager>     watch my back, team
 ```
+
+## Cargo-cult retrospectives, and why prompting harder did not fix them
+
+Ben noticed the compiled wiki pages had drifted into business speak — bots
+proposing to "set up a meeting to discuss" things, and naming players who do
+not exist.
+
+**The prompt already forbade both.** It said, verbatim, *"The only players that
+exist are: Claude, Woodcutter, Builder, Miner, Forager, Fighter, and Ben. Never
+write about anyone else"* and *"Never invent coordinates"*. The model ignored
+it. Adding a sterner instruction was not going to work — the same lesson as
+`bot.consume()`: state the rule, then **enforce it on the output**.
+
+Two separate causes, needing two different fixes:
+
+**1. No objective → the model falls back on its training prior.** The prompt
+asked the bot to "write what I learned today" with nothing to judge the day
+against. Asked to write a retrospective with no goal, an LLM produces the most
+common retrospective in its training data: a corporate one. That is where
+"schedule a sync to align on blaze rod acquisition" comes from. It is not
+confusion about Minecraft; it is an unconstrained genre.
+
+Fix: give every bot a **north star** — a job, a definition of winning, and a
+definition of failing, all checkable against real game state:
+
+```js
+Forager: {
+  job:  'Make sure nobody on this team ever starves.',
+  win:  'No teammate dropped below 6 food today. Zero starvation deaths.',
+  fail: 'Anyone went hungry, or you were hoarding food while someone starved.'
+}
+```
+
+The compile now judges the day against *that*, not against a general notion of
+a good day. It also goes in the live action prompt, so the same objective
+drives the 12-second decision.
+
+**2. Invented names survive any instruction → validate the output.** Added
+`auditPage()`: a closed roster of real players, and a regex for
+retrospective vocabulary (meeting, sync, stakeholder, alignment, roadmap,
+circle back, leverage, synergy...). Offending lines are dropped before the page
+is written, and logged so the failure is visible rather than silent.
+
+**Measured effect** on the same journal input:
+
+before — invented teammates, "consider scheduling a review of mining strategy"
+after  — 0 cargo-cult lines, only real teammates, and self-assessment against
+the job: *"delivered 6 diamonds to team chest after mining at y=-54"*
+
+**Residual, not yet solved:** grounding is better but not perfect. The test
+output still contained *"ask Builder for torches"* when no torch request appears
+in the journal. The audit catches invented *people* and corporate *genre*; it
+does not catch a plausible invented *event*. Treat compiled pages as lossy.

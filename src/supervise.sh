@@ -11,9 +11,17 @@ while true; do
       p=$(cat "$pf" 2>/dev/null)
       if [ -n "$p" ] && kill -0 "$p" 2>/dev/null; then alive=1; fi
     fi
+    # a process can be alive but disconnected - treat a stale state file as dead
+    if [ "$alive" -eq 1 ] && [ -f "state_$n.json" ]; then
+      age=$(( $(date +%s) - $(stat -f %m "state_$n.json") ))
+      if [ $age -gt 90 ]; then
+        echo "[$(date +%T)] supervisor: $n stale ${age}s, restarting" >> events.log
+        kill "$p" 2>/dev/null; sleep 1; alive=0
+      fi
+    fi
     if [ "$alive" -eq 0 ]; then
       echo "[$(date +%T)] supervisor: starting $n" >> events.log
-      BOT_NAME="$n" USE_LLM=1 LLM_MODEL="llama3.1:latest" DREAM_MODEL="llama3.1:latest" nohup node bot.js >> "bot_$n.out" 2>&1 &
+      BOT_NAME="$n" USE_LLM=1 LLM_MODEL="${LLM_MODEL:-mistral-nemo:12b}" DREAM_MODEL="${DREAM_MODEL:-mistral-nemo:12b}" nohup node bot.js >> "bot_$n.out" 2>&1 &
       echo $! > "$pf"
       sleep 4
     fi

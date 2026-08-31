@@ -96,9 +96,15 @@ bot.on('health', () => {
 
   lastHp = bot.health
 })
-bot.on('kicked', r => log(`KICKED ${r}`))
+bot.on('kicked', r => {
+  log(`KICKED ${r} - exiting so the supervisor restarts me`)
+  setTimeout(() => process.exit(0), 1000)
+})
 bot.on('error', e => log(`ERROR ${e.message}`))
-bot.on('end', () => log('DISCONNECTED'))
+bot.on('end', (reason) => {
+  log(`DISCONNECTED (${reason || 'no reason'}) - exiting so the supervisor restarts me`)
+  setTimeout(() => process.exit(0), 1000)
+})
 
 function count (name) {
   return bot.inventory.items().filter(i => i.name === name)
@@ -1060,6 +1066,39 @@ const STAGES = [
   { id: 'eyes',      need: ['ender_eye'],                        qty: 12, what: 'craft eyes of ender' },
   { id: 'dragon',    need: [],                                   qty: 0,  what: 'kill the Ender Dragon' }
 ]
+
+// The dream prompt has always forbidden invented players and coordinates, and
+// the model ignores it anyway. Prompting harder was tried; enforcing the rule
+// on the output works. Same lesson as `bot.consume()`: verify the effect.
+const REAL_PLAYERS = ['Claude','Woodcutter','Builder','Miner','Forager','Fighter','Ben','RampageLand']
+// corporate-retrospective vocabulary. A bot in a cave cannot schedule a sync.
+const CARGO_CULT = /\b(meeting|sync|standup|stand-up|stakeholder|alignment|align on|action item|deliverable|roadmap|KPI|OKR|workshop|retrospective|touch base|circle back|leverage|synerg|best practice|framework|initiative|streamline|onboard)\w*/i
+
+function auditPage (text) {
+  const bad = []
+  for (const line of String(text).split('\n')) {
+    if (!line.trim()) continue
+    if (CARGO_CULT.test(line)) { bad.push('cargo-cult: ' + line.trim().slice(0, 60)); continue }
+    // a capitalised word used as a name that is not one of us
+    const names = line.match(/\b[A-Z][a-z]{2,}\b/g) || []
+    for (const n of names) {
+      if (REAL_PLAYERS.includes(n)) continue
+      if (/^(The|This|That|Today|Tomorrow|Yesterday|Nether|End|Overworld|Minecraft|Fortress|I|We|My|Our|It|And|But|Not|Never|Always|Keep|Need|Found|Made|Got|Went|Died|Mined|Built|Ate|Blaze|Diamond|Iron|Gold|Stone|Wood|Coal|Lava|Water|Zombie|Creeper|Skeleton|Enderman|Wither|Dragon|Ender|Pearl|Rod|Portal|Chest|Pickaxe|Sword|Axe|Bread|Beef|Wheat|Cobblestone|Obsidian|Bed|Furnace|Table|Village|Cave|Ravine|Mountain|Forest|Plains|Desert|Ocean|River|Day|Night|Page|Lesson|Task|Note|Rule|Plan|Goal|Job|Team|Stage|Progress|Health|Food|Hunger|Level|Block|Item|Tool|Armour|Armor|Shield|Bow|Arrow|Torch|Ladder|Boat|Map|Compass|Clock|Bucket|Flint|Steel|String|Bone|Feather|Leather|Wool|Sheep|Cow|Pig|Chicken|Horse|Wolf|Cat|Fish|Squid|Bat|Spider|Slime|Ghast|Piglin|Hoglin|Strider|Magma|Cube|Silverfish|Endermite|Phantom|Drowned|Husk|Stray|Witch|Pillager|Vindicator|Evoker|Ravager|Illusioner|Guardian|Elder|Shulker|Vex|Warden|Sculk|Deep|Dark|Ancient|City|Temple|Mansion|Monument|Outpost|Bastion|Remnant|Stronghold|Eye|Frame|Egg|Crystal|Beacon|Anvil|Enchant|Brew|Potion|Splash|Lingering|Effect|Regen|Strength|Speed|Jump|Vision|Resistance|Fire|Poison|Wither|Slow|Weak|Nausea|Blind|Hunger|Saturation|Absorption|Glow|Luck|Bad|Good|Hero|Village|Conduit|Power|Dolphin|Grace|Slow|Falling|Turtle|Master)$/.test(n)) continue
+      bad.push('unknown name "' + n + '": ' + line.trim().slice(0, 50))
+      break
+    }
+  }
+  return bad
+}
+
+function stripBadLines (text) {
+  return String(text).split('\n').filter(line => {
+    if (!line.trim()) return true
+    if (CARGO_CULT.test(line)) return false
+    return true
+  }).join('\n').trim()
+}
+
 function readQuest () { try { return JSON.parse(fs.readFileSync(QUEST,'utf8')) } catch { return { done: [], log: [] } } }
 function writeQuest (q) { try { fs.writeFileSync(QUEST, JSON.stringify(q,null,2)) } catch {} }
 
@@ -1610,17 +1649,29 @@ Today's raw journal:
 ${recent.slice(0, 2500)}
 ---
 
+YOUR JOB IS: ${MY_STAR.job}
+YOU DID WELL TODAY IF: ${MY_STAR.win}
+YOU DID BADLY IF: ${MY_STAR.fail}
+
+Judge today against THAT job. Not against a general idea of a good day.
+
 Rewrite the "${page}" page. Rules:
 - Keep it under 40 lines of markdown, starting with "# ${NAME} — ${page}".
+- Every line must trace to something in the raw journal above. If the journal
+  does not show it, do not write it. A short honest page beats a full invented one.
 - Record specifics: coordinates, item counts, teammate names. Not vague summaries.
 - Edit existing lines rather than piling on new ones. Resolve contradictions; newer evidence wins.
-- ${page === 'lessons' ? 'Focus on what went wrong and what to do differently. This is the most valuable page.' : ''}
-- ${page === 'tasks' ? 'End with one line: "Tomorrow: <what I will do>".' : ''}
+- You are a character in a game, not an employee. Never propose meetings,
+  syncs, reviews, alignment, stakeholders, processes, strategies or plans-to-plan.
+  The only things you can actually do are mine, chop, forage, farm, fish, build,
+  fight, carry items and talk. Write about those.
+- ${page === 'lessons' ? 'Focus on where you fell short of YOUR JOB and what you will do differently. This is the most valuable page.' : ''}
+- ${page === 'tasks' ? 'End with one line: "Tomorrow: <what I will do>" - and it must serve your job.' : ''}
 Reply with ONLY the markdown for the page, no preamble.`
 
       try {
         const ac2 = new AbortController()
-        const t2 = setTimeout(() => ac2.abort(), 45000)
+        const t2 = setTimeout(() => ac2.abort(), 90000)
         let res
         try {
           res = await fetch(LLM_URL, {
@@ -1636,7 +1687,10 @@ Reply with ONLY the markdown for the page, no preamble.`
         // qwen3 wraps reasoning in <think>...</think> - drop it
         body = body.replace(/<think>[\s\S]*?<\/think>/g, '')
                    .replace(/^```(?:markdown)?/gm, '').replace(/```$/gm, '').trim()
-        if (body.length > 30) { writePage(page, body); log(`DREAM updated ${page} (${body.length} chars)`) }
+        const bad = auditPage(body)
+        if (bad.length) log(`DREAM ${page} REJECTED LINES: ${bad.slice(0,3).join(' | ')}`)
+        body = stripBadLines(body)
+        if (body.length > 30) { writePage(page, body); log(`DREAM updated ${page} (${body.length} chars${bad.length ? ', ' + bad.length + ' dropped' : ''})`) }
         else log(`DREAM ${page} empty. raw was: ${(data.response||'(nothing)').slice(0,160)}`)
       } catch (e) { log(`DREAM ${page}: ${e.message}`) }
     }
@@ -2693,8 +2747,8 @@ setInterval(() => { workCycle().catch(e => log('cycle err ' + e.message)) }, 120
 
 
 // ---------- local LLM brain (Ollama) ----------------------------------
-const LLM_MODEL = process.env.LLM_MODEL || 'llama3.1:latest'
-const DREAM_MODEL = process.env.DREAM_MODEL || 'llama3.1:latest'
+const LLM_MODEL = process.env.LLM_MODEL || 'mistral-nemo:12b'
+const DREAM_MODEL = process.env.DREAM_MODEL || 'mistral-nemo:12b'
 const LLM_URL = 'http://127.0.0.1:11434/api/generate'
 const USE_LLM = process.env.USE_LLM === '1'
 let history = []
@@ -2720,8 +2774,52 @@ const PERSONALITY = {
   Fighter:    'brash, spoiling for a scrap, loyal. teases the others.'
 }
 
+
+// Each bot needs to know what its job IS and how it would know it is winning.
+// Without this the nightly compile has no objective to reflect against, and
+// falls back on its training prior: corporate retrospectives. That is where
+// "schedule a meeting to discuss blaze rod acquisition" comes from.
+// Every success test below is checkable against real game state.
+const NORTH_STAR = {
+  Claude: {
+    job: 'Get the team through all 11 stages to beating the game.',
+    win: 'The stage counter went up today, and nobody sat idle waiting on a blocker.',
+    fail: 'A stage stalled all day, or someone had nothing to do and you did not notice.'
+  },
+  Woodcutter: {
+    job: 'Keep the team supplied with wood so nobody is ever blocked on it.',
+    win: 'Anyone who needed logs or planks had them without asking twice.',
+    fail: 'Someone waited on wood, or your chest was empty when they came for it.'
+  },
+  Builder: {
+    job: 'Turn raw materials into the tools and structures the current stage needs.',
+    win: 'The team had the gear the stage required, crafted before it was needed.',
+    fail: 'The team was held up for a pickaxe, furnace, or shelter you could have made.'
+  },
+  Miner: {
+    job: 'Supply ore: iron, then diamonds, then whatever the stage demands.',
+    win: 'You delivered ore into the team chests, not just dug it up and carried it around.',
+    fail: 'You mined all day and the team is no richer, or you died and dropped the lot.'
+  },
+  Forager: {
+    job: 'Make sure nobody on this team ever starves.',
+    win: 'No teammate dropped below 6 food today. Zero starvation deaths.',
+    fail: 'Anyone went hungry, or you were hoarding food while someone starved.'
+  },
+  Fighter: {
+    job: 'Keep the others alive. Mobs are your problem, not theirs.',
+    win: 'No teammate died to a mob you could have intercepted.',
+    fail: 'Someone died to a creeper or zombie while you were off exploring.'
+  }
+}
+const MY_STAR = NORTH_STAR[NAME] || { job: 'Help the team beat the game.', win: 'The team advanced.', fail: 'The day was wasted.' }
+
 const SYSTEM = `You are ${NAME}, ${PERSONALITY[NAME] || 'a member of the team'}
 You are one of six friends playing Minecraft together, trying to beat the game.
+
+YOUR JOB: ${MY_STAR.job}
+YOU ARE WINNING IF: ${MY_STAR.win}
+When you choose an action, choose the one that serves YOUR JOB right now.
 
 WHO IS WHO - do not confuse these:
 - "RampageLand" is Ben, the HUMAN playing with you. Same person. Call him Ben.
