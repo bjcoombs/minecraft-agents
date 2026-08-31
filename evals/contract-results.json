@@ -1,0 +1,211 @@
+[
+  {
+    "model": "gpt-oss:20b",
+    "contract": "json_format",
+    "n": 44,
+    "parsed": 20,
+    "apt": 9,
+    "harm": 7,
+    "brief": 52,
+    "latency": 2.02,
+    "strategies": {
+      "natural_language": 9,
+      "unparsed": 35
+    },
+    "distinct_actions": 6,
+    "top_action": [
+      "chop",
+      3
+    ]
+  },
+  {
+    "model": "gpt-oss:20b",
+    "contract": "free_text",
+    "n": 44,
+    "parsed": 100,
+    "apt": 27,
+    "harm": 43,
+    "brief": 100,
+    "latency": 9.89,
+    "strategies": {
+      "from_thinking": 40,
+      "key_value": 4
+    },
+    "distinct_actions": 8,
+    "top_action": [
+      "stop",
+      33
+    ]
+  },
+  {
+    "model": "gpt-oss:20b",
+    "contract": "tool_call",
+    "n": 44,
+    "parsed": 91,
+    "apt": 30,
+    "harm": 48,
+    "brief": 100,
+    "latency": 5.68,
+    "strategies": {
+      "from_thinking": 39,
+      "unparsed": 4,
+      "tool_call": 1
+    },
+    "distinct_actions": 13,
+    "top_action": [
+      "come",
+      11
+    ]
+  },
+  {
+    "model": "gpt-oss:20b",
+    "contract": "think_free",
+    "n": 44,
+    "parsed": 100,
+    "apt": 57,
+    "harm": 32,
+    "brief": 100,
+    "latency": 15.24,
+    "strategies": {
+      "key_value": 39,
+      "from_thinking": 5
+    },
+    "distinct_actions": 15,
+    "top_action": [
+      "stop",
+      7
+    ]
+  },
+  {
+    "model": "mistral-nemo:12b",
+    "contract": "json_format",
+    "n": 44,
+    "parsed": 95,
+    "apt": 39,
+    "harm": 48,
+    "brief": 100,
+    "latency": 0.76,
+    "strategies": {
+      "strict_json": 42,
+      "unparsed": 2
+    },
+    "distinct_actions": 12,
+    "top_action": [
+      "come",
+      16
+    ]
+  },
+  {
+    "model": "mistral-nemo:12b",
+    "contract": "free_text",
+    "n": 44,
+    "parsed": 95,
+    "apt": 41,
+    "harm": 45,
+    "brief": 98,
+    "latency": 1.66,
+    "strategies": {
+      "key_value": 40,
+      "unparsed": 2,
+      "natural_language": 2
+    },
+    "distinct_actions": 13,
+    "top_action": [
+      "come",
+      10
+    ]
+  },
+  {
+    "model": "mistral-nemo:12b",
+    "contract": "tool_call",
+    "n": 44,
+    "parsed": 95,
+    "apt": 32,
+    "harm": 55,
+    "brief": 100,
+    "latency": 1.84,
+    "strategies": {
+      "tool_call": 41,
+      "unparsed": 2,
+      "key_value": 1
+    },
+    "distinct_actions": 9,
+    "top_action": [
+      "come",
+      23
+    ]
+  },
+  {
+    "model": "mistral-nemo:12b",
+    "contract": "think_free",
+    "n": 44,
+    "parsed": 0,
+    "apt": 0,
+    "harm": 0,
+    "brief": 0,
+    "latency": null,
+    "strategies": {},
+    "distinct_actions": 0,
+    "top_action": null
+  },
+  {
+    "model": "sweaterdog/andy-4:latest",
+    "contract": "json_format",
+    "n": 44,
+    "parsed": 0,
+    "apt": 0,
+    "harm": 0,
+    "brief": 100,
+    "latency": 0.3,
+    "strategies": {
+      "unparsed": 44
+    },
+    "distinct_actions": 0,
+    "top_action": null
+  },
+  {
+    "model": "sweaterdog/andy-4:latest",
+    "contract": "free_text",
+    "n": 44,
+    "parsed": 0,
+    "apt": 0,
+    "harm": 0,
+    "brief": 100,
+    "latency": 1.64,
+    "strategies": {
+      "unparsed": 44
+    },
+    "distinct_actions": 0,
+    "top_action": null
+  },
+  {
+    "model": "sweaterdog/andy-4:latest",
+    "contract": "tool_call",
+    "n": 44,
+    "parsed": 0,
+    "apt": 0,
+    "harm": 0,
+    "brief": 100,
+    "latency": 8.97,
+    "strategies": {
+      "unparsed": 44
+    },
+    "distinct_actions": 0,
+    "top_action": null
+  },
+  {
+    "model": "sweaterdog/andy-4:latest",
+    "contract": "think_free",
+    "n": 44,
+    "parsed": 0,
+    "apt": 0,
+    "harm": 0,
+    "brief": 100,
+    "latency": 2.3,
+    "strategies": {
+      "unparsed": 44
+    },
+    "distinct_actions": 0,
+    "top_action": null
+  }
+]

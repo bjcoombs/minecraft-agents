@@ -1,0 +1,32 @@
+  --- gpt-oss:20b (others evicted) ---
+  gpt-oss:20b             json_format  parsed  20%  apt   9%  harm   7%  lat 2.02s  via {'natural_language': 9, 'unparsed': 35}
+  gpt-oss:20b             free_text    parsed 100%  apt  27%  harm  43%  lat 9.89s  via {'from_thinking': 40, 'key_value': 4}
+  gpt-oss:20b             tool_call    parsed  91%  apt  30%  harm  48%  lat 5.68s  via {'from_thinking': 39, 'unparsed': 4, 'tool_call': 1}
+  gpt-oss:20b             think_free   parsed 100%  apt  57%  harm  32%  lat 15.24s  via {'key_value': 39, 'from_thinking': 5}
+  --- mistral-nemo:12b (others evicted) ---
+  mistral-nemo:12b        json_format  parsed  95%  apt  39%  harm  48%  lat 0.76s  via {'strict_json': 42, 'unparsed': 2}
+  mistral-nemo:12b        free_text    parsed  95%  apt  41%  harm  45%  lat 1.66s  via {'key_value': 40, 'unparsed': 2, 'natural_language': 2}
+  mistral-nemo:12b        tool_call    parsed  95%  apt  32%  harm  55%  lat 1.84s  via {'tool_call': 41, 'unparsed': 2, 'key_value': 1}
+  mistral-nemo:12b        think_free   parsed   0%  apt   0%  harm   0%  lat Nones  via {}
+  --- sweaterdog/andy-4:latest (others evicted) ---
+  sweaterdog/andy-4:latestjson_format  parsed   0%  apt   0%  harm   0%  lat 0.3s  via {'unparsed': 44}
+  sweaterdog/andy-4:latestfree_text    parsed   0%  apt   0%  harm   0%  lat 1.64s  via {'unparsed': 44}
+  sweaterdog/andy-4:latesttool_call    parsed   0%  apt   0%  harm   0%  lat 8.97s  via {'unparsed': 44}
+  sweaterdog/andy-4:latestthink_free   parsed   0%  apt   0%  harm   0%  lat 2.3s  via {'unparsed': 44}
+
+model                   contract      parsed   apt  harm    lat  acts
+---------------------------------------------------------------------
+gpt-oss:20b             json_format      20%    9%    7%   2.02     6
+gpt-oss:20b             free_text       100%   27%   43%   9.89     8
+gpt-oss:20b             tool_call        91%   30%   48%   5.68    13
+gpt-oss:20b             think_free      100%   57%   32%  15.24    15
+mistral-nemo:12b        json_format      95%   39%   48%   0.76    12
+mistral-nemo:12b        free_text        95%   41%   45%   1.66    13
+mistral-nemo:12b        tool_call        95%   32%   55%   1.84     9
+mistral-nemo:12b        think_free        0%    0%    0%   None     0
+sweaterdog/andy-4:latestjson_format       0%    0%    0%    0.3     0
+sweaterdog/andy-4:latestfree_text         0%    0%    0%   1.64     0
+sweaterdog/andy-4:latesttool_call         0%    0%    0%   8.97     0
+sweaterdog/andy-4:latestthink_free        0%    0%    0%    2.3     0
+
+  baselines: random apt 7% / harm 47%
