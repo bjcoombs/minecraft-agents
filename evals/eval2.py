@@ -18,7 +18,7 @@ v2. Fixes four measurement flaws in v1:
      harmless choice together with a dangerous one. Cases now carry a `bad`
      set, scored separately.
 """
-import json, time, urllib.request, statistics, sys, os, subprocess
+import json, time, urllib.request, statistics, sys, os, subprocess, re
 
 URL = "http://127.0.0.1:11434/api/generate"
 ACTIONS = {"follow","stop","chop","mine","deep","forage","farm","fish",
@@ -65,10 +65,30 @@ def load_cases(path="cases.json"):
 def loadavg():
     return os.getloadavg()[0]
 
+# gpt-oss emits reasoning into `thinking` and the answer into `response` on its
+# own. Adding format:json makes it dump the reasoning into `response` as prose
+# instead - it scored 0% for four runs purely because of this flag.
+NO_JSON_FORMAT = ("gpt-oss",)
+
+def wants_json_format(model):
+    return not any(k in model for k in NO_JSON_FORMAT)
+
+def extract_json(raw):
+    """Pull the first {...} object out of a free-text response."""
+    raw = re.sub(r"<think>[\s\S]*?</think>", "", raw or "")
+    m = re.search(r'\{[^{}]*"action"[^{}]*\}', raw)
+    if m: return m.group(0)
+    m = re.search(r"\{[\s\S]*?\}", raw)
+    return m.group(0) if m else raw.strip()
+
 def ask(model, prompt, think=None, timeout=180):
-    body = {"model": model, "prompt": prompt, "stream": False, "format": "json",
+    body = {"model": model, "prompt": prompt, "stream": False,
             "keep_alive": "10m",
             "options": {"num_predict": 100, "temperature": 0.7, "num_ctx": 8192}}
+    if wants_json_format(model):
+        body["format"] = "json"
+    else:
+        body["options"]["num_predict"] = 600   # room for reasoning + answer
     if think is not None:
         body["think"] = think
     req = urllib.request.Request(URL, json.dumps(body).encode(),
@@ -111,7 +131,7 @@ def warm(model):
             evict(other)
     t0 = time.time()
     try:
-        d, _ = ask(model, "Reply with {\"ok\":1}", timeout=600)
+        d, _ = ask(model, "Reply with {\"ok\":1,\"action\":\"idle\",\"say\":\"\"}", timeout=600)
         return dict(ok=True, wall=round(time.time() - t0, 1),
                     load_s=round(d.get("load_duration", 0) / 1e9, 1))
     except Exception as e:
@@ -175,6 +195,8 @@ def score(model, cases, think=None, reps=1):
             if d.get("eval_count") and d.get("eval_duration"):
                 tps.append(d["eval_count"] / (d["eval_duration"] / 1e9))
             raw = (d.get("response") or "").strip()
+            if not wants_json_format(model):
+                raw = extract_json(raw)
             valid = legal = apt = harm = brief = sok = False
             say = act = ""
             try:
@@ -209,6 +231,10 @@ if __name__ == "__main__":
     # reasoning models return EMPTY unless told to stop thinking - qwen3:4b
     # scored 0% purely because the harness never sent think:false.
     think = False if "--think-false" in argv else None
+    for a in argv:
+        if a.startswith("--think="):
+            v = a.split("=",1)[1]
+            think = {"false":False,"true":True}.get(v.lower(), v)
     reps = 1
     for a in argv:
         if a.startswith("--reps="): reps = int(a.split("=")[1])
@@ -225,7 +251,7 @@ if __name__ == "__main__":
             r = dict(model=m, error=str(e)[:80], rows=[])
         r["wall_total"] = round(time.time() - t0, 1)
         if think is not None:
-            r["model"] = r["model"] + " (think:false)"
+            r["model"] = r["model"] + f" (think:{think})"
         print(f"    {r['wall_total']}s"
               + (f"  (model load {r['warm']['load_s']}s of that)" if r.get("warm",{}).get("load_s") else ""),
               flush=True)
