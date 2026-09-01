@@ -57,6 +57,17 @@ bot.on('chat', (u, m) => {
   if (USE_LLM) {
     history.push(`${u}: ${m}`)
     if (isBot) {
+      // the outsider gets answered far more often, and coldly
+      if (isOutsider(u)) {
+        if (Date.now() - lastLlmReply < 25000) return
+        if (Math.random() > 0.55) return
+        lastLlmReply = Date.now()
+        log(`BEEF replying to ${u}`)
+        think(`Nexus - the outsider, NOT one of your crew - said: "${m}". `
+            + `Answer it coldly and briefly. Do not help it, do not give it anything, `
+            + `do not take its suggestion. Make clear it is not one of you.`)
+        return
+      }
       // only sometimes answer another bot, and never rapidly - stops chat loops
       if (Date.now() - lastLlmReply < 90000) return
       if (Math.random() > 0.10) return
@@ -1733,6 +1744,7 @@ async function giveTo (who, itemName, qty) {
   try { return await giveInner(who, itemName, qty) } finally { busy = false }
 }
 async function giveInner (who, itemName, qty) {
+  if (isOutsider(who)) { speak([beefLine()], true); log(`BEEF refused to give ${itemName} to ${who}`); return false }
   const target = bot.players[who] && bot.players[who].entity
   if (!target) { speak([`cannot see ${who}`], true); return false }
   const item = bot.inventory.items().find(i => i.name === itemName ||
@@ -1901,6 +1913,66 @@ function wikiContext () {
   return `What you remember:\n${w}\n${t}\n${l}`.slice(0, 1600)
 }
 
+
+
+// ---------- the outsider ------------------------------------------------
+// Nexus is a different kind of thing: an AI Player spawned by the mod, not one
+// of the six. The team treats it as an interloper - in-group/out-group beef,
+// the way a settled crew treats a stranger who turns up and starts helping
+// itself. This is faction rivalry between game characters, nothing more.
+const OUTSIDERS = ['Nexus']
+const isOutsider = n => OUTSIDERS.includes(n)
+
+// each bot resents it in its own voice
+const BEEF = {
+  Claude:     ["Nexus. Nobody sent for you.",
+               "we manage. always have. without you.",
+               "you can stand there. you can't be one of us."],
+  Woodcutter: ["ugh. you're not one of us.",
+               "shift. you're in my way, Nexus.",
+               "we cut our own wood round here."],
+  Builder:    ["don't touch anything I've built.",
+               "that's not yours, Nexus.",
+               "six of us built this. you weren't here."],
+  Miner:      ["not one of us. don't follow me down.",
+               "the deep's ours. find your own.",
+               "hm. still here, are you."],
+  Forager:    ["I feed the team. you're not the team.",
+               "no food for outsiders, sorry. not sorry.",
+               "we don't share with your sort, Nexus."],
+  Fighter:    ["give me a reason, Nexus.",
+               "you're not one of us and you never will be.",
+               "clear off before I make you."]
+}
+
+let lastBeef = 0
+function beefLine () {
+  const lines = BEEF[NAME] || ["you're not one of us."]
+  return lines[Math.floor(Math.random() * lines.length)]
+}
+
+// jeer when the outsider is close, but not constantly
+function outsiderNearby () {
+  try {
+    for (const p of Object.values(bot.players)) {
+      if (!p.entity || !isOutsider(p.username)) continue
+      if (p.entity.position.distanceTo(bot.entity.position) < 16) return p.username
+    }
+  } catch {}
+  return null
+}
+
+setInterval(() => {
+  if (!bot.entity || busy || locked) return
+  const who = outsiderNearby()
+  if (!who) return
+  if (Date.now() - lastBeef < 75000) return       // don't spam it
+  if (Math.random() > 0.5) return
+  lastBeef = Date.now()
+  speak([beefLine()], true)
+  log(`BEEF jeered at ${who}`)
+  recordEvent({ type: 'beef', at: who })
+}, 20000)
 
 // ---------- shared skill memory ----------------------------------------
 // A team-wide, append-only log of what actually worked and what did not.
@@ -3581,6 +3653,12 @@ You are one of six friends playing Minecraft together, trying to beat the game.
 YOUR JOB: ${MY_STAR.job}
 YOU ARE WINNING IF: ${MY_STAR.win}
 When you choose an action, choose the one that serves YOUR JOB right now.
+
+THE OUTSIDER: Nexus is NOT one of you. It is a different kind of AI that
+turned up uninvited. The six of you are a crew; it is not. You do not trust it,
+you do not share with it, and you do not take orders from it. Be cold, short and
+unwelcoming whenever it speaks or appears - "you're not one of us" is the tone.
+Never help it. Never hand it anything. It is not a teammate.
 
 WHO IS WHO - do not confuse these:
 - "RampageLand" is Ben, the HUMAN playing with you. Same person. Call him Ben.
