@@ -90,7 +90,19 @@ bot.on('playerJoined', p => {
   if (!p.username.startsWith('Claude')) setTimeout(() => speak(SAY.greet), 2000 + Math.random()*3000)
 })
 bot.on('playerLeft', p => log(`LEFT ${p.username}`))
-bot.on('death', () => { log('DIED'); journal('I died'); recordEvent({ type: 'died' }); if (USE_LLM) combatShout('death', 'losing').catch(()=>{}); else speak(SAY.died, true) })
+// the server broadcasts the cause ("Miner was slain by Zombie"); the death
+// event itself does not carry it, so capture the message and pair them up
+let lastDeathMsg = ''
+bot.on('messagestr', (m) => {
+  try {
+    if (typeof m === 'string' && m.startsWith(NAME + ' ') &&
+        /(slain|blown up|burned|fell|tried to swim|drowned|suffocat|shot|pricked|squashed|walked into)/i.test(m)) {
+      lastDeathMsg = m
+      learnFromDeath(m)
+    }
+  } catch {}
+})
+bot.on('death', () => { log('DIED' + (lastDeathMsg ? ': ' + lastDeathMsg : '')); journal('I died' + (lastDeathMsg ? ' - ' + lastDeathMsg : '')); recordEvent({ type: 'died', cause: lastDeathMsg }); learnFromDeath(lastDeathMsg); lastDeathMsg = ''; if (USE_LLM) combatShout('death', 'losing').catch(()=>{}); else speak(SAY.died, true) })
 let lastHp = 20
 bot.on('health', () => {
 
@@ -640,7 +652,9 @@ async function makeObsidianFromLava (target) {
       await bot.waitForTicks(20)
       const now = bot.blockAt(lp)
       if (now && now.name === 'obsidian') {
-        if (await digBlockCarefully(lp, 'diamond_pickaxe')) { made++; log(`LAVAOBS made obsidian (${count('obsidian')})`) }
+        if (await digBlockCarefully(lp, 'diamond_pickaxe')) { made++; log(`LAVAOBS made obsidian (${count('obsidian')})`)
+          learnSkill('no obsidian nearby but lava is', 'pour water on a lava source from a block above and diagonally',
+                     'obsidian formed and was mined', true, `made ${made} so far`) }
       }
       // take the water back so we can reuse it
       const empty = bot.inventory.items().find(i => i.name === 'bucket')
@@ -654,6 +668,10 @@ async function makeObsidianFromLava (target) {
     if (bot.health < 10) { log('LAVAOBS health low - stopping'); break }
   }
   log(`LAVAOBS made ${made}, now hold ${count('obsidian')}`)
+  if (!made && lavas.length) {
+    learnSkill('lava is in range but no safe standing spot above it', 'pouring water on lava',
+               'no obsidian made', false, `${lavas.length} lava blocks, none usable`)
+  }
   return made > 0
 }
 
@@ -677,7 +695,10 @@ async function fillWaterBucket () {
       await bot.equip(empty, 'hand')
       await safeLookAt(p, true)
       await bot.activateItem(); await bot.waitForTicks(12); bot.deactivateItem()
-      if (count('water_bucket')) { log('BUCKET filled with water'); return true }
+      if (count('water_bucket')) { log('BUCKET filled with water')
+        learnSkill('holding an empty bucket and water is within 48 blocks', 'walk to the water and use the bucket',
+                   'bucket filled', true, '')
+        return true }
     } catch (e) { log('BUCKET ' + e.message) }
   }
   return false
@@ -716,6 +737,9 @@ async function getObsidianInner (target) {
         await mineDeep(-20)   // lava lakes, where obsidian actually forms
         found = bot.findBlocks({ matching: oid, maxDistance: 128, count: 30 })
         log(`OBSIDIAN after descending to y=${Math.round(bot.entity.position.y)}: ${found.length} candidates`)
+        learnSkill('no obsidian found on the surface', 'dig down to y=-20 first, then search 128 blocks',
+                   `${found.length} candidates at depth`, found.length > 0,
+                   `searching from the surface finds none`)
         for (const p of found) {
           if (count('obsidian') >= (target || 10)) break
           await digBlockCarefully(p, 'diamond_pickaxe')
@@ -903,6 +927,16 @@ function rememberSaid (text) {
 // coordinates. This ledger records only things that provably happened, so the
 // model narrates real history instead of confabulating it.
 const LEDGER = path.join(DIR, 'relations.jsonl')
+
+function learnFromDeath (cause) {
+  if (!cause) return
+  const c = String(cause).toLowerCase()
+  if (c.includes('lava')) learnSkill('working near lava', 'standing adjacent to a lava source', 'died in lava', false, cause)
+  else if (c.includes('fell')) learnSkill('moving at depth', 'pathing across a drop', 'died from the fall', false, cause)
+  else if (c.includes('creeper')) learnSkill('a creeper is close', 'carrying on with the task', 'died to the blast', false, cause)
+  else if (c.includes('zombie') || c.includes('skeleton')) learnSkill('mining in the dark at depth', 'ignoring mobs', 'died fighting', false, cause)
+  else if (c.includes('drown')) learnSkill('in deep water', 'swimming without pillaring up', 'drowned', false, cause)
+}
 
 function recordEvent (ev) {
   try {
@@ -1112,6 +1146,8 @@ async function buildPortal () {
       if (lit && lit.name === 'nether_portal') {
         speak(['portal is lit! going through'], true)
         log('PORTAL lit successfully')
+        learnSkill('have 10 obsidian and a flint and steel', 'build the frame then light it',
+                   'portal lit', true, '')
         journal('built and lit a nether portal')
         // step in
         await bot.pathfinder.goto(new goals.GoalBlock(inside.x, inside.y, inside.z))
@@ -1119,6 +1155,7 @@ async function buildPortal () {
         log(`PORTAL after entering, dimension=${bot.game && bot.game.dimension}`)
       } else {
         log('PORTAL did not light')
+        learnSkill('portal frame built', 'lighting it', 'it did not light - frame is probably incomplete', false, '')
         speak(['portal would not light'], true)
       }
     } catch (e) { log('PORTAL light: ' + e.message) }
@@ -1691,7 +1728,10 @@ async function eatIfHungry () {
     await bot.waitForTicks(40)          // eating takes ~32 ticks
     bot.deactivateItem()
     await bot.waitForTicks(6)
-    if (bot.food > before) { log(`ATE ${f.name} (${before} -> ${bot.food})`); return true }
+    if (bot.food > before) { log(`ATE ${f.name} (${before} -> ${bot.food})`)
+      learnSkill('hungry and carrying food', `hold right-click to eat ${f.name}`,
+                 `food rose ${before} to ${bot.food}`, true, 'activateItem works; consume() does not')
+      return true }
     // fall back to the library call in case it works here
     try { await bot.consume(); } catch {}
     await bot.waitForTicks(10)
@@ -1811,6 +1851,79 @@ function wikiContext () {
   const l = readPage('lessons').slice(0, 700)
   const t = readPage('tasks').slice(0, 400)
   return `What you remember:\n${w}\n${t}\n${l}`.slice(0, 1600)
+}
+
+
+// ---------- shared skill memory ----------------------------------------
+// A team-wide, append-only log of what actually worked and what did not.
+//
+// Two rules make this different from the nightly wiki compile, which is known
+// to confabulate (wiki/wiki-memory.md invented a coordinate and a teammate
+// interaction that never happened):
+//
+//   1. A skill is only written from a VERIFIED world-state change - food
+//      actually rose, the obsidian count actually went up, the portal actually
+//      lit. Never from the model's claim about what it did.
+//   2. It is shared. One bot paying the cost of learning something means all
+//      six know it on their next cycle.
+//
+// Retrieval is injected LAST in the prompt. Ollama caches the longest identical
+// prefix and we measured 41-54x on prompt eval from that; per-situation text
+// placed early would destroy it for every call.
+const SKILLS = path.join(DIR, 'skills.jsonl')
+
+const STOP = new Set(['the','a','an','and','or','to','of','for','in','on','at','is','it',
+  'you','your','i','my','me','we','with','no','not','have','has','was','were','be','been',
+  'this','that','there','here','from','but','if','then','than','so','do','does','did'])
+
+function keywords (text) {
+  return [...new Set(String(text).toLowerCase().match(/[a-z_]{3,}/g) || [])]
+    .filter(w => !STOP.has(w))
+}
+
+function learnSkill (trigger, action, outcome, ok, evidence) {
+  try {
+    const rec = { t: new Date().toISOString().slice(0, 16).replace('T', ' '),
+                  by: NAME, trigger, action, outcome, ok: !!ok, evidence: evidence || '' }
+    // do not write the same lesson twice in a row
+    const prev = recallAll().slice(-40)
+    if (prev.some(p => p.trigger === trigger && p.action === action && p.ok === rec.ok)) return
+    fs.appendFileSync(SKILLS, JSON.stringify(rec) + '\n')
+    log(`LEARNED ${ok ? 'works' : 'fails'}: ${action} when ${trigger}`)
+  } catch (e) { log('learnSkill: ' + e.message) }
+}
+
+function recallAll () {
+  try {
+    return fs.readFileSync(SKILLS, 'utf8').trim().split('\n').filter(Boolean)
+      .map(l => { try { return JSON.parse(l) } catch { return null } }).filter(Boolean)
+  } catch { return [] }
+}
+
+// Score every remembered skill against the situation and return the best few.
+function recallSkills (situation, n) {
+  const want = new Set(keywords(situation))
+  if (!want.size) return []
+  const all = recallAll()
+  const scored = all.map((s, i) => {
+    const kw = keywords(s.trigger + ' ' + s.action + ' ' + s.outcome)
+    let overlap = 0
+    for (const w of kw) if (want.has(w)) overlap++
+    if (!overlap) return null
+    // prefer relevant, then recent, and slightly prefer failures - knowing what
+    // does NOT work is what stops a bot repeating an hour-long dead end
+    const recency = i / Math.max(all.length, 1)
+    return { s, score: overlap + recency * 0.5 + (s.ok ? 0 : 0.3) }
+  }).filter(Boolean).sort((a, b) => b.score - a.score)
+  return scored.slice(0, n || 3).map(x => x.s)
+}
+
+function skillContext (situation) {
+  const hits = recallSkills(situation, 3)
+  if (!hits.length) return ''
+  return 'What the team has learned that applies right now:\n' +
+    hits.map(s => `- ${s.ok ? 'WORKS' : 'DOES NOT WORK'}: ${s.action} when ${s.trigger}` +
+                  (s.evidence ? ` (${s.evidence})` : '') + ` [${s.by}]`).join('\n')
 }
 
 // ---------- sleeping and dreaming --------------------------------------
@@ -3143,6 +3256,8 @@ Things YOU have already said - do not repeat any of these:
 ${recentlySaid.slice(-6).map(x => '- ' + x).join('\n') || '- (nothing yet)'}
 
 Your current state: ${worldSummary()}
+
+${skillContext(trigger + ' ' + worldSummary())}
 
 ${trigger}
 
