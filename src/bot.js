@@ -1368,7 +1368,18 @@ async function poolItems (names, qty, label) {
   const holders = teamHolders(names)
   const teamTotal = mine() + holders.reduce((t, h) => t + h.have, 0)
   if (teamTotal < qty) {
-    log(`POOL ${label}: team has ${teamTotal}/${qty} - not enough to gather`)
+    // Carried inventory is not the whole story: a bot whose LLM chose
+    // "deposit" has banked the material in its role chest, where teamCount and
+    // teamHolders cannot see it. The team looked like it had 0 obsidian while
+    // Woodcutter had deposited his. Pull from storage before declaring defeat.
+    log(`POOL ${label}: only ${teamTotal}/${qty} carried - checking chests`)
+    try { await fetchItem(names[0], qty - mine()) } catch (e) { log('POOL fetch: ' + e.message) }
+    for (const n of BOTS) {
+      if (n === NAME) continue
+      try { fs.appendFileSync(path.join(DIR, `cmds_${n}.txt`), `fetch ${names[0]} ${qty}\n`) } catch {}
+    }
+    if (mine() >= qty) { log(`POOL ${label}: got ${mine()}/${qty} from my own chest`); return true }
+    log(`POOL ${label}: team has ${teamTotal}/${qty} carried - asked everyone to empty their chests`)
     return false
   }
   let want = qty - mine()

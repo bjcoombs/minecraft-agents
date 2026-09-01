@@ -414,3 +414,39 @@ become the outage. Give long work a way to say it is still alive, rather than
 picking a timeout and hoping. And note the shape of the original error: this was
 a *mitigation* for a bug that was never found, and the mitigation did far more
 damage than the leak it covered.
+
+---
+
+## Team material is invisible once a bot deposits it
+
+**Symptom:** team obsidian read 6, then 0, with no deaths in between and
+`keep_inventory` confirmed `true`.
+
+**Cause:** the LLM chose `deposit`:
+
+```
+{Woodcutter} LLM say="hey ben, i've got some obsidian over here" action=deposit
+```
+
+`teamCount()` and `teamHolders()` read the per-bot `state_*.json` files, which
+record **carried** inventory only. Anything banked in a role chest is invisible
+to every quest check and to pooling. The team looked like it had nothing while
+the material sat in storage — the same shape as the pooling bug above, one level
+further out.
+
+**Fix:** `poolItems()` now calls `fetchItem()` (which already searches *all*
+registered chests, not just the caller's) and asks every teammate to do the same
+before reporting failure.
+
+**Not fully resolved.** After the fix, a `fetch obsidian 16` broadcast to all six
+recovered nothing, and a `data get block` query against the two registered chests
+returned no data. Only two chests are registered in `depot.json` (Claude and
+Woodcutter) though six bots have been depositing, so either most chests were
+never recorded or the material is somewhere neither the depot nor carried
+inventory knows about. Unresolved.
+
+**Lesson, and it is the third time in this file:** a check that reads one
+location — your own pockets, then the team's pockets, then the team's pockets
+*and* chests — will keep being wrong until it reads every place the thing can
+be. Each fix here moved the boundary out by one, and each time the material was
+just outside it.
