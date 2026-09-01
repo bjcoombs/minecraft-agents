@@ -450,3 +450,66 @@ location — your own pockets, then the team's pockets, then the team's pockets
 *and* chests — will keep being wrong until it reads every place the thing can
 be. Each fix here moved the boundary out by one, and each time the material was
 just outside it.
+
+---
+
+## Interaction timeouts: the exception lies, and the commands were racing
+
+**Symptom:** chests could not be made or opened.
+
+```
+chest place: Event blockUpdate:(-440, 39, -110) did not fire within timeout of 5000ms
+craft chest failed: Event windowOpen did not fire within timeout of 20000ms
+OPEN attempt 1: The goal was changed before it could be completed!
+OPEN attempt 2: The goal was changed before it could be completed!
+OPEN attempt 3: The goal was changed before it could be completed!
+```
+
+Three separate causes behind one symptom.
+
+**1. The bot never stopped moving.** `placeBlock` and `openContainer` wait for a
+server packet, and a bot still walking drifts out of reach before it arrives.
+`craftItem` approached the table and looked at it but never cleared its
+pathfinder goal — that alone was 7 of 16 recorded failures. Fixed with
+`settle()`: clear the goal, clear control states, wait five ticks, *then* act.
+
+**2. The timeout exception lies.** Under load `placeBlock` and `craft` throw
+after the action has already succeeded server-side. The old code logged an error
+and moved on, so chests that really existed were never registered. Now every
+timeout is checked against the world before being believed:
+
+```js
+catch (e) {
+  await bot.waitForTicks(10)
+  if (count(name) > had && /timeout|did not fire/i.test(e.message)) return true
+```
+
+Note `count(name) > had`, not `count(name) > 0` — the first version of this fix
+would have reported success for a bot that already held one.
+
+This is the `bot.consume()` lesson inverted. That one said a resolved call is
+not proof of success. This one says **a thrown call is not proof of failure.**
+Both are fixed the same way: look at the world.
+
+**3. Commands raced each other.** The dispatcher ran
+
+```js
+buf.toString().split('\n').filter(Boolean).forEach(handle)   // none awaited
+```
+
+so `chest` and `deposit` arriving together executed concurrently, each issuing
+pathfinder goals, cancelling each other *and* whatever the work cycle was doing.
+That is the three-failures-in-two-seconds signature above. Replaced with a
+serial queue that waits for `busy`/`locked` to clear and settles between
+commands.
+
+**Measured after the fixes:**
+
+| | before | after |
+|---|---|---|
+| `OPEN attempt` failures | 3 in one burst | **0** |
+| `craft chest failed` | recurring | **0** |
+| chest placements | 2 bots ever | Forager and Builder succeeded |
+
+Chest *placement* still lags crafting, so not every bot has one yet, but no
+placement has failed since the fix.

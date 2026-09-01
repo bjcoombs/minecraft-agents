@@ -227,14 +227,41 @@ async function craftItem (name, n, table) {
       if (bot.entity.position.distanceTo(table.position) > 3) {
         await bot.pathfinder.goto(new goals.GoalNear(table.position.x, table.position.y, table.position.z, 2))
       }
-      await bot.lookAt(table.position.offset(0.5, 0.5, 0.5), true)
+      // STOP before crafting. Approaching is not enough - a bot still walking
+      // drifts out of reach and windowOpen never fires. This was 7 of the 16
+      // recorded interaction failures.
+      await settle()
+      await safeLookAt(table.position.offset(0.5, 0.5, 0.5), true)
       await bot.waitForTicks(4)
     } catch (e) { log(`craft ${name}: approach ${e.message}`) }
   }
-  const r = bot.recipesFor(it.id, null, 1, table)[0]
+  let r = bot.recipesFor(it.id, null, 1, table)[0]
   if (!r) { log(`no recipe available for ${name}`); return false }
-  try { await bot.craft(r, n, table); log(`crafted ${n}x ${name}`); return true }
-  catch (e) { log(`craft ${name} failed: ${e.message}`); return false }
+  const had = count(name)
+  try {
+    await bot.craft(r, n, table)
+    log(`crafted ${n}x ${name}`)
+    return true
+  }
+  catch (e) {
+    // a windowOpen timeout does not mean the craft failed - check the inventory.
+    // Compare against what we HELD BEFORE: "count > 0" would report success for
+    // a bot that already had one.
+    await bot.waitForTicks(10)
+    if (count(name) > had && /timeout|did not fire/i.test(e.message)) {
+      log(`crafted ${n}x ${name} (despite "${e.message.slice(0,36)}")`)
+      return true
+    }
+    // one retry, having stood still first
+    try {
+      await settle()
+      if (table) await safeLookAt(table.position.offset(0.5,0.5,0.5), true)
+      await bot.waitForTicks(6)
+      r = bot.recipesFor(it.id, null, 1, table)[0]
+      if (r) { await bot.craft(r, n, table); log(`crafted ${n}x ${name} on retry`); return true }
+    } catch (e2) { log(`craft ${name} retry: ${e2.message.slice(0,50)}`) }
+    log(`craft ${name} failed: ${e}`); return false
+  }
 }
 
 async function makeAxe () {
@@ -2516,6 +2543,83 @@ async function chestAt (c) {
 }
 
 
+
+// ---------- reliable block placement and container opening ---------------
+// mineflayer's placeBlock waits for a blockUpdate packet and openContainer for
+// windowOpen. Under load both time out routinely - 5s and 20s - and BOTH throw
+// even when the action actually succeeded server-side. The old code treated the
+// exception as failure, so chests that were really placed were logged as errors
+// and never registered.
+//
+// Same lesson as bot.consume(): do not trust the call, check the world. Here it
+// is the inverse - do not trust the *exception* either.
+
+async function settle () {
+  try {
+    bot.pathfinder.setGoal(null)
+    bot.clearControlStates()
+    await bot.waitForTicks(5)
+  } catch {}
+}
+
+// Place `itemName` at `spot`, using `ref` as the block to build against.
+// Returns the placed block, or null.
+async function placeBlockSafely (itemName, spot, ref, face) {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    progress()
+    const already = bot.blockAt(spot)
+    if (already && already.name === itemName) return already      // someone/we did it
+    const item = bot.inventory.items().find(i => i.name === itemName)
+    if (!item) return null
+    try {
+      if (bot.entity.position.distanceTo(spot) > 4) {
+        await bot.pathfinder.goto(new goals.GoalNear(spot.x, spot.y, spot.z, 2))
+      }
+      await settle()                       // standing still matters: a moving
+      await bot.equip(item, 'hand')        // bot cancels its own placement
+      await safeLookAt(ref.position.offset(0.5, 0.5, 0.5), true)
+      await bot.waitForTicks(3)
+      await bot.placeBlock(ref, face)
+    } catch (e) {
+      // the timeout may be a lie - look before believing it
+      await bot.waitForTicks(10)
+      const now = bot.blockAt(spot)
+      if (now && now.name === itemName) {
+        log(`PLACE ${itemName} succeeded despite "${e.message.slice(0, 40)}"`)
+        return now
+      }
+      log(`PLACE ${itemName} attempt ${attempt + 1}: ${e.message.slice(0, 60)}`)
+      await bot.waitForTicks(20)
+      continue
+    }
+    await bot.waitForTicks(6)
+    const placed = bot.blockAt(spot)
+    if (placed && placed.name === itemName) return placed
+  }
+  return null
+}
+
+// Open a container, retrying, having actually stopped and looked at it first.
+async function openContainerSafely (block) {
+  if (!block) return null
+  for (let attempt = 0; attempt < 3; attempt++) {
+    progress()
+    try {
+      if (bot.entity.position.distanceTo(block.position) > 3) {
+        await bot.pathfinder.goto(new goals.GoalNear(block.position.x, block.position.y, block.position.z, 2))
+      }
+      await settle()
+      await safeLookAt(block.position.offset(0.5, 0.5, 0.5), true)
+      await bot.waitForTicks(3)
+      return await bot.openContainer(block)
+    } catch (e) {
+      log(`OPEN attempt ${attempt + 1}: ${e.message.slice(0, 60)}`)
+      await bot.waitForTicks(20)
+    }
+  }
+  return null
+}
+
 // ---------- shared chest index -----------------------------------------
 // Every bot knows every chest AND what was last seen inside it, so a bot that
 // needs obsidian can go straight to the chest that has some instead of
@@ -2608,7 +2712,8 @@ async function fetchFromIndex (name, qty) {
     const blk = await chestAt(c)
     if (!blk) { noteChestUnreachable(c); continue }
     try {
-      const w = await bot.openContainer(blk)
+      const w = await openContainerSafely(blk)
+      if (!w) { noteChestUnreachable(c); continue }
       noteChestContents(c, w)
       const it = w.containerItems().find(i => i.name === name)
       if (it) {
@@ -2739,7 +2844,7 @@ async function ensureChest () {
           const spot = p.offset(off[0], 0, off[2])
           const at = bot.blockAt(spot), under = bot.blockAt(spot.offset(0,-1,0))
           if (!at || at.name !== 'air' || !under || under.name === 'air') continue
-          try { await bot.equip(it,'hand'); await bot.placeBlock(under, new Vec3(0,1,0)); break } catch (e) {}
+          if (await placeBlockSafely('crafting_table', spot, under, new Vec3(0,1,0))) break
         }
       }
       table = bot.findBlock({ matching: bot.registry.blocksByName.crafting_table.id, maxDistance: 16 })
@@ -2757,15 +2862,16 @@ async function ensureChest () {
     const at = bot.blockAt(spot)
     const under = bot.blockAt(spot.offset(0,-1,0))
     if (!at || at.name !== 'air' || !under || under.name === 'air') continue
-    try {
-      await bot.equip(item, 'hand')
-      await bot.placeBlock(under, new Vec3(0,1,0))
+    const placed = await placeBlockSafely('chest', spot, under, new Vec3(0, 1, 0))
+    if (placed) {
       const d = readDepot(); d[NAME] = { x: spot.x, y: spot.y, z: spot.z, role: ROLE }; writeDepot(d)
       rememberChest(spot.x, spot.y, spot.z, NAME)
       speak([`chest down - that's the ${ROLE} store`], true)
       log(`CHEST placed at ${spot.x},${spot.y},${spot.z}`)
-      return bot.blockAt(spot)
-    } catch (e) { log('chest place: ' + e.message) }
+      learnSkill('placing a block and it times out', 'stop moving, look at it, then check whether it appeared anyway',
+                 'the placement had usually worked', true, 'blockUpdate timeouts lie under load')
+      return placed
+    }
   }
   return null
 }
@@ -2781,7 +2887,8 @@ async function depositAllInner () {
   if (!live || live.name !== 'chest') { log('chest gone at ' + cp); return }
   let win
   let depositedSomething = false
-  try { win = await bot.openContainer(live) } catch (e) { log('open chest: '+e.message); return }
+  win = await openContainerSafely(live)
+  if (!win) { log('open chest: could not open after retries'); return }
   rememberChest(cp.x, cp.y, cp.z, NAME)
   let n = 0
   for (const it of bot.inventory.items()) {
@@ -2812,7 +2919,8 @@ async function fetchItem (want, qty) {
     if (!block) continue
     try {
       await bot.pathfinder.goto(new goals.GoalNear(c.x, c.y, c.z, 2))
-      const win = await bot.openContainer(bot.blockAt(new Vec3(c.x, c.y, c.z)))
+      const win = await openContainerSafely(bot.blockAt(new Vec3(c.x, c.y, c.z)))
+      if (!win) { noteChestUnreachable(c); continue }
       noteChestContents(c, win)
       const found = win.containerItems().filter(i => i.name === want)
       let got = 0
@@ -3592,11 +3700,34 @@ function drain (file, off, set) {
   fs.readSync(fd, buf, 0, buf.length, off)
   fs.closeSync(fd)
   set(size)
-  buf.toString().split('\n').map(s => s.trim()).filter(Boolean).forEach(handle)
+  buf.toString().split('\n').map(s => s.trim()).filter(Boolean).forEach(q => cmdQueue.push(q))
 }
+
+// forEach(handle) fired every queued command AT ONCE, none awaited, each one
+// issuing its own pathfinder goal - so `chest` and `deposit` arriving together
+// cancelled each other, and both cancelled whatever the work cycle was doing.
+// That produced "OPEN attempt 1/2/3: The goal was changed" inside two seconds.
+// Commands are now a serial queue that waits its turn.
+const cmdQueue = []
+let cmdRunning = false
+
+async function runQueue () {
+  if (cmdRunning || !cmdQueue.length) return
+  if (busy || locked) return          // let the current job finish first
+  cmdRunning = true
+  try {
+    while (cmdQueue.length) {
+      const line = cmdQueue.shift()
+      try { await handle(line) } catch (e) { log('cmd ' + line + ': ' + e.message) }
+      await bot.waitForTicks(4)       // let the world settle between commands
+    }
+  } finally { cmdRunning = false }
+}
+
 setInterval(() => {
   drain(CMDS, cmdOffset, v => { cmdOffset = v })
   drain(ALL, allOffset, v => { allOffset = v })
+  runQueue().catch(e => log('queue: ' + e.message))
 }, 500)
 
 async function handle (line) {
