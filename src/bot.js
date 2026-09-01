@@ -1295,8 +1295,15 @@ function auditPage (text) {
   for (const line of String(text).split('\n')) {
     if (!line.trim()) continue
     if (CARGO_CULT.test(line)) { bad.push('cargo-cult: ' + line.trim().slice(0, 60)); continue }
-    // a capitalised word used as a name that is not one of us
-    const names = line.match(/\b[A-Z][a-z]{2,}\b/g) || []
+    // a capitalised word used as a NAME - not a heading, bullet label or the
+    // first word of a sentence. "**Quest Stage Iron**:" and "* Killed 3
+    // phantoms" were being rejected as invented players.
+    const body = line
+      .replace(/^\s*(?:[-#>]+|\*(?=\s))\s*/, '')   // bullet/heading, but not bold's **
+      .replace(/\*\*[^*]+\*\*/g, '')       // bold labels
+      .replace(/^[A-Za-z ]{2,30}:/, '')     // "Label:" at line start
+    const words = body.split(/\s+/).slice(1)   // skip the first word of the line
+    const names = words.join(' ').match(/\b[A-Z][a-z]{2,}\b/g) || []
     for (const n of names) {
       if (REAL_PLAYERS.includes(n)) continue
       if (/^(The|This|That|Today|Tomorrow|Yesterday|Nether|End|Overworld|Minecraft|Fortress|I|We|My|Our|It|And|But|Not|Never|Always|Keep|Need|Found|Made|Got|Went|Died|Mined|Built|Ate|Blaze|Diamond|Iron|Gold|Stone|Wood|Coal|Lava|Water|Zombie|Creeper|Skeleton|Enderman|Wither|Dragon|Ender|Pearl|Rod|Portal|Chest|Pickaxe|Sword|Axe|Bread|Beef|Wheat|Cobblestone|Obsidian|Bed|Furnace|Table|Village|Cave|Ravine|Mountain|Forest|Plains|Desert|Ocean|River|Day|Night|Page|Lesson|Task|Note|Rule|Plan|Goal|Job|Team|Stage|Progress|Health|Food|Hunger|Level|Block|Item|Tool|Armour|Armor|Shield|Bow|Arrow|Torch|Ladder|Boat|Map|Compass|Clock|Bucket|Flint|Steel|String|Bone|Feather|Leather|Wool|Sheep|Cow|Pig|Chicken|Horse|Wolf|Cat|Fish|Squid|Bat|Spider|Slime|Ghast|Piglin|Hoglin|Strider|Magma|Cube|Silverfish|Endermite|Phantom|Drowned|Husk|Stray|Witch|Pillager|Vindicator|Evoker|Ravager|Illusioner|Guardian|Elder|Shulker|Vex|Warden|Sculk|Deep|Dark|Ancient|City|Temple|Mansion|Monument|Outpost|Bastion|Remnant|Stronghold|Eye|Frame|Egg|Crystal|Beacon|Anvil|Enchant|Brew|Potion|Splash|Lingering|Effect|Regen|Strength|Speed|Jump|Vision|Resistance|Fire|Poison|Wither|Slow|Weak|Nausea|Blind|Hunger|Saturation|Absorption|Glow|Luck|Bad|Good|Hero|Village|Conduit|Power|Dolphin|Grace|Slow|Falling|Turtle|Master)$/.test(n)) continue
@@ -1373,6 +1380,9 @@ async function poolItems (names, qty, label) {
     // teamHolders cannot see it. The team looked like it had 0 obsidian while
     // Woodcutter had deposited his. Pull from storage before declaring defeat.
     log(`POOL ${label}: only ${teamTotal}/${qty} carried - checking chests`)
+    // the shared index knows which chest has it and who is nearest
+    try { if (await arrangeDelivery(names[0], qty - mine())) { if (mine() >= qty) return true } }
+    catch (e) { log('POOL delivery: ' + e.message) }
     try { await fetchItem(names[0], qty - mine()) } catch (e) { log('POOL fetch: ' + e.message) }
     for (const n of BOTS) {
       if (n === NAME) continue
@@ -2458,12 +2468,259 @@ function writeDepot (d) {
   try { fs.writeFileSync(DEPOT, JSON.stringify(d, null, 2)) } catch {}
 }
 
+
+// A chest location is never forgotten. depot[NAME] is the CURRENT chest; this
+// is every chest ever placed by anyone. Losing a location loses its contents
+// forever, and that is what happened to the team's obsidian.
+function allKnownChests () {
+  const d = readDepot()
+  const out = []
+  const seen = new Set()
+  const push = (c, owner) => {
+    if (!c || typeof c.x !== 'number') return
+    const k = `${c.x},${c.y},${c.z}`
+    if (seen.has(k)) return
+    seen.add(k); out.push({ ...c, owner })
+  }
+  for (const [owner, v] of Object.entries(d)) {
+    if (owner === '_chests') continue
+    push(v, owner)
+  }
+  for (const c of (d._chests || [])) push(c, c.owner || '?')
+  return out
+}
+
+function rememberChest (x, y, z, owner) {
+  try {
+    const d = readDepot()
+    d._chests = d._chests || []
+    if (!d._chests.some(c => c.x === x && c.y === y && c.z === z)) {
+      d._chests.push({ x, y, z, owner: owner || NAME })
+      writeDepot(d)
+      log(`CHEST remembered ${x},${y},${z} (${d._chests.length} known)`)
+    }
+  } catch (e) { log('rememberChest: ' + e.message) }
+}
+
+// blockAt() returns null for an UNLOADED chunk, which is not the same as
+// "there is no chest here". Walk there so the chunk loads, then look again.
+async function chestAt (c) {
+  let b = bot.blockAt(new Vec3(c.x, c.y, c.z))
+  if (b) return b.name === 'chest' ? b : null
+  try {
+    await bot.pathfinder.goto(new goals.GoalNear(c.x, c.y, c.z, 3))
+    await bot.waitForTicks(6)
+  } catch (e) { return null }
+  b = bot.blockAt(new Vec3(c.x, c.y, c.z))
+  return b && b.name === 'chest' ? b : null
+}
+
+
+// ---------- shared chest index -----------------------------------------
+// Every bot knows every chest AND what was last seen inside it, so a bot that
+// needs obsidian can go straight to the chest that has some instead of
+// searching blind. Contents are recorded whenever any bot opens a chest.
+//
+// Chests also go stale or become unreachable - buried, in the Nether, across an
+// ocean, in an unloaded chunk that pathfinding cannot reach. So each entry
+// tracks failed trips, and a bot decides whether the journey is worth it or
+// whether it should just make/gather the thing again.
+const CHESTIDX = path.join(DIR, 'chests.json')
+
+function readChestIdx () {
+  try { return JSON.parse(fs.readFileSync(CHESTIDX, 'utf8')) } catch { return {} }
+}
+function writeChestIdx (d) {
+  try { fs.writeFileSync(CHESTIDX, JSON.stringify(d, null, 2)) } catch {}
+}
+const chestKey = c => `${c.x},${c.y},${c.z}`
+
+// called every time a chest is opened, by whoever opened it
+function noteChestContents (c, window) {
+  try {
+    const idx = readChestIdx()
+    const k = chestKey(c)
+    const items = {}
+    for (const it of (window.containerItems ? window.containerItems() : [])) {
+      items[it.name] = (items[it.name] || 0) + it.count
+    }
+    idx[k] = { x: c.x, y: c.y, z: c.z, owner: (idx[k] && idx[k].owner) || c.owner || NAME,
+               items, seenBy: NAME, seen: new Date().toISOString().slice(0, 16).replace('T', ' '),
+               fails: (idx[k] && idx[k].fails) || 0, dim: inNether() ? 'nether' : 'overworld' }
+    writeChestIdx(idx)
+    const n = Object.keys(items).length
+    if (n) log(`CHESTIDX ${k} has ${Object.entries(items).slice(0,4).map(([a,b2])=>b2+' '+a).join(', ')}`)
+  } catch (e) { log('noteChestContents: ' + e.message) }
+}
+
+function noteChestUnreachable (c) {
+  try {
+    const idx = readChestIdx(); const k = chestKey(c)
+    idx[k] = idx[k] || { x: c.x, y: c.y, z: c.z, items: {}, fails: 0 }
+    idx[k].fails = (idx[k].fails || 0) + 1
+    idx[k].lastFail = new Date().toISOString().slice(0, 16).replace('T', ' ')
+    writeChestIdx(idx)
+    if (idx[k].fails >= 3) log(`CHESTIDX ${k} marked unreachable after ${idx[k].fails} failed trips`)
+  } catch {}
+}
+
+// Which chests are believed to hold `name`, nearest first, skipping ones we
+// have repeatedly failed to reach.
+function chestsWith (name) {
+  const idx = readChestIdx()
+  const here = bot.entity && bot.entity.position
+  const dim = inNether() ? 'nether' : 'overworld'
+  return Object.values(idx)
+    .filter(c => (c.items || {})[name] > 0)
+    .filter(c => (c.fails || 0) < 3)
+    .filter(c => !c.dim || c.dim === dim)      // no cross-dimension trips
+    .map(c => ({ ...c, dist: here ? Math.round(here.distanceTo(new Vec3(c.x, c.y, c.z))) : 9999 }))
+    .sort((a, b) => a.dist - b.dist)
+}
+
+// Travel, or make it again? Walking 400 blocks for 3 planks is worse than
+// chopping a tree. Cheap, replaceable things are re-made; expensive or
+// irreplaceable ones are worth the trip.
+const CHEAP = ['oak_log','birch_log','spruce_log','oak_planks','birch_planks','cobblestone',
+               'dirt','sand','gravel','stick','coal','raw_copper','wheat','seeds','sapling']
+const PRECIOUS = ['obsidian','diamond','diamond_pickaxe','ender_pearl','ender_eye','blaze_rod',
+                  'ancient_debris','netherite_ingot','enchanted_book','flint_and_steel','water_bucket']
+
+function worthTheTrip (name, dist, have) {
+  if (PRECIOUS.includes(name)) return dist < 900          // always worth fetching
+  if (CHEAP.includes(name)) return dist < 60              // faster to gather again
+  return dist < 250
+}
+
+// Go and get `name` from the best known chest, or decide not to.
+async function fetchFromIndex (name, qty) {
+  const opts = chestsWith(name)
+  if (!opts.length) return false
+  for (const c of opts.slice(0, 3)) {
+    if (!worthTheTrip(name, c.dist, count(name))) {
+      log(`CHEST decision: ${c.dist} blocks for ${name} is not worth it - will make/gather instead`)
+      learnSkill(`need ${name} and the nearest chest is ${c.dist} blocks away`,
+                 'gathering it again rather than travelling', 'saved the trip', true, '')
+      return false
+    }
+    log(`CHEST going ${c.dist} blocks for ${name} (chest ${chestKey(c)} had ${c.items[name]})`)
+    progress()
+    const blk = await chestAt(c)
+    if (!blk) { noteChestUnreachable(c); continue }
+    try {
+      const w = await bot.openContainer(blk)
+      noteChestContents(c, w)
+      const it = w.containerItems().find(i => i.name === name)
+      if (it) {
+        await w.withdraw(it.type, null, Math.min(qty || it.count, it.count))
+        log(`CHEST took ${name} from ${chestKey(c)}`)
+        noteChestContents(c, w)
+        await w.close()
+        learnSkill(`need ${name} and it is not carried`, `check the shared chest index and travel to the chest holding it`,
+                   `got ${name} from a chest ${c.dist} blocks away`, true, '')
+        return true
+      }
+      await w.close()
+      noteChestContents(c, w)   // it was not there after all - correct the index
+    } catch (e) { log('CHEST open: ' + e.message); noteChestUnreachable(c) }
+  }
+  return false
+}
+
+
+// Where everyone is, from the state files each bot writes every second.
+function teamPositions () {
+  const out = {}
+  for (const n of BOTS) {
+    if (n === NAME) continue
+    try {
+      const st = JSON.parse(fs.readFileSync(path.join(DIR, `state_${n}.json`), 'utf8'))
+      const age = Date.now() - fs.statSync(path.join(DIR, `state_${n}.json`)).mtimeMs
+      if (age > 30000) continue                       // stale: probably disconnected
+      if (st.pos && typeof st.pos.x === 'number') out[n] = { ...st.pos, busy: st.busy }
+    } catch {}
+  }
+  return out
+}
+
+// Who should make the trip? Compare three real costs in blocks travelled:
+//
+//   me      : I walk to the chest and back to where I am now
+//   teammate: they walk to the chest, then to me (they end up here, which is
+//             usually where the work is anyway)
+//   remake  : don't travel at all - gather or craft it again
+//
+// Then ASK, over the same command channel the bots already use, and say it out
+// loud so the exchange is visible in chat rather than silent.
+async function arrangeDelivery (name, qty) {
+  const opts = chestsWith(name)
+  if (!opts.length) return false
+  const me = bot.entity.position
+  const team = teamPositions()
+  let best = null
+
+  for (const c of opts.slice(0, 4)) {
+    const cpos = new Vec3(c.x, c.y, c.z)
+    const myCost = Math.round(me.distanceTo(cpos)) * 2
+    if (!best || myCost < best.cost) best = { cost: myCost, who: NAME, chest: c }
+    for (const [n, p] of Object.entries(team)) {
+      const theirs = new Vec3(p.x, p.y, p.z)
+      const cost = Math.round(theirs.distanceTo(cpos) + cpos.distanceTo(me))
+      if (cost < best.cost) best = { cost, who: n, chest: c }
+    }
+  }
+  if (!best) return false
+
+  if (!worthTheTrip(name, best.cost, count(name))) {
+    log(`DELIVERY ${name}: cheapest route is ${best.cost} blocks via ${best.who} - making it again instead`)
+    return false
+  }
+
+  if (best.who === NAME) {
+    log(`DELIVERY ${name}: I am closest (${best.cost} blocks round trip) - going myself`)
+    return await fetchFromIndex(name, qty)
+  }
+
+  // ask the teammate: fetch it, then bring it to me
+  log(`DELIVERY ${name}: ${best.who} is better placed (${best.cost} blocks vs mine) - asking them`)
+  speak([`${best.who}, you're closer to the ${name.replace(/_/g,' ')} - grab it and bring it over?`], true)
+  try {
+    fs.appendFileSync(path.join(DIR, `cmds_${best.who}.txt`),
+      `fetch ${name} ${qty}\ngive ${NAME} ${name} ${qty}\n`)
+  } catch (e) { log('DELIVERY ask: ' + e.message) }
+  recordEvent({ type: 'asked_delivery', who: best.who, what: name, n: qty, cost: best.cost })
+  // wait for them; they have to walk there and back
+  const before = count(name)
+  for (let i = 0; i < 40; i++) {
+    progress()
+    await bot.waitForTicks(20)
+    if (count(name) > before) {
+      log(`DELIVERY ${best.who} delivered ${name}`)
+      learnSkill(`need ${name} and a teammate is closer to the chest holding it`,
+                 'ask them to fetch and bring it rather than walking there myself',
+                 `${best.who} delivered it`, true, `saved about ${Math.round(me.distanceTo(new Vec3(best.chest.x,best.chest.y,best.chest.z))*2 - best.cost)} blocks`)
+      return true
+    }
+  }
+  log(`DELIVERY ${best.who} did not deliver ${name} in time`)
+  learnSkill(`asked ${best.who} to deliver ${name}`, 'waiting for a teammate delivery',
+             'nothing arrived within 40s', false, '')
+  return false
+}
+
 async function ensureChest () {
   const depot = readDepot()
   const mine = depot[NAME]
   if (mine) {
     const b = bot.blockAt(new Vec3(mine.x, mine.y, mine.z))
     if (b && b.name === 'chest') return b
+    if (!b) {
+      // UNLOADED, not missing. Placing a new chest here would orphan the old
+      // one and everything in it - which is how the team lost its obsidian.
+      const far = await chestAt(mine)
+      if (far) return far
+      log(`CHEST mine at ${mine.x},${mine.y},${mine.z} could not be confirmed`)
+    }
   }
   // need a chest item
   if (!count('chest')) {
@@ -2504,6 +2761,7 @@ async function ensureChest () {
       await bot.equip(item, 'hand')
       await bot.placeBlock(under, new Vec3(0,1,0))
       const d = readDepot(); d[NAME] = { x: spot.x, y: spot.y, z: spot.z, role: ROLE }; writeDepot(d)
+      rememberChest(spot.x, spot.y, spot.z, NAME)
       speak([`chest down - that's the ${ROLE} store`], true)
       log(`CHEST placed at ${spot.x},${spot.y},${spot.z}`)
       return bot.blockAt(spot)
@@ -2522,12 +2780,19 @@ async function depositAllInner () {
   const live = bot.blockAt(cp)
   if (!live || live.name !== 'chest') { log('chest gone at ' + cp); return }
   let win
+  let depositedSomething = false
   try { win = await bot.openContainer(live) } catch (e) { log('open chest: '+e.message); return }
+  rememberChest(cp.x, cp.y, cp.z, NAME)
   let n = 0
   for (const it of bot.inventory.items()) {
     if (KEEP.includes(it.name)) continue
     try { await win.deposit(it.type, null, it.count); n += it.count } catch (e) { log('deposit: '+e.message) }
+    depositedSomething = true
   }
+  // record what is now in here BEFORE closing, so every bot knows where the
+  // team's material actually is. Woodcutter deposited the obsidian and it
+  // became invisible to all six - this is that fix.
+  try { noteChestContents({ x: cp.x, y: cp.y, z: cp.z, owner: NAME }, win) } catch {}
   try { win.close() } catch {}
   if (n) speak([`${n} ${ROLE === 'forager' ? 'bits of food' : ROLE === 'miner' ? 'stone and ore' : 'wood'} into my chest`,
                 `stocked my chest with ${n}`])
@@ -2538,13 +2803,17 @@ async function depositAllInner () {
 
 // take items from whichever chest has them
 async function fetchItem (want, qty) {
-  const depot = readDepot()
-  for (const [owner, c] of Object.entries(depot)) {
-    const block = bot.blockAt(new Vec3(c.x, c.y, c.z))
-    if (!block || block.name !== 'chest') continue
+  for (const c of allKnownChests()) {
+    const owner = c.owner
+    // chestAt walks there if the chunk is not loaded. Skipping unloaded chests
+    // meant a bot at y=-54 searched nothing at all and reported "not found".
+    progress()
+    const block = await chestAt(c)
+    if (!block) continue
     try {
       await bot.pathfinder.goto(new goals.GoalNear(c.x, c.y, c.z, 2))
       const win = await bot.openContainer(bot.blockAt(new Vec3(c.x, c.y, c.z)))
+      noteChestContents(c, win)
       const found = win.containerItems().filter(i => i.name === want)
       let got = 0
       for (const f of found) {
