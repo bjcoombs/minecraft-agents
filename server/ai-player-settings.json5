@@ -1,10 +1,27 @@
 {
   "modelList": [
+    "sweaterdog/andy-4:latest",
+    "mistral-nemo:12b-instruct-2407-q4_K_M",
     "mistral-nemo:12b",
+    "command-r7b:latest",
+    "mistral-nemo:12b-instruct-2407-q6_K",
+    "mistral:7b",
     "qwen3:30b-a3b",
-    "gpt-oss:20b"
+    "qwen2.5:7b",
+    "qwen3:8b",
+    "gpt-oss:20b",
+    "qwen3:4b",
+    "tulu3:8b",
+    "sweaterdog/andy-4:micro-q5_k_m",
+    "mistral-nemo:12b-instruct-2407-q5_K_M",
+    "llama3:latest",
+    "qwen3.8:27b-q4_K_M",
+    "qwen3.5:27b",
+    "phi4:14b",
+    "qwen3.8:27b-mlx",
+    "llama3.1:latest"
   ],
-  "llmMode": "custom",
+  "llmMode": "ollama",
   "openAIKey": "",
   "claudeKey": "",
   "geminiKey": "",
@@ -12,6 +29,5 @@
   "customApiKey": "local",
   "customApiUrl": "http://127.0.0.1:11434/v1",
   "botGameProfile": {},
-  "botPersonaMap": {},
-  "selectedLanguageModel": "mistral-nemo:12b"
+  "botPersonaMap": {}
 }

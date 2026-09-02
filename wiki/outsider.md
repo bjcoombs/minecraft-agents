@@ -155,3 +155,51 @@ calls in the server log.
 `26.1 + Sodium` profile, dependency-audited: 8 jars, 91 modIds, all satisfied),
 with the same Ollama-backed `settings.json5` written to the client config. Drive
 Nexus from in-game; it will use the local model.
+
+
+## Why you cannot talk to it, and the two things that fix it
+
+### The provider is a JVM system property, not the config file
+
+Setting `llmMode` in `settings.json5` is pointless on its own - the mod reads
+`aiplayer.llmMode` as a **system property** and rewrites the file to match,
+which is what produced:
+
+```
+Provider changed from ollama to custom. Invalidating modelList and updating config.
+```
+
+The property defaults to `custom`. Pass it on the JVM instead and the config
+sticks:
+
+```sh
+java -Xms4G -Xmx8G -Daiplayer.llmMode=ollama -jar fabric-server-launch.jar nogui
+```
+
+```
+Provider changed from custom to ollama
+Using provider: ollama
+aiplayer.llmMode = ollama
+```
+
+Set the same in the client profile's `javaArgs`. Only `aiplayer.llmMode` and
+`aiplayer.edgeFallbackModel` exist as properties.
+
+### You talk to it in CHAT, not with a command
+
+`AIPlayerClient.getBotNameIfMentioned(String)` watches ordinary chat and wakes
+the bot when its **name is mentioned**. There is no "send message" command to
+find. Say its name in chat and it answers.
+
+### But only for bots the mod itself spawned
+
+`getBotNameIfMentioned` resolves names against **`botGameProfile`** in
+`settings.json5`. Ours was `{}`, because Nexus had been spawned with carpet's
+`/player Nexus spawn`. Carpet makes a fake player the *server* accepts, and the
+mod never registers it - so the mod ignored every message aimed at it, silently.
+
+**A carpet fake player is not an AI Player bot.** They look identical in
+`/list`. The distinction is whether the name appears in `botGameProfile`.
+
+Spawn it with the mod's own client command so it registers, then talk to it by
+name.
