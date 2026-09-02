@@ -203,3 +203,31 @@ mod never registers it - so the mod ignored every message aimed at it, silently.
 
 Spawn it with the mod's own client command so it registers, then talk to it by
 name.
+
+
+## The command existed all along - nobody was op
+
+`/bot` tab-completed in game but would not execute. The cause was mundane after
+three rounds of bytecode archaeology: **`ops.json` was empty**. The mod guards
+its command tree with `withMaximumPermission` (17 call sites), i.e. permission
+level 4, and the server had never had an operator - it had always been driven
+from the console, which is level 4 implicitly.
+
+```
+/op RampageLand      ->  level=4
+```
+
+Two things made this hard to see, and both are worth remembering:
+
+- **Console and player see different command trees.** `/bot` never appears over
+  RCON because its handlers call `getPlayerOrException()` - it is player-only.
+  So "not in the console's command list" is not evidence the command is missing,
+  which is exactly the wrong conclusion I drew from it.
+- **"Unknown or incomplete command" covers both cases.** Minecraft returns the
+  same message for a command that does not exist and one that exists but lacks
+  arguments. The `<--[HERE]` marker position is the only difference, and it is
+  easy to misread.
+
+The command name was also wrong in the first attempt: the root is `/bot`, from
+`modCommandRegistry`, not `/aiplayer` - `aiplayer` appears in the constant pool
+as the system-property prefix (`aiplayer.llmMode`), not as a command.
