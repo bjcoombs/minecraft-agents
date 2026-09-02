@@ -1,0 +1,17 @@
+{
+  "modelList": [
+    "mistral-nemo:12b",
+    "qwen3:30b-a3b",
+    "gpt-oss:20b"
+  ],
+  "llmMode": "custom",
+  "openAIKey": "",
+  "claudeKey": "",
+  "geminiKey": "",
+  "grokKey": "",
+  "customApiKey": "local",
+  "customApiUrl": "http://127.0.0.1:11434/v1",
+  "botGameProfile": {},
+  "botPersonaMap": {},
+  "selectedLanguageModel": "mistral-nemo:12b"
+}

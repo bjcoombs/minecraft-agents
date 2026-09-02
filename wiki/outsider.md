@@ -87,3 +87,71 @@ Observed within three minutes of switching on:
 ```
 
 To remove the rivalry, empty `OUTSIDERS`. To add another outsider, add its name.
+
+
+## Making AI Player think, without a cloud LLM
+
+The mod ships clients for OpenAI, Anthropic, Gemini and Grok, and the config it
+writes on first run is:
+
+```json
+{ "gemini_api_key": "YOUR_GEMINI_API_KEY_HERE", "preferred_provider": "gemini" }
+```
+
+None of that is acceptable here - this project is local-only, no API keys, no
+per-call cost. Two things made it work anyway.
+
+**1. It has an Ollama path already.** The jar bundles `ollama4j`, an
+`OllamaEmbeddingClient`, and `getLanguageModels` hits
+`http://localhost:11434/api/tags` directly. There is a genuine `ollama` value
+for `llmMode`.
+
+**2. But a dedicated server forces `llmMode` back to `custom`.** Setting
+`ollama` by hand is reverted on boot:
+
+```
+Provider changed from ollama to custom. Invalidating modelList and updating config.
+```
+
+Provider selection lives in a GUI (`APIKeysScreen`, the whole
+`GraphicalUserInterface` package), and a headless server has no way to open it.
+
+**The way through is to stop fighting `custom`.** Ollama serves an
+OpenAI-compatible API, and the mod has `GenericOpenAIClient` for custom
+providers. So point custom mode at Ollama:
+
+```json
+{
+  "llmMode": "custom",
+  "customApiUrl": "http://127.0.0.1:11434/v1",
+  "customApiKey": "local",
+  "selectedLanguageModel": "mistral-nemo:12b"
+}
+```
+
+Verified before wiring it up:
+
+```
+/v1/models          -> qwen3.8:27b-q4_K_M, qwen3:30b-a3b, mistral-nemo:12b, ...
+/v1/chat/completions -> "Alright! How can I assist you today?"
+```
+
+This now survives a restart (`Using provider: custom`) and reuses the model
+already resident on the GPU for the six bots, so it costs no extra memory.
+
+## The remaining limitation: the mod is client-driven
+
+Configuring the LLM was necessary but not sufficient. **The bot-control commands
+do not exist on a dedicated server.** `spawn`, `start`, `stance`, `plan`,
+`mood`, `persona`, `walk`, `go_to` are all absent over RCON; only
+`threatdebug` registers, from a separate class. The mod declares `main` and
+`client` entrypoints and everything that drives a bot lives client-side.
+
+Consequence: with the server alone, Nexus spawns via carpet's `/player` and
+stands there. Measured over two minutes, identical coordinates and zero LLM
+calls in the server log.
+
+**So the mod is installed client-side too** (`ai-player` + `carpet` into the
+`26.1 + Sodium` profile, dependency-audited: 8 jars, 91 modIds, all satisfied),
+with the same Ollama-backed `settings.json5` written to the client config. Drive
+Nexus from in-game; it will use the local model.
